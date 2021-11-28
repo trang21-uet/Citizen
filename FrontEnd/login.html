@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./assets/css/login.css">
+  <title>Citizen - Login</title>
+</head>
+
+<body>
+  <div class="container" id="bg">
+    <div id="content">
+      <div id="info">
+        <div class="logo">
+          <span>citizen</span>
+        </div>
+        <div class="description">
+          <span>Hệ thống điều tra dân số</span>
+        </div>
+      </div>
+
+      <div id="form">
+        <form action="" method="POST" id="login-form" class="round-bordered">
+          <h1>Đăng nhập</h1>
+
+          <label for="text"><b>Tài khoản</b></label>
+          <input type="text" placeholder="Nhập tài khoản" name="user" required class="round-bordered">
+
+          <label for="psw"><b>Mật khẩu</b></label>
+          <input type="password" placeholder="Nhập mật khẩu" name="psw" required class="round-bordered">
+
+          <button type="submit" id="login-btn" disabled="" class="round-bordered">Đăng nhập</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container"></footer>
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous"></script>
+  <script src="./assets/js/login.js"></script>
+</body>
+
+</html>
