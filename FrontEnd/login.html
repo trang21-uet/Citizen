@@ -5,42 +5,123 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./assets/css/login.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <title>Citizen - Login</title>
 </head>
 
 <body>
-  <div class="container" id="bg">
-    <div id="content">
-      <div id="info">
+  <div class="container-fluid text-dark text-opacity-75" id="bg">
+    <div id="content" class="d-lg-flex d-block justify-content-around align-items-center vh-100 p-5">
+      <div id="info" class="order-2 flex-grow-1 mb-5 text-center">
         <div class="logo">
           <span>citizen</span>
         </div>
-        <div class="description">
+        <div class="description d-none d-lg-block fs-3">
           <span>Hệ thống điều tra dân số</span>
         </div>
       </div>
 
-      <div id="form">
-        <form action="" method="POST" id="login-form" class="round-bordered">
-          <h1>Đăng nhập</h1>
+      <div id="form" class="order-1 mx-auto">
+        <form action="" method="POST" id="login-form" class="shadow-lg rounded-3 bg-light p-3 bg-gradient text-dark">
+          <h1 class="mb-3">Đăng nhập</h1>
 
-          <label for="text"><b>Tài khoản</b></label>
-          <input type="text" placeholder="Nhập tài khoản" name="user" required class="round-bordered">
+          <div>
+            <label for="user" class="d-block fs-5">Tài khoản</label>
+            <input type="text" placeholder=" Nhập tài khoản" name="user" required
+              class="shadow rounded-3 w-100 p-3 mt-2 mb-5 bg-light border-0">
+          </div>
 
-          <label for="psw"><b>Mật khẩu</b></label>
-          <input type="password" placeholder="Nhập mật khẩu" name="psw" required class="round-bordered">
+          <div>
+            <label for="psw" class="d-block fs-5">Mật khẩu</label>
+            <input type="password" placeholder="Nhập mật khẩu" name="psw" required
+              class="shadow rounded-3 w-100 p-3 mt-2 mb-5 bg-light border-0">
+          </div>
 
-          <button type="submit" id="login-btn" disabled="" class="round-bordered">Đăng nhập</button>
+          <button id="login-btn" class="disabled shadow rounded-3 w-100 py-3 text-dark fs-4 border-0">Đăng
+            nhập</button>
         </form>
       </div>
     </div>
   </div>
 
-  <footer class="container"></footer>
+  <style>
+    html,
+    body {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    .logo span {
+      font-family: "Fredoka One", sans-serif;
+      font-size: 4rem;
+    }
+
+    #bg {
+      background-image: radial-gradient(#aae8c5, #00e3aa);
+    }
+
+    #form {
+      width: 400px;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      background-color: #ddd;
+      outline: none;
+    }
+
+    #login-btn {
+      background-color: #00e3aa;
+      opacity: 0.5;
+    }
+
+    #login-btn.enabled {
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    #login-btn.enabled:hover {
+      opacity: 0.8;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
-  <script src="./assets/js/login.js"></script>
+  <script>
+    $(() => {
+      $("input").keyup(() => {
+        let empty = false;
+        for (let input of $("input")) {
+          if (input.value === "") {
+            empty = true;
+          }
+          if (!empty) {
+            $("#login-btn").removeAttr("disabled");
+            $("#login-btn").addClass("enabled");
+          } else {
+            $("#login-btn").attr("disabled", "");
+            $("#login-btn").removeClass("enabled");
+          }
+        }
+      });
+    });
+
+    $("form").submit((event) => {
+      event.preventDefault();
+      username = $("input")[0].value;
+      if (isNaN(username) || ![2, 4, 6].includes(username.length)) {
+        // $("input")[0].classList.remove("mb-5");
+        $($("input")[0]).parent().append(`<span class="text-danger mb-3">Tài khoản không đúng định dạng</span>`)
+      }
+      else {
+        alert("Hao");
+      }
+    });
+  </script>
 </body>
 
 </html>
