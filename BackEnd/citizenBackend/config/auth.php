@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'a1',
+        'password' => 'a1s'
     ],
 
     /*
@@ -36,10 +36,35 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+        // 'web' => [
+        //     'driver' => 'session',
+        //     'provider' => 'users',
+        // ],
+        'a1' => [
+            'driver' => 'jwt',
+            'provider' => 'a1s',
+            'hash' => false,
         ],
+        'a2' => [
+            'driver' => 'jwt',
+            'provider' => 'a2s',
+            'hash' => false,
+        ],
+        'a3' => [
+            'driver' => 'jwt',
+            'provider' => 'a3s',
+            'hash' => false,
+        ],
+        'b1' => [
+            'driver' => 'jwt',
+            'provider' => 'b1s',
+            'hash' => false,
+        ],
+        'b2' => [
+            'driver' => 'jwt',
+            'provider' => 'b2s',
+            'hash' => false,
+        ]
     ],
 
     /*
@@ -60,11 +85,35 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\User::class,
+        // ],
+
+        'a1s' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\a1::class,
         ],
 
+        'a2s' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\a2::class,
+        ],
+
+        'a3s' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\a3::class,
+        ],
+
+        'b1s' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\b1::class,
+        ],
+
+        'b2s' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\b2::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -87,8 +136,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'a1s' => [
+            'provider' => 'a1s',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
