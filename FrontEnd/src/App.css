@@ -1,0 +1,42 @@
+@font-face {
+  font-family: Fredoka One;
+  src: url(./fonts/FredokaOne-Regular.ttf);
+}
+
+span.logo {
+  font-family: "Fredoka One", sans-serif;
+  font-size: 4rem;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  background-image: radial-gradient(#aae8c5, #00e3aa);
+}
+
+.username:focus,
+.password:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+#login-btn {
+  background-color: #00e3aa;
+  opacity: 0.5;
+}
+
+#login-btn.enabled {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#login-btn.enabled:hover {
+  opacity: 0.8;
+}
+
+@media all and (min-width: 992px) {
+  #login-form {
+    width: 40vw;
+    max-width: 600px;
+  }
+}
