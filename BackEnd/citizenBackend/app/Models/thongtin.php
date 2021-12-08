@@ -21,4 +21,22 @@ class thongtin extends Model
         'B2' => null,
     ];
 
+    protected $fillable = [
+        'ID',
+        'cccd',
+        'ho',
+        'ten',
+        'ngaySinh',
+        'gioiTinh',
+        'queQuan',
+        'thuongTru',
+        'tamTru',
+        'tonGiao',
+        'trinhDoVanHoa',
+        'ngheNghiep',
+        'B2',
+        'B1',
+    ];
+
+    protected $hidden = [];
 }

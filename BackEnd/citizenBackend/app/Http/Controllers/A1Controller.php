@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\a1;
-use JWTAuth;
 
 class A1Controller extends Controller
 {
@@ -16,27 +15,7 @@ class A1Controller extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:a1', ['except' => ['login', 'register']]);
-    }
-
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(Request $request){
-    	$validator = Validator::make($request->all(), [
-            'tenTK' => 'required|string',
-            'MK' => 'required|string',
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-        if (! $token = Auth::guard('a1')->attempt(['tenTK' => $request->tenTK, 'password' => $request->MK])) {
-            
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        return $this->createNewToken($token);
+        $this->middleware('auth:a1');
     }
 
     /**
@@ -61,7 +40,8 @@ class A1Controller extends Controller
 
         return response()->json([
             'message' => 'User successfully registered',
-            'user' => $user
+            'user' => $user,
+            'type' => 'a1',
         ], 201);
     }
 
@@ -71,6 +51,7 @@ class A1Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout() {
+
         Auth::logout();
 
         return response()->json(['message' => 'User successfully signed out']);
@@ -92,22 +73,6 @@ class A1Controller extends Controller
      */
     public function userProfile() {
         return response()->json(auth()->user());
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function createNewToken($token){
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60,
-            'user' => Auth::user()
-        ]);
     }
 
     // public function changePassWord(Request $request) {
