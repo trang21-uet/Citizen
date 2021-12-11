@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\a1;
+use App\Models\a2;
 
 class A1Controller extends Controller
 {
@@ -18,6 +19,29 @@ class A1Controller extends Controller
         $this->middleware('auth:a1');
     }
 
+    public function setQuyen(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'quyen' => 'required|boolean',
+            'A2' => 'required|string',
+            'timer' => 'integer',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $change = a2::where('tenTK', $request->A2)
+                        ->update([
+                            'quyen' => $request->quyen,
+                        ]);
+        a2::where('tenTK', $request->A2)->update([
+            'quyen' => $request->quyen,
+        ]);
+        //TODO
+        //hẹn giờ<lưu 2 trường trong database hoặc tạo bộ đếm giờ trên server>
+        //tạo trigger trên database
+    }
+
     /**
      * Register a User.
      *
@@ -25,6 +49,7 @@ class A1Controller extends Controller
      */
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
+            // TODO: chưa rõ form nhập
             'tenTK' => 'required|string|between:2,100',
             'MK' => 'required|string',
         ]);
@@ -43,6 +68,10 @@ class A1Controller extends Controller
             'user' => $user,
             'type' => 'a1',
         ], 201);
+    }
+
+    public function danhSachThongTin(Request $request) {
+        a1::all()->a2()->a3()->b1()->thongtin()->get();
     }
 
     /**

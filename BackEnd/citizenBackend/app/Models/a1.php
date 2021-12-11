@@ -24,6 +24,10 @@ class a1 extends Authenticatable implements JWTSubject
         'MK',
     ];
 
+    public function a2() {
+        return $this->hasMany(A2::class, 'A1', 'tenTK');
+    }
+
     public function getAuthPassword() {
         return $this->MK;
     }

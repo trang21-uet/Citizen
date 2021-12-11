@@ -34,6 +34,10 @@ class b2 extends Authentication implements JWTSubject
         'MK',
     ];
 
+    public function b1() {
+        return $this->belongsTo(b1::class, 'tenTK', 'tenTK');
+    }
+
     public function getAuthPassword() {
         return $this->MK;
     }
