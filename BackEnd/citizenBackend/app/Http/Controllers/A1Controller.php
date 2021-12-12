@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\a1;
 use App\Models\a2;
+use Illuminate\Validation\Rule;
 
 class A1Controller extends Controller
 {
@@ -49,24 +50,41 @@ class A1Controller extends Controller
      */
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            // TODO: chưa rõ form nhập
-            'tenTK' => 'required|string|between:2,100',
-            'MK' => 'required|string',
+            'maTinh' => 'required|string',
+            'tenTinh' => 'required|string',
+            'MK' => 'required|string|min:8',
+            'A1' => 'required|string',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = a1::create(array_merge(
-                    $validator->validated(),
-                    ['MK' => bcrypt($request->MK)]
-                ));
+        //check A1 có tồn tại ko
+        a1::where('tenTK', $request->A1)->firstOrFail();
 
+        $user = a2::where('tenTK', $request->maTinh)->first();
+        
+        if(!$user == null) {
+            return response()->json([
+                'error' => 'Tài khoản đã tồn tại'
+            ], 404);
+        }
+        $user = a2::create([
+            'maTinh' => $request->maTinh,
+            'tenTinh' => $request->tenTinh,
+            'tenTK' => $request->maTinh,
+            'A1' => $request->A1,
+            'MK' => bcrypt($request->MK),
+        ]);
+        
+        $user->save();
+        
         return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user,
-            'type' => 'a1',
+            'message' => 'Cấp tài khoản thành công',
+            'user' => $request->maTinh,
+            'password' => $request->MK,
+            'type' => 'a2',
         ], 201);
     }
 

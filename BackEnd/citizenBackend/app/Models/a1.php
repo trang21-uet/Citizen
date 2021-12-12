@@ -21,7 +21,6 @@ class a1 extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
-        'MK',
     ];
 
     public function a2() {
