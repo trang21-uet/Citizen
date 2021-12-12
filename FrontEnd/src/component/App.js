@@ -1,12 +1,19 @@
 import React from "react";
-import LoginForm from "./LoginForm";
-import Info from "./Info";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./Dashboard";
+import LoginPage from "./LoginPage";
+import auth from "../logic/auth";
+import AuthProvider from "./AuthProvider";
 
-export default function App() {
+const App = () => {
   return (
-    <div className="container-fluid d-lg-flex d-block justify-content-around align-items-center vh-100 px-lg-5 px-md-5 px-sm-3">
-      <Info className="order-2 flex-grow-1 py-4 text-center"></Info>
-      <LoginForm id="login-form" action="" method="POST"></LoginForm>
-    </div>
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<Dashboard />}></Route>
+        <Route path="/login" element={<LoginPage auth={auth} />}></Route>
+      </Routes>
+    </AuthProvider>
   );
-}
+};
+
+export default App;
