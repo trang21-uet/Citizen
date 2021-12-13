@@ -1,0 +1,22 @@
+span.logo-small {
+  font-family: "Fredoka One", san-serif;
+  font-size: 2rem;
+}
+
+.navbar {
+  background-color: #fff;
+}
+
+#signup-btn {
+  background-color: #00e3aa;
+  opacity: 0.5;
+}
+
+#signup-btn.enabled {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#signup-btn.enabled:hover {
+  opacity: 0.8;
+}
