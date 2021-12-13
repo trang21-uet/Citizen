@@ -39,4 +39,12 @@ class thongtin extends Model
     ];
 
     protected $hidden = [];
+
+    public function b1() {
+        return this.belongsTo(b1::class,'tenTK', 'B1');
+    }
+
+    public function b2() {
+        return this.belongsTo(b2::class,'tenTK', 'B2');
+    }
 }

@@ -20,7 +20,7 @@ use App\Http\Controllers\B2Controller;
 |
 */
 
-Route::post('/login', [loginController::class, 'login']);
+Route::post('/login', [loginController::class, 'login'])->name('login');
 
 // Route::get('/logout', [A1Controller::class, 'logout'])->middleware('auth:a1');
 
@@ -37,30 +37,30 @@ Route::group([
     'prefix' => 'a2',
 ],function($router) {
     Route::get('/logout', [A2Controller::class, 'logout']);
-    Route::post('/register', [registerController::class, 'register']);
+    Route::post('/register', [A2Controller::class, 'register']);
 });
 
 Route::group([
     'middleware' => ['auth:a3'],
     'prefix' => 'a3',
 ],function($router) {
-    Route::get('/logout', [A2Controller::class, 'logout']);
-    Route::post('/register', [registerController::class, 'register']);
+    Route::get('/logout', [A3Controller::class, 'logout']);
+    Route::post('/register', [A3Controller::class, 'register']);
 });
 
 Route::group([
     'middleware' => ['auth:b1'],
     'prefix' => 'b1',
 ],function($router) {
-    Route::get('/logout', [A2Controller::class, 'logout']);
-    Route::post('/register', [registerController::class, 'register']);
+    Route::get('/logout', [B1Controller::class, 'logout']);
+    Route::post('/register', [B1Controller::class, 'register']);
 });
 
 Route::group([
     'middleware' => ['auth:b2'],
     'prefix' => 'b2',
 ],function($router) {
-    Route::get('/logout', [A2Controller::class, 'logout']);
+    Route::get('/logout', [B2Controller::class, 'logout']);
 });
 
 // Route::group([

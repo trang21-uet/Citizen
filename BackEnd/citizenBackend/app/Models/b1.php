@@ -43,6 +43,10 @@ class b1 extends Authenticatable implements JWTSubject
         return $this->hasMany(b2::class, 'B1', 'tenTK');
     }
 
+    public function thongtin() {
+        return $this->hasMany(thongtin::class, 'B1', 'tenTK');
+    }
+
     public function getAuthPassword() {
         return $this->MK;
     }

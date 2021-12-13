@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Validation\Rule;
 use App\Models\a1;
 use App\Models\a2;
-use Illuminate\Validation\Rule;
 
 class A1Controller extends Controller
 {
@@ -43,6 +43,7 @@ class A1Controller extends Controller
         //tạo trigger trên database
     }
 
+    //DONE
     /**
      * Register a User.
      *
@@ -61,7 +62,13 @@ class A1Controller extends Controller
         }
 
         //check A1 có tồn tại ko
-        a1::where('tenTK', $request->A1)->firstOrFail();
+        $userA1 = a1::where('tenTK', $request->A1)->first();
+
+        if($userA1 == null) {
+            return response()->json([
+                'error' => 'Sai A1',
+            ],404);
+        }
 
         $user = a2::where('tenTK', $request->maTinh)->first();
         
@@ -88,8 +95,12 @@ class A1Controller extends Controller
         ], 201);
     }
 
+    public function danhSachAcc(Request $request) {
+        return a2::where('A1', $request->user()->tenTK())->get();
+    }
+
     public function danhSachThongTin(Request $request) {
-        a1::all()->a2()->a3()->b1()->thongtin()->get();
+        return a1::all()->a2()->a3()->b1()->thongtin()->get();
     }
 
     /**

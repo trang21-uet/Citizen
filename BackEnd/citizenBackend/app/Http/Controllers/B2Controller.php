@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Validator;
+use Illuminate\Validation\Rule;
+use App\Models\b2;
 
 class B2Controller extends Controller
 {
@@ -15,32 +19,6 @@ class B2Controller extends Controller
         $this->middleware('auth:b2');
     }
 
-    /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'tenTK' => 'required|string|between:2,100',
-            'MK' => 'required|string',
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-
-        $user = b2::create(array_merge(
-                    $validator->validated(),
-                    ['MK' => bcrypt($request->MK)]
-                ));
-
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user,
-            'type' => 'b2',
-        ], 201);
-    }
 
     /**
      * Log the user out (Invalidate the token).

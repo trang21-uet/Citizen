@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Validator;
+use Illuminate\Validation\Rule;
+use App\Models\b1;
+use App\Models\b2;
 
 class B1Controller extends Controller
 {
@@ -22,23 +27,47 @@ class B1Controller extends Controller
      */
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            'tenTK' => 'required|string|between:2,100',
-            'MK' => 'required|string',
+            'maThon' => 'required|string',
+            'tenThon' => 'required|string',
+            'MK' => 'required|string|min:8',
+            'B1' => 'required|string',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = b1::create(array_merge(
-                    $validator->validated(),
-                    ['MK' => bcrypt($request->MK)]
-                ));
+        //check b1 có tồn tại ko
+        $userB1 = b1::where('tenTK', $request->B1)->first();
 
+        if($userB1 == null) {
+            return response()->json([
+                'error' => 'Sai B1',
+            ],404);
+        }
+
+        $user = b2::where('tenTK', $request->maThon)->first();
+        
+        if(!$user == null) {
+            return response()->json([
+                'error' => 'Tài khoản đã tồn tại'
+            ], 404);
+        }
+        $user = b2::create([
+            'maThon' => $request->maThon,
+            'tenThon' => $request->tenThon,
+            'tenTK' => $request->maThon,
+            'B1' => $request->B1,
+            'MK' => bcrypt($request->MK),
+        ]);
+        
+        $user->save();
+        
         return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user,
-            'type' => 'b1',
+            'message' => 'Cấp tài khoản thành công',
+            'user' => $request->maThon,
+            'password' => $request->MK,
+            'type' => 'b2',
         ], 201);
     }
 

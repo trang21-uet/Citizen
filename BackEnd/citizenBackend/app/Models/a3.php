@@ -12,7 +12,7 @@ class a3 extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
     
     protected $table = 'a3';
-    protected $primaryKey = 'meHuyen';
+    protected $primaryKey = 'maHuyen';
     public $incrementing = false;
     protected $keyType = 'string';
     public $timestamps = false;
