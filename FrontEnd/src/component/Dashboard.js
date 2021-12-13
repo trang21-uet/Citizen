@@ -1,12 +1,12 @@
 import Header from "./Header";
-import { currentAuth } from "../logic/handler";
-import { Navigate } from "react-router-dom";
+import SignupForm from "./SignupForm";
 
 const Dashboard = (props) => {
-  return currentAuth.loggedIn() ? (
-    <Header></Header>
-  ) : (
-    <Navigate to="/login"></Navigate>
+  return (
+    <div className="container-fluid d-block justify-content-around align-items-center vh-100 px-lg-5 px-md-5 px-sm-3">
+      <Header></Header>
+      <SignupForm></SignupForm>
+    </div>
   );
 };
 

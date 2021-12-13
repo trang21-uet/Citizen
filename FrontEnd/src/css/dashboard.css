@@ -3,6 +3,20 @@ span.logo-small {
   font-size: 2rem;
 }
 
-navbar {
+.navbar {
   background-color: #fff;
+}
+
+#signup-btn {
+  background-color: #00e3aa;
+  opacity: 0.5;
+}
+
+#signup-btn.enabled {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#signup-btn.enabled:hover {
+  opacity: 0.8;
 }

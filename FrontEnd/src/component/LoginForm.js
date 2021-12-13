@@ -1,20 +1,47 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
-import { handleInputChange, handleFormSubmit } from "../logic/handler";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import InputGroup from "./InputGroup";
+import { useAuth } from "../auth/AuthProvider";
 
 const LoginForm = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useAuth();
 
   const handleSubmit = (event) => {
-    handleFormSubmit(navigate);
     event.preventDefault();
+    let from = location.state.from.pathname;
+    if (!from) {
+      from = "/";
+    }
+    const formData = new FormData(event.currentTarget);
+    const username = formData.get("tenTK");
+    const password = formData.get("MK");
+    const data = JSON.stringify({
+      tenTK: username,
+      MK: password,
+    });
+
+    const request = async (url, data) => {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: data,
+      });
+      return response.json();
+    };
+    request("http://localhost:8000/api/login", data).then((res) => {
+      auth.login(res.user, res.access_token, res.type, () => {
+        window.localStorage.removeItem("access_token");
+        window.localStorage.setItem("access_token", res.access_token);
+        navigate(from, { replace: true });
+      });
+    });
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      // action="http://localhost:8000/api/login"
-      // method="POST"
       className={props.className + " shadow bg-light p-3 rounded"}
       id={props.id}
     >
@@ -25,6 +52,7 @@ const LoginForm = (props) => {
         id="username"
         label="Tài khoản"
         placeholder="Nhập tài khoản"
+        formtype="login"
       ></InputGroup>
       <InputGroup
         type="password"
@@ -32,6 +60,7 @@ const LoginForm = (props) => {
         id="password"
         label="Mật khẩu"
         placeholder="Nhập mật khẩu"
+        formtype="login"
       ></InputGroup>
 
       <button
@@ -43,32 +72,6 @@ const LoginForm = (props) => {
         Đăng nhập
       </button>
     </form>
-  );
-};
-
-const InputGroup = (props) => {
-  const [value, setValue] = useState("");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-    handleInputChange();
-  };
-
-  return (
-    <div className="mb-4">
-      <label htmlFor={props.name} className="form-label fs-4">
-        {props.label}
-      </label>
-      <input
-        className="form-control fs-5 p-3"
-        type={props.type}
-        name={props.name}
-        id={props.id}
-        placeholder={props.placeholder}
-        value={value}
-        onChange={handleChange}
-      />
-    </div>
   );
 };
 
