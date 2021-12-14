@@ -30,6 +30,7 @@ Route::group([
 ],function($router) {
     Route::get('/logout', [A1Controller::class, 'logout']);
     Route::post('/register', [A1Controller::class, 'register']);
+    Route::get('/quanly',[A1Controller::class, 'danhSachAcc']);
 });
 
 Route::group([

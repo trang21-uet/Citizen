@@ -96,7 +96,7 @@ class A1Controller extends Controller
     }
 
     public function danhSachAcc(Request $request) {
-        return a2::where('A1', $request->user()->tenTK())->get();
+        return a1::where('tenTK', $request->user()->tenTK)->first()->a2;
     }
 
     public function danhSachThongTin(Request $request) {

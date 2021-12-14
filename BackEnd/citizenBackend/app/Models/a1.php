@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\a2;
 
 class a1 extends Authenticatable implements JWTSubject
 {
@@ -25,7 +26,7 @@ class a1 extends Authenticatable implements JWTSubject
     ];
 
     public function a2() {
-        return $this->hasMany(A2::class, 'A1', 'tenTK');
+        return $this->hasMany(a2::class, 'A1', 'tenTK');
     }
 
     public function getAuthPassword() {
