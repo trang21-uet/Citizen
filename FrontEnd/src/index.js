@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.js";
 import "./css/index.css";
 import "./css/login.css";
 import "./css/dashboard.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 ReactDOM.render(
   <React.StrictMode>
