@@ -22,25 +22,43 @@ class A1Controller extends Controller
 
     public function setQuyen(Request $request) {
         $validator = Validator::make($request->all(), [
-            'quyen' => 'required|boolean',
+            'startPermission' => 'required|date_format:Y-m-d H:i:s',
+            'endPermission' => 'required|date_format:Y-m-d H:i:s',
             'A2' => 'required|string',
-            'timer' => 'integer',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $change = a2::where('tenTK', $request->A2)
-                        ->update([
-                            'quyen' => $request->quyen,
-                        ]);
-        a2::where('tenTK', $request->A2)->update([
-            'quyen' => $request->quyen,
+        if($validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
+            return response()->json([
+                'error' => "Thời gian sai"
+            ], 400);
+        }
+
+        $user = a2::where('tenTK', $validator->validated()['A2'])->first();
+        
+        if($user == null) {
+            return response()->json([
+                'error' => 'A2 không tồn tại'
+            ], 404);
+        }
+
+        $user->update([
+            'startPermission' => $validator->validated()['startPermission'],
+            'endPermission' => $validator->validated()['endPermission'],
         ]);
-        //TODO
-        //hẹn giờ<lưu 2 trường trong database hoặc tạo bộ đếm giờ trên server>
-        //tạo trigger trên database
+        
+        return response()->json([
+            'success' => 'Đặt thời gian cho phép chỉnh sửa thành công'
+        ], 201);
+
+    }
+
+    //Kiểm tra xem có được phép chỉnh sửa hay không(từ a2 trở xuống)
+    public function checkQuyen(Request $request) {
+
     }
 
     //DONE
@@ -62,7 +80,7 @@ class A1Controller extends Controller
         }
 
         //check A1 có tồn tại ko
-        $userA1 = a1::where('tenTK', $request->A1)->first();
+        $userA1 = a1::where('tenTK', $validator->validated()['A1'])->first();
 
         if($userA1 == null) {
             return response()->json([
@@ -70,7 +88,7 @@ class A1Controller extends Controller
             ],404);
         }
 
-        $user = a2::where('tenTK', $request->maTinh)->first();
+        $user = a2::where('tenTK', $validator->validated()['maTinh'])->first();
         
         if(!$user == null) {
             return response()->json([
@@ -78,11 +96,11 @@ class A1Controller extends Controller
             ], 404);
         }
         $user = a2::create([
-            'maTinh' => $request->maTinh,
-            'tenTinh' => $request->tenTinh,
-            'tenTK' => $request->maTinh,
-            'A1' => $request->A1,
-            'MK' => bcrypt($request->MK),
+            'maTinh' => $validator->validated()['maTinh'],
+            'tenTinh' => $validator->validated()['tenTinh'],
+            'tenTK' => $validator->validated()['maTinh'],
+            'A1' => $validator->validated()['A1'],
+            'MK' => bcrypt($validator->validated()['MK']),
         ]);
         
         $user->save();
@@ -110,7 +128,7 @@ class A1Controller extends Controller
      */
     public function logout() {
 
-        Auth::logout();
+        Auth::guard('a1')->logout();
 
         return response()->json(['message' => 'User successfully signed out']);
     }

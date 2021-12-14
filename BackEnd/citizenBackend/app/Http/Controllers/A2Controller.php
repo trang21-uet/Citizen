@@ -20,6 +20,41 @@ class A2Controller extends Controller
         $this->middleware('auth:a2');
     }
 
+    public function setQuyen(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'startPermission' => 'required|date_format:Y-m-d H:i:s',
+            'endPermission' => 'required|date_format:Y-m-d H:i:s',
+            'A3' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        if($validator->validated()['endPermission'] > a2::where('tenTK', $request->user()->tenTK)->first()->endPermission
+        ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
+            return response()->json([
+                'error' => "Thời gian sai"
+            ], 400);
+        }
+
+        $user = a3::where('tenTK', $validator->validated()['A3'])->first();
+        
+        if($user == null) {
+            return response()->json([
+                'error' => 'A3 không tồn tại'
+            ], 404);
+        }
+
+        $user->update([
+            'startPermission' => $validator->validated()['startPermission'],
+            'endPermission' => $validator->validated()['endPermission'],
+        ]);
+        
+        return response()->json([
+            'success' => 'Đặt thời gian cho phép chỉnh sửa thành công'
+        ], 201);
+    }
     /**
      * Register a User.
      *
@@ -38,7 +73,7 @@ class A2Controller extends Controller
         }
 
         //check A2 có tồn tại ko
-        $userA2 = a2::where('tenTK', $request->A2)->first();
+        $userA2 = a2::where('tenTK', $validator->validated()['A2'])->first();
 
         if($userA2 == null) {
             return response()->json([
@@ -46,7 +81,7 @@ class A2Controller extends Controller
             ],404);
         }
 
-        $user = a3::where('tenTK', $request->maHuyen)->first();
+        $user = a3::where('tenTK', $validator->validated()['maHuyen'])->first();
         
         if(!$user == null) {
             return response()->json([
@@ -54,11 +89,11 @@ class A2Controller extends Controller
             ], 404);
         }
         $user = a3::create([
-            'maHuyen' => $request->maHuyen,
-            'tenHuyen' => $request->tenHuyen,
-            'tenTK' => $request->maHuyen,
-            'A2' => $request->A2,
-            'MK' => bcrypt($request->MK),
+            'maHuyen' => $validator->validated()['maHuyen'],
+            'tenHuyen' => $validator->validated()['tenHuyen'],
+            'tenTK' => $validator->validated()['maHuyen'],
+            'A2' => $validator->validated()['A2'],
+            'MK' => bcrypt($validator->validated()['MK']),
         ]);
         
         $user->save();
@@ -78,9 +113,13 @@ class A2Controller extends Controller
      */
     public function logout() {
 
-        Auth::logout();
+        Auth::guard('a2')->logout();
 
         return response()->json(['message' => 'User successfully signed out']);
+    }
+
+    public function danhSachAcc(Request $request) {
+        return a2::where('tenTK', $request->user()->tenTK)->first()->a3;
     }
 
     /**

@@ -27,7 +27,7 @@ class B2Controller extends Controller
      */
     public function logout() {
 
-        Auth::logout();
+        Auth::guard('b2')->logout();
 
         return response()->json(['message' => 'User successfully signed out']);
     }

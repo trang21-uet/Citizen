@@ -27,24 +27,25 @@ class loginController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+        $user = $validator->validated();
         if (strlen($request->tenTK) == '2') {
-            if ($token = Auth::guard('a2')->attempt(['tenTK' => $request->tenTK, 'password' => $request->MK])) {
+            if ($token = Auth::guard('a2')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
                 return $this->createNewToken($token, 'a2');
             }
         } else if (strlen($request->tenTK) == '4') {
-            if ($token = Auth::guard('a3')->attempt(['tenTK' => $request->tenTK, 'password' => $request->MK])) {
+            if ($token = Auth::guard('a3')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
                 return $this->createNewToken($token, 'a3');
             }
         } else if (strlen($request->tenTK) == '6') {
-            if ($token = Auth::guard('b1')->attempt(['tenTK' => $request->tenTK, 'password' => $request->MK])) {
+            if ($token = Auth::guard('b1')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
                 return $this->createNewToken($token, 'b1');
             }
         } else if (strlen($request->tenTK) == '8') {
-            if ($token = Auth::guard('b2')->attempt(['tenTK' => $request->tenTK, 'password' => $request->MK])) {
+            if ($token = Auth::guard('b2')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
                 return $this->createNewToken($token, 'b2');
             }
         } else {
-            if ($token = Auth::guard('a1')->attempt(['tenTK' => $request->tenTK, 'password' => $request->MK])) {
+            if ($token = Auth::guard('a1')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
                 return $this->createNewToken($token, 'a1');
             }
         }

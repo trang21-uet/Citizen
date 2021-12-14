@@ -20,6 +20,42 @@ class A3Controller extends Controller
         $this->middleware('auth:a3');
     }
 
+    public function setQuyen(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'startPermission' => 'required|date_format:Y-m-d H:i:s',
+            'endPermission' => 'required|date_format:Y-m-d H:i:s',
+            'B1' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        if($validator->validated()['endPermission'] > a3::where('tenTK', $request->user()->tenTK)->first()->endPermission
+        ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
+            return response()->json([
+                'error' => "Thời gian sai"
+            ], 400);
+        }
+
+        $user = b1::where('tenTK', $validator->validated()['B1'])->first();
+        
+        if($user == null) {
+            return response()->json([
+                'error' => 'B1 không tồn tại'
+            ], 404);
+        }
+
+        $user->update([
+            'startPermission' => $validator->validated()['startPermission'],
+            'endPermission' => $validator->validated()['endPermission'],
+        ]);
+        
+        return response()->json([
+            'success' => 'Đặt thời gian cho phép chỉnh sửa thành công'
+        ], 201);
+    }
+
     /**
      * Register a User.
      *
@@ -38,7 +74,7 @@ class A3Controller extends Controller
         }
 
         //check A3 có tồn tại ko
-        $userA3 = a3::where('tenTK', $request->A3)->first();
+        $userA3 = a3::where('tenTK', $validator->validated()['A3'])->first();
 
         if($userA3 == null) {
             return response()->json([
@@ -46,7 +82,7 @@ class A3Controller extends Controller
             ],404);
         }
 
-        $user = b1::where('tenTK', $request->maXa)->first();
+        $user = b1::where('tenTK', $validator->validated()['maXa'])->first();
         
         if(!$user == null) {
             return response()->json([
@@ -54,11 +90,11 @@ class A3Controller extends Controller
             ], 404);
         }
         $user = b1::create([
-            'maXa' => $request->maXa,
-            'tenXa' => $request->tenXa,
-            'tenTK' => $request->maXa,
-            'A3' => $request->A3,
-            'MK' => bcrypt($request->MK),
+            'maXa' => $validator->validated()['maXa'],
+            'tenXa' => $validator->validated()['tenXa'],
+            'tenTK' => $validator->validated()['maXa'],
+            'A3' => $validator->validated()['A3'],
+            'MK' => bcrypt($validator->validated()['MK']),
         ]);
         
         $user->save();
@@ -78,9 +114,13 @@ class A3Controller extends Controller
      */
     public function logout() {
 
-        Auth::logout();
+        Auth::guard('a3')->logout();
 
         return response()->json(['message' => 'User successfully signed out']);
+    }
+
+    public function danhSachAcc(Request $request) {
+        return a3::where('tenTK', $request->user()->tenTK)->first()->b1;
     }
 
     /**

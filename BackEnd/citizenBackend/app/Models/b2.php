@@ -18,19 +18,22 @@ class b2 extends Authenticatable implements JWTSubject
     public $timestamps = false;
 
     protected $attributes = [
-        'quyen' => 0
+        
     ];
 
     protected $fillable = [
         'tenThon',
         'maThon',
-        'quyen',
+        'startPermission',
+        'endPermission',
         'tenTK',
         'MK',
         'B1',
     ];
 
     protected $hidden = [
+        'startPermission',
+        'endPermission',
         'MK',
     ];
 

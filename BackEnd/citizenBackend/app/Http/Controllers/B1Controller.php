@@ -20,6 +20,42 @@ class B1Controller extends Controller
         $this->middleware('auth:b1');
     }
 
+    public function setQuyen(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'startPermission' => 'required|date_format:Y-m-d H:i:s',
+            'endPermission' => 'required|date_format:Y-m-d H:i:s',
+            'B2' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        if($validator->validated()['endPermission'] > b1::where('tenTK', $request->user()->tenTK)->first()->endPermission
+        ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
+            return response()->json([
+                'error' => "Thời gian sai"
+            ], 400);
+        }
+
+        $user = b2::where('tenTK', $validator->validated()['B2'])->first();
+        
+        if($user == null) {
+            return response()->json([
+                'error' => 'B2 không tồn tại'
+            ], 404);
+        }
+
+        $user->update([
+            'startPermission' => $validator->validated()['startPermission'],
+            'endPermission' => $validator->validated()['endPermission'],
+        ]);
+        
+        return response()->json([
+            'success' => 'Đặt thời gian cho phép chỉnh sửa thành công'
+        ], 201);
+    }
+
     /**
      * Register a User.
      *
@@ -38,7 +74,7 @@ class B1Controller extends Controller
         }
 
         //check b1 có tồn tại ko
-        $userB1 = b1::where('tenTK', $request->B1)->first();
+        $userB1 = b1::where('tenTK', $validator->validated()['B1'])->first();
 
         if($userB1 == null) {
             return response()->json([
@@ -46,7 +82,7 @@ class B1Controller extends Controller
             ],404);
         }
 
-        $user = b2::where('tenTK', $request->maThon)->first();
+        $user = b2::where('tenTK', $validator->validated()['maThon'])->first();
         
         if(!$user == null) {
             return response()->json([
@@ -54,19 +90,19 @@ class B1Controller extends Controller
             ], 404);
         }
         $user = b2::create([
-            'maThon' => $request->maThon,
-            'tenThon' => $request->tenThon,
-            'tenTK' => $request->maThon,
-            'B1' => $request->B1,
-            'MK' => bcrypt($request->MK),
+            'maThon' => $validator->validated()['maThon'],
+            'tenThon' => $validator->validated()['tenThon'],
+            'tenTK' => $validator->validated()['maThon'],
+            'B1' => $validator->validated()['B1'],
+            'MK' => bcrypt($validator->validated()['MK']),
         ]);
         
         $user->save();
         
         return response()->json([
             'message' => 'Cấp tài khoản thành công',
-            'user' => $request->maThon,
-            'password' => $request->MK,
+            'user' => $validator->validated()['maThon'],
+            'password' => $validator->validated()['MK'],
             'type' => 'b2',
         ], 201);
     }
@@ -78,9 +114,13 @@ class B1Controller extends Controller
      */
     public function logout() {
 
-        Auth::logout();
+        Auth::guard('b1')->logout();
 
         return response()->json(['message' => 'User successfully signed out']);
+    }
+
+    public function danhSachAcc(Request $request) {
+        return b1::where('tenTK', $request->user()->tenTK)->first()->b2;
     }
 
     /**
