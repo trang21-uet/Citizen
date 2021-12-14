@@ -6,8 +6,9 @@ const InputGroup = (props) => {
 
   const handleChange = (event) => {
     setValue(event.target.value);
-    const handler = props.handleChange ? props.handleChange : checkInputs;
-    toggleBtn(props.formtype, handler());
+    props.onChange
+      ? props.onChange()
+      : toggleBtn(props.formtype, checkInputs());
   };
 
   return (

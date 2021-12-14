@@ -15,8 +15,8 @@ const LoginForm = (props) => {
     const username = formData.get("tenTK");
     const password = formData.get("MK");
     const data = JSON.stringify({
-      tenTK: username,
-      MK: password,
+      tenTK: username.trim(),
+      MK: password.trim(),
     });
 
     const request = async (url, data) => {

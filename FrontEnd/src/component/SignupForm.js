@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
-import { checkInputs } from "../logic/handler";
+import { checkInputs, toggleBtn } from "../logic/handler";
 import Error from "./Error";
 import InputGroup from "./InputGroup";
 
@@ -13,9 +13,9 @@ const SignupForm = (props) => {
     const formData = new FormData(event.currentTarget);
     const userType = auth.info().type.toUpperCase();
     const data = JSON.stringify({
-      maTinh: formData.get("tenTK"),
-      tenTinh: formData.get("tenTinh"),
-      MK: formData.get("MK"),
+      maTinh: formData.get("tenTK").trim(),
+      tenTinh: formData.get("tenTinh").trim(),
+      MK: formData.get("MK").trim(),
       [userType]: auth.info().user,
     });
 
@@ -37,8 +37,8 @@ const SignupForm = (props) => {
     };
 
     request("http://localhost:8000/api/" + auth.info().type + "/register", data)
-      .then(() => {
-        // console.log(res);
+      .then((res) => {
+        alert(res.message);
       })
       .catch((error) => {
         console.log(error);
@@ -48,15 +48,12 @@ const SignupForm = (props) => {
   const checkPass = () => {
     const pass = document.getElementById("password").value;
     const repass = document.getElementById("repassword").value;
-    const btn = document.getElementById("signup-btn");
     if (pass !== repass) {
       setError("Passwords not match");
-      btn.classList.remove("enable");
-      btn.setAttribute("disabled", "");
+      toggleBtn("signup", false);
     } else {
       setError(null);
-      btn.classList.add("enable");
-      btn.removeAttribute("disabled");
+      toggleBtn("signup", checkInputs());
     }
   };
 
