@@ -1,28 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
 const AuthContext = React.createContext(null);
 
 const AuthProvider = (props) => {
-  let [user, setUser] = useState(null);
-  let [token, setToken] = useState(null);
-  let [userType, setUserType] = useState(null);
-
-  const login = (newUser, newToken, newUserType, callback) => {
-    setUser(newUser);
-    setToken(newToken);
-    setUserType(newUserType);
+  const login = (callback) => {
     callback();
   };
 
   const logout = (callback) => {
-    setUser(null);
-    setToken(null);
-    setUserType(null);
     callback();
   };
 
-  let value = { user, token, userType, login, logout };
+  const info = () => {
+    const info = localStorage.getItem("info");
+    return info ? JSON.parse(info) : null;
+  };
+
+  let value = { login, logout, info };
 
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
@@ -34,11 +29,13 @@ const useAuth = () => {
 };
 
 const ProtectedRoute = (props) => {
-  let auth = useAuth();
-  let location = useLocation();
+  const auth = useAuth();
+  const location = useLocation();
 
-  if (!auth.token) {
+  if (!auth.info()) {
     return <Navigate to="/login" state={{ from: location }} />;
+  } else if (location.pathname !== `/${auth.info().type}`) {
+    return <Navigate to={"/" + auth.info().type}></Navigate>;
   }
 
   return props.children;

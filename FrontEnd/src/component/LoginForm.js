@@ -1,25 +1,22 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import InputGroup from "./InputGroup";
 import { useAuth } from "../auth/AuthProvider";
+import Error from "./Error";
 
 const LoginForm = (props) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const auth = useAuth();
+  let [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let from = location.state.from.pathname;
-    if (!from) {
-      from = "/";
-    }
     const formData = new FormData(event.currentTarget);
     const username = formData.get("tenTK");
     const password = formData.get("MK");
     const data = JSON.stringify({
-      tenTK: username,
-      MK: password,
+      tenTK: username.trim(),
+      MK: password.trim(),
     });
 
     const request = async (url, data) => {
@@ -28,15 +25,29 @@ const LoginForm = (props) => {
         headers: { "Content-Type": "application/json" },
         body: data,
       });
-      return response.json();
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw response.status;
+      }
     };
-    request("http://localhost:8000/api/login", data).then((res) => {
-      auth.login(res.user, res.access_token, res.type, () => {
-        window.localStorage.removeItem("access_token");
-        window.localStorage.setItem("access_token", res.access_token);
-        navigate(from, { replace: true });
+    request("http://localhost:8000/api/login", data)
+      .then((res) => {
+        auth.login(() => {
+          window.localStorage.setItem(
+            "info",
+            JSON.stringify({
+              user: res.user,
+              access_token: res.access_token,
+              type: res.type,
+            })
+          );
+          navigate("/" + res.type, { replace: true });
+        });
+      })
+      .catch((status) => {
+        setError(status);
       });
-    });
   };
 
   return (
@@ -51,6 +62,7 @@ const LoginForm = (props) => {
         name="tenTK"
         id="username"
         label="Tài khoản"
+        size="big"
         placeholder="Nhập tài khoản"
         formtype="login"
       ></InputGroup>
@@ -59,10 +71,11 @@ const LoginForm = (props) => {
         name="MK"
         id="password"
         label="Mật khẩu"
+        size="big"
         placeholder="Nhập mật khẩu"
         formtype="login"
       ></InputGroup>
-
+      {error ? <Error status={error} /> : <></>}
       <button
         id="login-btn"
         type="submit"

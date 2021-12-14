@@ -4,7 +4,15 @@ span.logo-small {
 }
 
 .navbar {
-  background-color: #fff;
+  background-color: #00e3aa;
+}
+
+.navbar-toggler-icon {
+  background-image: url(../assets/img/menu.png);
+}
+
+.nav-item:hover {
+  opacity: 0.6;
 }
 
 #signup-btn {
@@ -19,4 +27,10 @@ span.logo-small {
 
 #signup-btn.enabled:hover {
   opacity: 0.8;
+}
+
+@media all and (min-width: 992px) {
+  #signup-form {
+    width: 500px;
+  }
 }

@@ -1,13 +1,17 @@
-export function handleInputChange(type) {
+const checkInputs = () => {
   const inputs = document.querySelectorAll("input");
-  const btn = document.querySelector("#" + type + "-btn");
   for (let input of inputs) {
     if (!input.value) {
-      btn.setAttribute("disabled", "");
-      btn.classList.remove("enabled");
-      return;
+      return false;
     }
   }
-  btn.removeAttribute("disabled");
-  btn.classList.add("enabled");
-}
+  return true;
+};
+
+const toggleBtn = (type, force) => {
+  const btn = document.querySelector("#" + type + "-btn");
+  btn.toggleAttribute("disabled", !force);
+  btn.classList.toggle("enabled", force);
+};
+
+export { checkInputs, toggleBtn };

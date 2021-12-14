@@ -1,3 +1,7 @@
+#login-container {
+  background-image: radial-gradient(#aae8c5, #00e3aa);
+}
+
 span.logo-big {
   font-family: "Fredoka One", sans-serif;
   font-size: 4rem;
