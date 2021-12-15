@@ -56,9 +56,10 @@ class A1Controller extends Controller
 
     }
 
-    //Kiểm tra xem có được phép chỉnh sửa hay không(từ a2 trở xuống)
+    
+    //Kiểm tra xem có được phép chỉnh sửa hay không
     public function checkQuyen(Request $request) {
-
+        
     }
 
     //DONE
@@ -113,12 +114,41 @@ class A1Controller extends Controller
         ], 201);
     }
 
+    //Trả lại danh sách tài khoản quản lý
     public function danhSachAcc(Request $request) {
         return a1::where('tenTK', $request->user()->tenTK)->first()->a2;
     }
 
-    public function danhSachThongTin(Request $request) {
-        return a1::all()->a2()->a3()->b1()->thongtin()->get();
+    /*
+    Tra lai danh sach thong tin quanly
+    */
+    public function showAll(Request $request) {
+        $list = a2::join('a3', 'a2.tenTK', '=', 'a3.A2')
+            ->join('b1', 'a3.tenTK', '=', 'b1.A3')
+            ->join('thongtin', 'thongtin.B1', '=', 'b1.tenTK')
+            ->where('a2.A1', $request->user()->tenTK)
+            ->select('thongtin.*')
+            ->get();
+        return $list;
+    }
+
+    /*
+    Tra lai thong tin quanly chi dinh
+    */
+    public function showOne(Request $request, thongtin $thongtin) {
+        $users = a2::join('a3', 'a2.tenTK', '=', 'a3.A2')
+                    ->join('b1', 'a3.tenTK', '=', 'b1.A3')
+                    ->where('a2.A1', $request->user()->tenTK)
+                    ->select('b1.tenTK')
+                    ->get();
+        
+        foreach ($users as $user) {
+            if($thongtin->B1 == $user->tenTK) {
+                return $thongtin;
+            }
+        }
+
+        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /**

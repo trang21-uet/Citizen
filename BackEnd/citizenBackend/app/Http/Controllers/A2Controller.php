@@ -122,6 +122,37 @@ class A2Controller extends Controller
         return a2::where('tenTK', $request->user()->tenTK)->first()->a3;
     }
 
+    /*
+    Tra lai danh sach thong tin quanly
+    */
+    public function showAll(Request $request) {
+        $list = a3::join('b1', 'a3.tenTK', '=', 'b1.A3')
+            ->join('thongtin', 'thongtin.B1', '=', 'b1.tenTK')
+            ->where('a3.A2', $request->user()->tenTK)
+            ->select('thongtin.*')
+            ->get();
+        return $list;
+    }
+
+
+    /*
+    Tra lai thong tin quanly chi dinh
+    */
+    public function showOne(Request $request, thongtin $thongtin) {
+        $users = a3::join('b1', 'a3.tenTK', '=', 'b1.A3')
+                    ->where('a3.A2', $request->user()->tenTK)
+                    ->select('b1.tenTK')
+                    ->get();
+        
+        foreach ($users as $user) {
+            if($thongtin->B1 == $user->tenTK) {
+                return $thongtin;
+            }
+        }
+
+        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
+    }
+
     /**
      * Refresh a token.
      *
