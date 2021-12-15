@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useAuth } from "../auth/AuthProvider";
-import { checkInputs, toggleBtn } from "../logic/handler";
-import Error from "./Error";
-import InputGroup from "./InputGroup";
+import { useAuth } from "../../auth/AuthProvider";
+import { checkInputs, toggleBtn } from "../shared/handler";
+import Error from "../shared/Error";
+import InputGroup from "../shared/InputGroup";
 
 const SignupForm = (props) => {
   const auth = useAuth();
@@ -25,6 +25,7 @@ const SignupForm = (props) => {
         headers: {
           Authorization: "Bearer " + auth.info().access_token,
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: data,
       });
@@ -36,7 +37,7 @@ const SignupForm = (props) => {
       }
     };
 
-    request("http://localhost:8000/api/" + auth.info().type + "/register", data)
+    request("http://localhost:8000/" + auth.info().type + "/register", data)
       .then((res) => {
         alert(res.message);
       })

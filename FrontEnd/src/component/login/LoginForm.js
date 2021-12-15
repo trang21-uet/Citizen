@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InputGroup from "./InputGroup";
-import { useAuth } from "../auth/AuthProvider";
-import Error from "./Error";
+import InputGroup from "../shared/InputGroup";
+import { useAuth } from "../../auth/AuthProvider";
+import Error from "../shared/Error";
 
 const LoginForm = (props) => {
   const navigate = useNavigate();
@@ -22,7 +22,10 @@ const LoginForm = (props) => {
     const request = async (url, data) => {
       const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: data,
       });
       if (response.ok) {
@@ -34,7 +37,7 @@ const LoginForm = (props) => {
     request("http://localhost:8000/api/login", data)
       .then((res) => {
         auth.login(() => {
-          window.localStorage.setItem(
+          sessionStorage.setItem(
             "info",
             JSON.stringify({
               user: res.user,
