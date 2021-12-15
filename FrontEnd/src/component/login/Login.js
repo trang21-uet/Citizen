@@ -1,7 +1,7 @@
 import LoginForm from "./LoginForm";
-import Info from "./Info";
 import { useEffect } from "react";
-import { useAuth } from "../auth/AuthProvider";
+import Info from "./Info";
+import { useAuth } from "../../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -11,7 +11,7 @@ const Login = () => {
   useEffect(() => {
     document.title = "Citizen - Đăng nhập";
     if (auth.info()) {
-      navigate(`/${auth.info().type}`, { replace: true });
+      navigate("/", { replace: true });
     }
   });
 

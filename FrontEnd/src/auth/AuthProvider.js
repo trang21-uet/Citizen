@@ -13,7 +13,7 @@ const AuthProvider = (props) => {
   };
 
   const info = () => {
-    const info = localStorage.getItem("info");
+    const info = sessionStorage.info;
     return info ? JSON.parse(info) : null;
   };
 
@@ -34,8 +34,8 @@ const ProtectedRoute = (props) => {
 
   if (!auth.info()) {
     return <Navigate to="/login" state={{ from: location }} />;
-  } else if (location.pathname !== `/${auth.info().type}`) {
-    return <Navigate to={"/" + auth.info().type}></Navigate>;
+  } else if (location.pathname !== "/") {
+    return <Navigate to="/"></Navigate>;
   }
 
   return props.children;

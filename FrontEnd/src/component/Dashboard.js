@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import Header from "./Header";
-import SignupForm from "./SignupForm";
+import Header from "./shared/Header";
+import SignupForm from "./signup/SignupForm";
 
 const Dashboard = () => {
   useEffect(() => {

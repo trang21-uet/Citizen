@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { checkInputs, toggleBtn } from "../logic/handler";
+import { checkInputs, toggleBtn } from "./handler";
 
 const InputGroup = (props) => {
   const [value, setValue] = useState("");
