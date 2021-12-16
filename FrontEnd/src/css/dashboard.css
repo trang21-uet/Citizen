@@ -1,6 +1,11 @@
-span.logo-small {
+a.logo-small {
   font-family: "Fredoka One", san-serif;
   font-size: 2rem;
+  font-weight: 500;
+}
+
+.gi {
+  font-family: "Genshin", sans-serif;
 }
 
 .navbar {
@@ -11,9 +16,8 @@ span.logo-small {
   background-image: url(../assets/img/menu.png);
 }
 
-.nav-item:hover {
-  opacity: 0.6;
-  cursor: pointer;
+.navbar-toggler:focus + #navmenu {
+  height: 184px;
 }
 
 #signup-btn {
@@ -30,8 +34,32 @@ span.logo-small {
   opacity: 0.8;
 }
 
+@keyframes navbar-expand {
+  from {
+    height: 0%;
+  }
+  to {
+    height: 100%;
+  }
+}
+
 @media all and (min-width: 992px) {
   #signup-form {
     width: 500px;
+  }
+}
+
+@media all and (max-width: 992px) {
+  .nav-item a:hover {
+    font-weight: 500;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 5px 0.1rem;
+    cursor: pointer;
+  }
+
+  #navmenu {
+    height: 0px;
+    transition: 500ms;
+    overflow: hidden;
   }
 }

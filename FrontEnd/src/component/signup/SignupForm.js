@@ -63,6 +63,7 @@ const SignupForm = (props) => {
       onSubmit={handleSubmit}
       className={props.className + " shadow bg-light p-3 rounded"}
       id={props.id}
+      autoComplete="off"
     >
       <h3 className="mb-4">Tạo tài khoản mới</h3>
       <InputGroup

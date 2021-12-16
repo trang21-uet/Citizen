@@ -13,6 +13,11 @@ code {
 }
 
 @font-face {
+  font-family: Genshin;
+  src: url(../assets/fonts/ja-jp.ttf);
+}
+
+@font-face {
   font-family: Fredoka One;
   src: url(../assets/fonts/FredokaOne-Regular.ttf);
 }

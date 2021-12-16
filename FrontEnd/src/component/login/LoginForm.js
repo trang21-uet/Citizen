@@ -45,7 +45,7 @@ const LoginForm = (props) => {
               type: res.type,
             })
           );
-          navigate("/" + res.type, { replace: true });
+          navigate("/", { replace: true });
         });
       })
       .catch((status) => {
@@ -58,6 +58,7 @@ const LoginForm = (props) => {
       onSubmit={handleSubmit}
       className={props.className + " shadow bg-light p-3 rounded"}
       id={props.id}
+      autoComplete="off"
     >
       <h1 className="mb-4">Đăng nhập</h1>
       <InputGroup
