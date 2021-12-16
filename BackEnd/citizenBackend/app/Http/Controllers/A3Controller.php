@@ -193,4 +193,37 @@ class A3Controller extends Controller
     public function userProfile() {
         return response()->json(auth()->user());
     }
+
+    /*
+    Thay đổi mật khẩu cho cấp dưới
+    */
+    public function changePassWord(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'MK' => 'required|string|min:8',
+            'B1' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        //check A3 có tồn tại ko
+        $user = b1::where('tenTK', $validator->validated()['B1'])->first();
+
+        if($user == null) {
+            return response()->json([
+                'error' => 'Sai B1',
+            ],404);
+        }
+
+        $user->update([
+            'MK' => bcrypt($validator->validated()['MK']),
+        ]);
+
+        return response()->json([
+            'message' => 'Cấp lại mật khẩu thành công',
+            'user' => $user->tenTK,
+            'MK' => $validator->validated()['MK'],
+        ], 201);
+    }
 }
