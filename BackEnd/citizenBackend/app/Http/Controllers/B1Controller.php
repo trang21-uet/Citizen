@@ -235,6 +235,24 @@ class B1Controller extends Controller
         return b1::where('tenTK', $request->user()->tenTK)->first()->b2;
     }
 
+    /*
+    Cập nhật trạng thái của đơn vị
+    */
+    public function hoanthanh(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'trangThai' => ['required', Rule::in(0, 1)],
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $user = b1::where('tenTK',$request->user()->tenTK)->first();
+
+        $user->update($validator->validated());
+        return response()->json(['success' => 'Đặt trạng thái thành công'], 200);
+    }
+
     /**
      * Refresh a token.
      *

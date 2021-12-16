@@ -49,6 +49,7 @@ class A3Controller extends Controller
         $user->update([
             'startPermission' => $validator->validated()['startPermission'],
             'endPermission' => $validator->validated()['endPermission'],
+            'trangthai' => 0,
         ]);
         
         return response()->json([
@@ -151,6 +152,30 @@ class A3Controller extends Controller
         return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
     
+
+    /*
+    Trả lại danh sách trạng thái cấp dưới
+    */
+    public function trangthai(Request $request) {
+        $users = b1::where('b1.A3', $request->user()->tenTK)
+                    ->select('b1.*')
+                    ->get();
+        
+        // $temp = $users->count();
+        // for ($i = 0; $i < $temp - 1; $i++ ) {
+        //     //Kiem tra xem co 2 ban ghi trung tenTK nhung khac trang thai khong
+        //     if($users[$i]->tenTK == $users[$i + 1]->tenTK) {
+        //         if($users[$i]->trangthai == 1) {
+        //             $users->forget($i);
+        //         } else {
+        //             $users->forget($i + 1);
+        //         }
+        //     }
+        // }
+
+        return $users;
+    }
+
     /**
      * Refresh a token.
      *

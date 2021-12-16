@@ -153,6 +153,31 @@ class A2Controller extends Controller
         return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
+    /*
+    Trả lại danh sách trạng thái cấp dưới
+    */
+    public function trangthai(Request $request) {
+        $users = a3::join('b1', 'a3.tenTK', '=', 'b1.A3')
+                    ->where('a3.A2', $request->user()->tenTK)
+                    ->select('a3.*', 'trangthai')
+                    ->distinct()
+                    ->get();
+        
+        $temp = $users->count();
+        for ($i = 0; $i < $temp - 1; $i++ ) {
+            //Kiem tra xem co 2 ban ghi trung tenTK nhung khac trang thai khong
+            if($users[$i]->tenTK == $users[$i + 1]->tenTK) {
+                if($users[$i]->trangthai == 1) {
+                    $users->forget($i);
+                } else {
+                    $users->forget($i + 1);
+                }
+            }
+        }
+
+        return $users;
+    }
+
     /**
      * Refresh a token.
      *
@@ -169,5 +194,38 @@ class A2Controller extends Controller
      */
     public function userProfile() {
         return response()->json(auth()->user());
+    }
+
+    /*
+    Thay đổi mật khẩu cho cấp dưới
+    */
+    public function changePassWord(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'MK' => 'required|string|min:8',
+            'A3' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        //check A3 có tồn tại ko
+        $user = a3::where('tenTK', $validator->validated()['A3'])->first();
+
+        if($user == null) {
+            return response()->json([
+                'error' => 'Sai A3',
+            ],404);
+        }
+
+        $user->update([
+            'MK' => bcrypt($validator->validated()['MK']),
+        ]);
+
+        return response()->json([
+            'message' => 'Cấp lại mật khẩu thành công',
+            'user' => $user->tenTK,
+            'MK' => $user->MK
+        ], 201);
     }
 }

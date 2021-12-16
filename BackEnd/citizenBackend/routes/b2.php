@@ -9,6 +9,7 @@ Route::group([
     'middleware' => ['auth:b2'],
 ],function($router) {
     Route::get('/logout', [B2Controller::class, 'logout']);
+    Route::get('/user', [A1Controller::class, 'userProfile']);
 
     //Cac quyen lien quan den database
     Route::get('/list', [B2Controller::class,'showAll']);
