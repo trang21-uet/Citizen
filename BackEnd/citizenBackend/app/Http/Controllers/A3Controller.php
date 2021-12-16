@@ -123,6 +123,34 @@ class A3Controller extends Controller
         return a3::where('tenTK', $request->user()->tenTK)->first()->b1;
     }
 
+    /*
+    Tra lai danh sach thong tin quanly
+    */
+    public function showAll(Request $request) {
+        $list = b1::join('thongtin', 'thongtin.B1', '=', 'b1.tenTK')
+            ->where('b1.A3', $request->user()->tenTK)
+            ->select('thongtin.*')
+            ->get();
+        return $list;
+    }
+
+    /*
+    Tra lai thong tin quanly chi dinh
+    */
+    public function showOne(Request $request, thongtin $thongtin) {
+        $users = b1::where('b1.A3', $request->user()->tenTK)
+                    ->select('b1.tenTK')
+                    ->get();
+        
+        foreach ($users as $user) {
+            if($thongtin->B1 == $user->tenTK) {
+                return $thongtin;
+            }
+        }
+
+        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
+    }
+    
     /**
      * Refresh a token.
      *
