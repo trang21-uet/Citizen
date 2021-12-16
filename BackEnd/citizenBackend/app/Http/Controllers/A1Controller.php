@@ -226,11 +226,11 @@ class A1Controller extends Controller
         $user->update([
             'MK' => bcrypt($validator->validated()['MK']),
         ]);
-
+        
         return response()->json([
             'message' => 'Cấp lại mật khẩu thành công',
             'user' => $user->tenTK,
-            'MK' => $user->MK
+            'MK' => $validator->validated()['MK']
         ], 201);
     }
 }

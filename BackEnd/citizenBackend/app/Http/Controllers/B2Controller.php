@@ -124,7 +124,7 @@ class B2Controller extends Controller
     Check xem co duoc phep chinh sua khong
     */
     public function checkQuyen(Request $request) {
-        $user = b1::where('tenTK',$request->user()->tenTK)->first();
+        $user = b2::where('tenTK',$request->user()->tenTK)->first();
         if($user->endPermission > date('Y-m-d H:i:s')) {
             return response()->json([
                 'error' => 'Bạn không có quyền thao tác'
