@@ -30,6 +30,7 @@ const InputGroup = (props) => {
         value={value}
         onChange={handleChange}
         onBlur={props.onBlur}
+        autoComplete="off"
       />
     </div>
   );

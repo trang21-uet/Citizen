@@ -17,7 +17,16 @@ const AuthProvider = (props) => {
     return info ? JSON.parse(info) : null;
   };
 
-  let value = { login, logout, info };
+  const paths = {
+    login: "/login",
+    home: "/",
+    signup: "/register",
+    profile: "/profile",
+    stat: "/statistic",
+    manage: "/manage",
+  };
+
+  let value = { login, logout, info, paths };
 
   return (
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
@@ -28,17 +37,15 @@ const useAuth = () => {
   return React.useContext(AuthContext);
 };
 
-const ProtectedRoute = (props) => {
+const ProtectedRoute = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
 
   if (!auth.info()) {
     return <Navigate to="/login" state={{ from: location }} />;
-  } else if (location.pathname !== "/") {
-    return <Navigate to="/"></Navigate>;
   }
 
-  return props.children;
+  return children;
 };
 
 export { AuthProvider, ProtectedRoute, useAuth };
