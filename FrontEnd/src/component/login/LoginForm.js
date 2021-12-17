@@ -9,7 +9,7 @@ const LoginForm = (props) => {
   const auth = useAuth();
   let [error, setError] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const username = formData.get("tenTK");
@@ -19,38 +19,29 @@ const LoginForm = (props) => {
       MK: password.trim(),
     });
 
-    const request = async (url, data) => {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: data,
-      });
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw response.status;
-      }
-    };
-    request("http://localhost:8000/api/login", data)
-      .then((res) => {
+    await fetch("http://localhost:8000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
         auth.login(() => {
           sessionStorage.setItem(
             "info",
             JSON.stringify({
-              user: res.user,
-              access_token: res.access_token,
-              type: res.type,
+              user: data.user,
+              access_token: data.access_token,
+              type: data.type,
             })
           );
           navigate("/", { replace: true });
         });
       })
-      .catch((status) => {
-        setError(status);
-      });
+      .catch((error) => setError(error));
   };
 
   return (

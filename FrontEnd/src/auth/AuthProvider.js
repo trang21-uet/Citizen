@@ -45,7 +45,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  return children;
+  return <div className="bg-light bg-opacity-25">{children}</div>;
 };
 
 export { AuthProvider, ProtectedRoute, useAuth };

@@ -23,7 +23,7 @@ const InputGroup = (props) => {
         className={
           "form-control" + (props.size === "big" ? " p-3 fs-5" : " px-3 py-2")
         }
-        type={props.type}
+        type={props.type ? props.type : "text"}
         name={props.name}
         id={props.id}
         placeholder={props.placeholder}

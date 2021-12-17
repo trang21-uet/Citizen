@@ -18,6 +18,11 @@ a.logo-small {
 
 .navbar-toggler:focus + #navmenu {
   height: 184px;
+  width: 695px;
+}
+
+.navbar-toggler:not(:focus) + #navmenu {
+  transition-delay: 0.5s;
 }
 
 #signup-btn {
@@ -34,15 +39,6 @@ a.logo-small {
   opacity: 0.8;
 }
 
-@keyframes navbar-expand {
-  from {
-    height: 0%;
-  }
-  to {
-    height: 100%;
-  }
-}
-
 @media all and (min-width: 992px) {
   #signup-form {
     width: 500px;
@@ -50,16 +46,32 @@ a.logo-small {
 }
 
 @media all and (max-width: 992px) {
-  .nav-item a:hover {
-    font-weight: 500;
+  .nav-item:hover a {
     border-radius: 0.25rem;
-    box-shadow: 0 1px 5px 0.1rem;
+    box-shadow: -5px 0 5px 1px;
     cursor: pointer;
+    animation: slide-to-left 0.5s;
+    animation-fill-mode: forwards;
+  }
+
+  .nav-item:not(:hover) {
+    animation: slide-to-left 0.5s;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
   }
 
   #navmenu {
     height: 0px;
-    transition: 500ms;
-    overflow: hidden;
+    transition: 0.5s;
+    overflow-y: hidden;
+  }
+}
+
+@keyframes slide-to-left {
+  from {
+    padding-right: 0;
+  }
+  to {
+    padding-right: 2rem;
   }
 }
