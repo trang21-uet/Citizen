@@ -9,7 +9,7 @@ Route::group([
     'middleware' => ['jwt.verify:a2'],
 ],function($router) {
     Route::get('/logout', [A2Controller::class, 'logout']);
-    Route::get('/user', [A1Controller::class, 'userProfile']);
+    Route::get('/user', [A2Controller::class, 'userProfile']);
     Route::post('/resetpassword', [A2Controller::class, 'changePassword']);
     Route::post('/register', [A2Controller::class, 'register']);
     Route::get('/quanly',[A2Controller::class, 'danhSachAcc']);
