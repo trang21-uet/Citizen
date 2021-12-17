@@ -20,6 +20,7 @@ const Header = () => {
 
 const Navbar = (props) => {
   const paths = useAuth().paths;
+  const type = useAuth().info().type;
   return (
     <div className="navbar-collapse" id={props.id}>
       <ul className="navbar-nav ms-auto">
@@ -27,7 +28,9 @@ const Navbar = (props) => {
           Thông tin tài khoản
         </NavItem>
         <NavItem className="bi bi-person-plus-fill" to={paths.signup}>
-          Tạo tài khoản mới
+          {["b1", "b2"].includes(type)
+            ? "Nhập thông tin người dân"
+            : "Cấp tài khoản mới"}
         </NavItem>
         <NavItem className="bi bi-people-fill" to={paths.manage}>
           Quản lý tài khoản
@@ -53,7 +56,9 @@ const NavItem = (props) => {
         to={props.to}
         className="py-1 py-lg-2 text-dark text-decoration-none"
       >
-        <span className="d-lg-none lh-lg ps-3">{props.children}</span>
+        <span className="gi d-lg-none lh-base fw-light ps-3">
+          {props.children}
+        </span>
         <i className={props.className + " px-3 fs-5"}></i>
       </Link>
     </li>
@@ -63,34 +68,25 @@ const NavItem = (props) => {
 const SignOut = (props) => {
   const auth = useAuth();
   const navigate = useNavigate();
-  const logout = (event) => {
+  const logout = async (event) => {
     event.preventDefault();
-    const request = async (url) => {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + auth.info().access_token,
-          Accept: "application/json",
-        },
-      });
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw response.status;
-      }
-    };
-
-    request("http://localhost:8000/" + auth.info().type + "/logout")
-      .then((res) => {
+    await fetch("http://localhost:8000/" + auth.info().type + "/logout", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth.info().access_token,
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         auth.logout(() => {
           sessionStorage.removeItem("info");
           navigate("/login", { replace: true });
           alert("Bạn đã đăng xuất thành công!");
         });
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   };
   return (
     <li
@@ -104,7 +100,7 @@ const SignOut = (props) => {
         onClick={logout}
         className="py-1 py-lg-2 text-decoration-none text-dark"
       >
-        <span className="d-lg-none lh-lg ps-3">Đăng xuất</span>
+        <span className="gi d-lg-none lh-base fw-light ps-3">Đăng xuất</span>
         <span className={"px-3 fs-5 " + props.className}></span>
       </a>
     </li>
