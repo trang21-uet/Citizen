@@ -22,5 +22,5 @@ use App\Http\Controllers\B2Controller;
 Route::match(['get', 'post'],'/login', [loginController::class, 'login']);
 
 Route::get('/error', function(Request $request) {
-    return response()->json(['error' => '404'],404);
+    return response()->json(['message' => '404'],404);
 })->name('error');

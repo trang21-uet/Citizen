@@ -49,7 +49,7 @@ class loginController extends Controller
                 return $this->createNewToken($token, 'a1');
             }
         }
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\B1Controller;
 
 Route::group([
-    'middleware' => ['auth:b1'],
+    'middleware' => ['jwt.verify:b1'],
 ],function($router) {
     Route::get('/logout', [B1Controller::class, 'logout']);
     Route::get('/user', [A1Controller::class, 'userProfile']);
@@ -25,7 +25,7 @@ Route::group([
 
     Route::match(['get', 'post'], '/{slug}', function (Request $request) {
         return response()->json([
-            'error' => 'Không có gì cả T_T',
+            'message' => 'Không có gì cả T_T',
         ],404);
     });
 });

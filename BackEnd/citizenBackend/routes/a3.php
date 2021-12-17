@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\A3Controller;
 
 Route::group([
-    'middleware' => ['auth:a3'],
+    'middleware' => ['jwt.verify:a3'],
 ],function($router) {
     Route::get('/logout', [A3Controller::class, 'logout']);
     Route::get('/user', [A1Controller::class, 'userProfile']);
@@ -20,7 +20,7 @@ Route::group([
 
     Route::match(['get', 'post'], '/{slug}', function (Request $request) {
         return response()->json([
-            'error' => 'Không có gì cả T_T',
+            'message' => 'Không có gì cả T_T',
         ],404);
     });
 });

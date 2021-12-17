@@ -17,7 +17,7 @@ class A1Controller extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:a1');
+        $this->middleware('jwt.verify:a1');
     }
 
     public function setQuyen(Request $request) {
@@ -33,7 +33,7 @@ class A1Controller extends Controller
 
         if($validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
-                'error' => "Thời gian sai"
+                'message' => "Thời gian sai"
             ], 400);
         }
 
@@ -41,7 +41,7 @@ class A1Controller extends Controller
         
         if($user == null) {
             return response()->json([
-                'error' => 'A2 không tồn tại'
+                'message' => 'A2 không tồn tại'
             ], 404);
         }
 
@@ -51,7 +51,7 @@ class A1Controller extends Controller
         ]);
         
         return response()->json([
-            'success' => 'Đặt thời gian cho phép chỉnh sửa thành công'
+            'message' => 'Đặt thời gian cho phép chỉnh sửa thành công'
         ], 201);
 
     }
@@ -79,7 +79,7 @@ class A1Controller extends Controller
 
         if($userA1 == null) {
             return response()->json([
-                'error' => 'Sai A1',
+                'message' => 'Sai A1',
             ],404);
         }
 
@@ -87,7 +87,7 @@ class A1Controller extends Controller
         
         if(!$user == null) {
             return response()->json([
-                'error' => 'Tài khoản đã tồn tại'
+                'message' => 'Tài khoản đã tồn tại'
             ], 404);
         }
         $user = a2::create([
@@ -142,7 +142,7 @@ class A1Controller extends Controller
             }
         }
 
-        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /*

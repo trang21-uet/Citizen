@@ -17,7 +17,7 @@ class B2Controller extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:b2');
+        $this->middleware('jwt.verify:b2');
     }
 
     /*
@@ -34,7 +34,7 @@ class B2Controller extends Controller
         if($thongtin->B2 == $request->user()->tenTK) {
             return $thongtin;
         }
-        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /*
@@ -69,7 +69,7 @@ class B2Controller extends Controller
         $user->save();
 
         return response()->json([
-            'success' => 'Thêm dữ liệu thành công',
+            'message' => 'Thêm dữ liệu thành công',
         ], 200);
     }
 
@@ -103,7 +103,7 @@ class B2Controller extends Controller
         $thongtin->update($validator->validated());
 
         return response()->json([
-            'success' => 'Sửa dữ liệu thành công',
+            'message' => 'Sửa dữ liệu thành công',
         ], 201);
     }
 
@@ -116,7 +116,7 @@ class B2Controller extends Controller
         $thongtin = $this->showOne($request, $thongtin);
         $thongtin->delete();
         return response()->json([
-            'success' => 'Xóa dữ liệu thành công',
+            'message' => 'Xóa dữ liệu thành công',
         ], 201);
     }
 
@@ -127,7 +127,7 @@ class B2Controller extends Controller
         $user = b2::where('tenTK',$request->user()->tenTK)->first();
         if($user->endPermission > date('Y-m-d H:i:s')) {
             return response()->json([
-                'error' => 'Bạn không có quyền thao tác'
+                'message' => 'Bạn không có quyền thao tác'
             ], 404);
         }
     }

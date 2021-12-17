@@ -18,7 +18,7 @@ class B1Controller extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:b1');
+        $this->middleware('jwt.verify:b1');
     }
 
     public function setQuyen(Request $request) {
@@ -35,7 +35,7 @@ class B1Controller extends Controller
         if($validator->validated()['endPermission'] > b1::where('tenTK', $request->user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
-                'error' => "Thời gian sai"
+                'message' => "Thời gian sai"
             ], 400);
         }
 
@@ -43,7 +43,7 @@ class B1Controller extends Controller
         
         if($user == null) {
             return response()->json([
-                'error' => 'B2 không tồn tại'
+                'message' => 'B2 không tồn tại'
             ], 404);
         }
 
@@ -53,7 +53,7 @@ class B1Controller extends Controller
         ]);
         
         return response()->json([
-            'success' => 'Đặt thời gian cho phép chỉnh sửa thành công'
+            'message' => 'Đặt thời gian cho phép chỉnh sửa thành công'
         ], 201);
     }
 
@@ -79,7 +79,7 @@ class B1Controller extends Controller
 
         if($userB1 == null) {
             return response()->json([
-                'error' => 'Sai B1',
+                'message' => 'Sai B1',
             ],404);
         }
 
@@ -87,7 +87,7 @@ class B1Controller extends Controller
         
         if(!$user == null) {
             return response()->json([
-                'error' => 'Tài khoản đã tồn tại'
+                'message' => 'Tài khoản đã tồn tại'
             ], 404);
         }
 
@@ -136,7 +136,7 @@ class B1Controller extends Controller
         if($thongtin->B1 == $request->user()->tenTK) {
             return $thongtin;
         }
-        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /*
@@ -168,7 +168,7 @@ class B1Controller extends Controller
         $user->save();
 
         return response()->json([
-            'success' => 'Thêm dữ liệu thành công',
+            'message' => 'Thêm dữ liệu thành công',
         ], 200);
     }
 
@@ -202,7 +202,7 @@ class B1Controller extends Controller
         $thongtin->update($validator->validated());
 
         return response()->json([
-            'success' => 'Sửa dữ liệu thành công',
+            'message' => 'Sửa dữ liệu thành công',
         ], 201);
     }
 
@@ -215,7 +215,7 @@ class B1Controller extends Controller
         $thongtin = $this->showOne($request, $thongtin);
         $thongtin->delete();
         return response()->json([
-            'success' => 'Xóa dữ liệu thành công',
+            'message' => 'Xóa dữ liệu thành công',
         ], 201);
     }
 
@@ -226,7 +226,7 @@ class B1Controller extends Controller
         $user = b1::where('tenTK',$request->user()->tenTK)->first();
         if($user->endPermission > date('Y-m-d H:i:s')) {
             return response()->json([
-                'error' => 'Bạn không có quyền thao tác'
+                'message' => 'Bạn không có quyền thao tác'
             ], 404);
         }
     }
@@ -250,7 +250,7 @@ class B1Controller extends Controller
         $user = b1::where('tenTK',$request->user()->tenTK)->first();
 
         $user->update($validator->validated());
-        return response()->json(['success' => 'Đặt trạng thái thành công'], 200);
+        return response()->json(['message' => 'Đặt trạng thái thành công'], 200);
     }
 
     /**
@@ -289,7 +289,7 @@ class B1Controller extends Controller
 
         if($user == null) {
             return response()->json([
-                'error' => 'Sai B2',
+                'message' => 'Sai B2',
             ],404);
         }
 

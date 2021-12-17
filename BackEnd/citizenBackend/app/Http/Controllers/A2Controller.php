@@ -17,7 +17,7 @@ class A2Controller extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:a2');
+        $this->middleware('jwt.verify:a2');
     }
 
     public function setQuyen(Request $request) {
@@ -34,7 +34,7 @@ class A2Controller extends Controller
         if($validator->validated()['endPermission'] > a2::where('tenTK', $request->user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
-                'error' => "Thời gian sai"
+                'message' => "Thời gian sai"
             ], 400);
         }
 
@@ -42,7 +42,7 @@ class A2Controller extends Controller
         
         if($user == null) {
             return response()->json([
-                'error' => 'A3 không tồn tại'
+                'message' => 'A3 không tồn tại'
             ], 404);
         }
 
@@ -52,7 +52,7 @@ class A2Controller extends Controller
         ]);
         
         return response()->json([
-            'success' => 'Đặt thời gian cho phép chỉnh sửa thành công'
+            'message' => 'Đặt thời gian cho phép chỉnh sửa thành công'
         ], 201);
     }
     /**
@@ -77,7 +77,7 @@ class A2Controller extends Controller
 
         if($userA2 == null) {
             return response()->json([
-                'error' => 'Sai A2',
+                'message' => 'Sai A2',
             ],404);
         }
 
@@ -85,7 +85,7 @@ class A2Controller extends Controller
         
         if(!$user == null) {
             return response()->json([
-                'error' => 'Tài khoản đã tồn tại'
+                'message' => 'Tài khoản đã tồn tại'
             ], 404);
         }
         $user = a3::create([
@@ -150,7 +150,7 @@ class A2Controller extends Controller
             }
         }
 
-        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /*
@@ -214,7 +214,7 @@ class A2Controller extends Controller
 
         if($user == null) {
             return response()->json([
-                'error' => 'Sai A3',
+                'message' => 'Sai A3',
             ],404);
         }
 
