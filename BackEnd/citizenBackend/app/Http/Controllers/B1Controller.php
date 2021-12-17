@@ -35,7 +35,7 @@ class B1Controller extends Controller
         if($validator->validated()['endPermission'] > b1::where('tenTK', $request->user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
-                'message' => "Thời gian sai"
+                'error' => "Thời gian sai"
             ], 400);
         }
 
@@ -43,7 +43,7 @@ class B1Controller extends Controller
         
         if($user == null) {
             return response()->json([
-                'message' => 'B2 không tồn tại'
+                'error' => 'B2 không tồn tại'
             ], 404);
         }
 
@@ -79,7 +79,7 @@ class B1Controller extends Controller
 
         if($userB1 == null) {
             return response()->json([
-                'message' => 'Sai B1',
+                'error' => 'Sai B1',
             ],404);
         }
 
@@ -87,7 +87,7 @@ class B1Controller extends Controller
         
         if(!$user == null) {
             return response()->json([
-                'message' => 'Tài khoản đã tồn tại'
+                'error' => 'Tài khoản đã tồn tại'
             ], 404);
         }
 
@@ -136,7 +136,7 @@ class B1Controller extends Controller
         if($thongtin->B1 == $request->user()->tenTK) {
             return $thongtin;
         }
-        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /*
@@ -226,7 +226,7 @@ class B1Controller extends Controller
         $user = b1::where('tenTK',$request->user()->tenTK)->first();
         if($user->endPermission > date('Y-m-d H:i:s')) {
             return response()->json([
-                'message' => 'Bạn không có quyền thao tác'
+                'error' => 'Bạn không có quyền thao tác'
             ], 404);
         }
     }
@@ -289,7 +289,7 @@ class B1Controller extends Controller
 
         if($user == null) {
             return response()->json([
-                'message' => 'Sai B2',
+                'error' => 'Sai B2',
             ],404);
         }
 

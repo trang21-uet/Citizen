@@ -33,7 +33,7 @@ class A1Controller extends Controller
 
         if($validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
-                'message' => "Thời gian sai"
+                'error' => "Thời gian sai"
             ], 400);
         }
 
@@ -41,7 +41,7 @@ class A1Controller extends Controller
         
         if($user == null) {
             return response()->json([
-                'message' => 'A2 không tồn tại'
+                'error' => 'A2 không tồn tại'
             ], 404);
         }
 
@@ -79,7 +79,7 @@ class A1Controller extends Controller
 
         if($userA1 == null) {
             return response()->json([
-                'message' => 'Sai A1',
+                'error' => 'Sai A1',
             ],404);
         }
 
@@ -87,7 +87,7 @@ class A1Controller extends Controller
         
         if(!$user == null) {
             return response()->json([
-                'message' => 'Tài khoản đã tồn tại'
+                'error' => 'Tài khoản đã tồn tại'
             ], 404);
         }
         $user = a2::create([
@@ -142,7 +142,7 @@ class A1Controller extends Controller
             }
         }
 
-        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /*
@@ -180,7 +180,7 @@ class A1Controller extends Controller
 
         Auth::guard('a1')->logout();
 
-        return response()->json(['message' => 'User successfully signed out']);
+        return response()->json(['message' => 'User successfully signed out'], 200);
     }
 
     /**

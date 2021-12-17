@@ -34,7 +34,7 @@ class B2Controller extends Controller
         if($thongtin->B2 == $request->user()->tenTK) {
             return $thongtin;
         }
-        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
 
     /*
@@ -127,7 +127,7 @@ class B2Controller extends Controller
         $user = b2::where('tenTK',$request->user()->tenTK)->first();
         if($user->endPermission > date('Y-m-d H:i:s')) {
             return response()->json([
-                'message' => 'Bạn không có quyền thao tác'
+                'error' => 'Bạn không có quyền thao tác'
             ], 404);
         }
     }

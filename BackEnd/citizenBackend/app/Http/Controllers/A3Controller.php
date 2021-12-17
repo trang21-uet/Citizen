@@ -34,7 +34,7 @@ class A3Controller extends Controller
         if($validator->validated()['endPermission'] > a3::where('tenTK', $request->user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
-                'message' => "Thời gian sai"
+                'error' => "Thời gian sai"
             ], 400);
         }
 
@@ -42,7 +42,7 @@ class A3Controller extends Controller
         
         if($user == null) {
             return response()->json([
-                'message' => 'B1 không tồn tại'
+                'error' => 'B1 không tồn tại'
             ], 404);
         }
 
@@ -79,7 +79,7 @@ class A3Controller extends Controller
 
         if($userA3 == null) {
             return response()->json([
-                'message' => 'Sai A3',
+                'error' => 'Sai A3',
             ],404);
         }
 
@@ -87,7 +87,7 @@ class A3Controller extends Controller
         
         if(!$user == null) {
             return response()->json([
-                'message' => 'Tài khoản đã tồn tại'
+                'error' => 'Tài khoản đã tồn tại'
             ], 404);
         }
         $user = b1::create([
@@ -117,7 +117,7 @@ class A3Controller extends Controller
 
         Auth::guard('a3')->logout();
 
-        return response()->json(['message' => 'User successfully signed out']);
+        return response()->json(['message' => 'User successfully signed out'], 200);
     }
 
     public function danhSachAcc(Request $request) {
@@ -149,7 +149,7 @@ class A3Controller extends Controller
             }
         }
 
-        return response()->json(['message'=>'Danh sach khong thuoc don vi cua ban'], 404);
+        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
     }
     
 
@@ -212,7 +212,7 @@ class A3Controller extends Controller
 
         if($user == null) {
             return response()->json([
-                'message' => 'Sai B1',
+                'error' => 'Sai B1',
             ],404);
         }
 
