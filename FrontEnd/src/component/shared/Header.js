@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
-
+import "../../assets/pdf/PDT.pdf";
 const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg py-0">
@@ -38,6 +38,9 @@ const Navbar = (props) => {
         <NavItem className="bi bi-graph-up-arrow" to={paths.stat}>
           Dữ liệu dân số
         </NavItem>
+        <NavItem className="bi bi-download" to={paths}>
+          Mẫu Phiếu 
+        </NavItem>
         <SignOut className="bi bi-box-arrow-right"></SignOut>
       </ul>
     </div>
@@ -70,7 +73,7 @@ const SignOut = (props) => {
   const navigate = useNavigate();
   const logout = async (event) => {
     event.preventDefault();
-    await fetch("http://localhost:8000/" + auth.info().type + "/logout", {
+    await fetch("http://localhost:8000" + auth.info().type + "/logout", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth.info().access_token,
