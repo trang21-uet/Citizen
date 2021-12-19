@@ -38,8 +38,8 @@ const Navbar = (props) => {
         <NavItem className="bi bi-graph-up-arrow" to={paths.stat}>
           Dữ liệu dân số
         </NavItem>
-        <NavItem className="bi bi-download" to={paths}>
-          Mẫu Phiếu 
+        <NavItem className="bi bi-download" to={paths.down}>
+          Mẫu Phiếu
         </NavItem>
         <SignOut className="bi bi-box-arrow-right"></SignOut>
       </ul>
@@ -73,7 +73,7 @@ const SignOut = (props) => {
   const navigate = useNavigate();
   const logout = async (event) => {
     event.preventDefault();
-    await fetch("http://localhost:8000" + auth.info().type + "/logout", {
+    await fetch("http://localhost:8000/" + auth.info().type + "/logout", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth.info().access_token,
