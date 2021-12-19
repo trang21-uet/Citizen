@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { ProtectedRoute } from "../auth/AuthProvider";
 import Header from "../component/shared/Header";
-import { Tooltip } from "bootstrap/dist/js/bootstrap.bundle";
+import { Tooltip } from "bootstrap/dist/js/bootstrap.bundle.js";
 
 const Layout = () => {
   useEffect(() => {

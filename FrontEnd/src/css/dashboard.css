@@ -25,22 +25,30 @@ a.logo-small {
   transition-delay: 0.5s;
 }
 
-#signup-btn {
+#account-btn,
+#person-btn {
   background-color: #00e3aa;
   opacity: 0.5;
 }
 
-#signup-btn.enabled {
+#account-btn.enabled,
+#person-btn.enabled {
   opacity: 1;
   cursor: pointer;
 }
 
-#signup-btn.enabled:hover {
+#account-btn.enabled:hover,
+#person-btn.enabled:hover {
   opacity: 0.8;
 }
 
+.error {
+  height: 25vh;
+}
+
 @media all and (min-width: 992px) {
-  #signup-form {
+  #account-form,
+  #person-form {
     width: 500px;
   }
 }
