@@ -67,23 +67,21 @@ class A1Controller extends Controller
             'maTinh' => 'required|string',
             'tenTinh' => 'required|string',
             'MK' => 'required|string|min:8',
-            'A1' => 'required|string',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        //check A1 có tồn tại ko
-        $userA1 = a1::where('tenTK', $validator->validated()['A1'])->first();
-
-        if($userA1 == null) {
+        if(strlen($validator->validated()['maTinh']) != 2){
             return response()->json([
-                'error' => 'Sai A1',
-            ],404);
+                'error' => 'Sai định dạng tài khoản cấp dưới'
+            ], 400);
         }
 
-        $user = a2::where('tenTK', $validator->validated()['maTinh'])->first();
+        $maTinh = $validator->validated()['maTinh'];
+
+        $user = a2::where('tenTK', $maTinh)->first();
         
         if(!$user == null) {
             return response()->json([
@@ -91,10 +89,10 @@ class A1Controller extends Controller
             ], 404);
         }
         $user = a2::create([
-            'maTinh' => $validator->validated()['maTinh'],
+            'maTinh' => $maTinh,
             'tenTinh' => $validator->validated()['tenTinh'],
-            'tenTK' => $validator->validated()['maTinh'],
-            'A1' => $validator->validated()['A1'],
+            'tenTK' => $maTinh,
+            'A1' => Auth::guard('a1')->user()->tenTK,
             'MK' => bcrypt($validator->validated()['MK']),
         ]);
         
@@ -102,7 +100,7 @@ class A1Controller extends Controller
         
         return response()->json([
             'message' => 'Cấp tài khoản thành công',
-            'user' => $request->maTinh,
+            'user' => $maTinh,
             'password' => $request->MK,
             'type' => 'a2',
         ], 201);

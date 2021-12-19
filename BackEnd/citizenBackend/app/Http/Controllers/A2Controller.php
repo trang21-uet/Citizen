@@ -65,34 +65,33 @@ class A2Controller extends Controller
             'maHuyen' => 'required|string',
             'tenHuyen' => 'required|string',
             'MK' => 'required|string|min:8',
-            'A2' => 'required|string',
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        //check A2 có tồn tại ko
-        $userA2 = a2::where('tenTK', $validator->validated()['A2'])->first();
-
-        if($userA2 == null) {
+        if(strlen($validator->validated()['maHuyen']) != 2){
             return response()->json([
-                'error' => 'Sai A2',
-            ],404);
+                'error' => 'Sai định dạng tài khoản cấp dưới'
+            ], 400);
         }
 
-        $user = a3::where('tenTK', $validator->validated()['maHuyen'])->first();
+        $maHuyen = Auth::guard('a2')->user()->tenTK . $validator->validated()['maHuyen'];
+
+        $user = a3::where('tenTK', $maHuyen)->first();
         
         if(!$user == null) {
             return response()->json([
                 'error' => 'Tài khoản đã tồn tại'
             ], 404);
         }
+
         $user = a3::create([
-            'maHuyen' => $validator->validated()['maHuyen'],
+            'maHuyen' => $maHuyen,
             'tenHuyen' => $validator->validated()['tenHuyen'],
-            'tenTK' => $validator->validated()['maHuyen'],
-            'A2' => $validator->validated()['A2'],
+            'tenTK' => $maHuyen,
+            'A2' => Auth::guard('a2')->user()->tenTK,
             'MK' => bcrypt($validator->validated()['MK']),
         ]);
         
@@ -100,7 +99,7 @@ class A2Controller extends Controller
         
         return response()->json([
             'message' => 'Cấp tài khoản thành công',
-            'user' => $request->maHuyen,
+            'user' => $maHuyen,
             'password' => $request->MK,
             'type' => 'a3',
         ], 201);
