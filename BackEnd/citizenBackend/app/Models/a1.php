@@ -14,7 +14,8 @@ class a1 extends Authenticatable implements JWTSubject
 
     protected $table = 'a1';
     protected $primaryKey = 'ID';
-    public $timestamps = false;
+    public $timestamps = true;
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $fillable = [
         'tenTK',
@@ -22,7 +23,9 @@ class a1 extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
-        'MK'
+        'MK',
+        'created_at',
+        'updated_at',
     ];
 
     public function a2() {

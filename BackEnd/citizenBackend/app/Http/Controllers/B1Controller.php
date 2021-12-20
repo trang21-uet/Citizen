@@ -32,7 +32,7 @@ class B1Controller extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        if($validator->validated()['endPermission'] > b1::where('tenTK', $request->user()->tenTK)->first()->endPermission
+        if($validator->validated()['endPermission'] > b1::where('tenTK', Auth::guard('b1')->user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
                 'error' => "Thời gian sai"
@@ -124,14 +124,14 @@ class B1Controller extends Controller
     Tra lai danh sach thong tin quanly
     */
     public function showAll(Request $request) {
-        return thongtin::where('B1', $request->user()->tenTK)->get();
+        return thongtin::where('B1', Auth::guard('b1')->user()->tenTK)->get();
     }
 
     /*
     Tra lai thong tin quanly chi dinh|| check xem thong tin co duoc goi boi dung nguoi ko
     */
     public function showOne(Request $request, thongtin $thongtin) {
-        if($thongtin->B1 == $request->user()->tenTK) {
+        if($thongtin->B1 == Auth::guard('b1')->user()->tenTK) {
             return $thongtin;
         }
         return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
@@ -162,7 +162,7 @@ class B1Controller extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = thongtin::create(array_merge($validator->validated(), ['B1' => $request->user()->tenTK]));
+        $user = thongtin::create(array_merge($validator->validated(), ['B1' => Auth::guard('b1')->user()->tenTK]));
         $user->save();
 
         return response()->json([
@@ -221,7 +221,7 @@ class B1Controller extends Controller
     Check xem co duoc phep chinh sua khong
     */
     public function checkQuyen(Request $request) {
-        $user = b1::where('tenTK',$request->user()->tenTK)->first();
+        $user = b1::where('tenTK',Auth::guard('b1')->user()->tenTK)->first();
         if($user->endPermission > date('Y-m-d H:i:s')) {
             return response()->json([
                 'error' => 'Bạn không có quyền thao tác'
@@ -230,7 +230,7 @@ class B1Controller extends Controller
     }
 
     public function danhSachAcc(Request $request) {
-        return b1::where('tenTK', $request->user()->tenTK)->first()->b2;
+        return b1::where('tenTK', Auth::guard('b1')->user()->tenTK)->first()->b2;
     }
 
     /*
@@ -245,7 +245,7 @@ class B1Controller extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        $user = b1::where('tenTK',$request->user()->tenTK)->first();
+        $user = b1::where('tenTK',Auth::guard('b1')->user()->tenTK)->first();
 
         $user->update($validator->validated());
         return response()->json(['message' => 'Đặt trạng thái thành công'], 200);
@@ -266,7 +266,7 @@ class B1Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return response()->json(auth()->user());
+        return response()->json(Auth::guard('b1')->user());
     }
 
     /*

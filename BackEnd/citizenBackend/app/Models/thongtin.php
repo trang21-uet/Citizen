@@ -4,15 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class thongtin extends Model
 {
 
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     
     protected $table = 'thongtin';
     protected $primaryKey = 'ID';
-    public $timestamps = false;
+    public $timestamps = true;
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $attributes = [
         'cccd' => null,
@@ -38,7 +40,11 @@ class thongtin extends Model
         'B1',
     ];
 
-    protected $hidden = [];
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at',
+    ];
 
     public function b1() {
         return this.belongsTo(b1::class,'tenTK', 'B1');

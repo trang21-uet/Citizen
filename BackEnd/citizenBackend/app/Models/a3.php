@@ -15,7 +15,8 @@ class a3 extends Authenticatable implements JWTSubject
     protected $primaryKey = 'maHuyen';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false;
+    public $timestamps = true;
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $attributes = [
     ];
@@ -34,6 +35,8 @@ class a3 extends Authenticatable implements JWTSubject
         'startPermission',
         'endPermission',
         'MK',
+        'created_at',
+        'updated_at',
     ];
 
     public function a2() {

@@ -31,7 +31,7 @@ class A3Controller extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        if($validator->validated()['endPermission'] > a3::where('tenTK', $request->user()->tenTK)->first()->endPermission
+        if($validator->validated()['endPermission'] > a3::where('tenTK', Auth::guard('a3')->user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
                 'error' => "Thời gian sai"
@@ -120,7 +120,7 @@ class A3Controller extends Controller
     }
 
     public function danhSachAcc(Request $request) {
-        return a3::where('tenTK', $request->user()->tenTK)->first()->b1;
+        return a3::where('tenTK', Auth::guard('a3')->user()->tenTK)->first()->b1;
     }
 
     /*
@@ -128,7 +128,7 @@ class A3Controller extends Controller
     */
     public function showAll(Request $request) {
         $list = b1::join('thongtin', 'thongtin.B1', '=', 'b1.tenTK')
-            ->where('b1.A3', $request->user()->tenTK)
+            ->where('b1.A3', Auth::guard('a3')->user()->tenTK)
             ->select('thongtin.*')
             ->get();
         return $list;
@@ -138,7 +138,7 @@ class A3Controller extends Controller
     Tra lai thong tin quanly chi dinh
     */
     public function showOne(Request $request, thongtin $thongtin) {
-        $users = b1::where('b1.A3', $request->user()->tenTK)
+        $users = b1::where('b1.A3', Auth::guard('a3')->user()->tenTK)
                     ->select('b1.tenTK')
                     ->get();
         
@@ -156,7 +156,7 @@ class A3Controller extends Controller
     Trả lại danh sách trạng thái cấp dưới
     */
     public function trangthai(Request $request) {
-        $users = b1::where('b1.A3', $request->user()->tenTK)
+        $users = b1::where('b1.A3', Auth::guard('a3')->user()->tenTK)
                     ->select('b1.*')
                     ->get();
         
