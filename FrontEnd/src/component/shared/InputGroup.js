@@ -8,7 +8,7 @@ const InputGroup = (props) => {
     setValue(event.target.value);
     props.onChange
       ? props.onChange()
-      : toggleBtn(props.formtype, checkInputs());
+      : toggleBtn(props.form + "-btn", checkInputs(props.form + "-form"));
   };
 
   return (

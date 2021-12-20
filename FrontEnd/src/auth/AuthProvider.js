@@ -24,6 +24,7 @@ const AuthProvider = (props) => {
     profile: "/profile",
     stat: "/statistic",
     manage: "/manage",
+    down: "/download",
   };
 
   let value = { login, logout, info, paths };
@@ -37,7 +38,7 @@ const useAuth = () => {
   return React.useContext(AuthContext);
 };
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = (props) => {
   const auth = useAuth();
   const location = useLocation();
 
@@ -45,7 +46,7 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  return <div className="bg-light bg-opacity-25">{children}</div>;
+  return <div className="bg-light bg-opacity-25">{props.children}</div>;
 };
 
 export { AuthProvider, ProtectedRoute, useAuth };

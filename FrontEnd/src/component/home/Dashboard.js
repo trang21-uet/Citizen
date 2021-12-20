@@ -8,6 +8,7 @@ const Dashboard = () => {
   const auth = useAuth();
   useEffect(() => {
     document.title = "Citizen - Trang chủ";
+    console.log(auth.info());
   });
   return (
     <div id="fadeslide" className="carousel slide carousel-fade" data-bs-ride="carousel">
