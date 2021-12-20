@@ -31,7 +31,7 @@ class A2Controller extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        if($validator->validated()['endPermission'] > a2::where('tenTK', $request->user()->tenTK)->first()->endPermission
+        if($validator->validated()['endPermission'] > a2::where('tenTK', Auth::guard('a2')->user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
                 'error' => "Thời gian sai"
@@ -118,7 +118,7 @@ class A2Controller extends Controller
     }
 
     public function danhSachAcc(Request $request) {
-        return a2::where('tenTK', $request->user()->tenTK)->first()->a3;
+        return a2::where('tenTK', Auth::guard('a2')->user()->tenTK)->first()->a3;
     }
 
     /*
@@ -127,7 +127,7 @@ class A2Controller extends Controller
     public function showAll(Request $request) {
         $list = a3::join('b1', 'a3.tenTK', '=', 'b1.A3')
             ->join('thongtin', 'thongtin.B1', '=', 'b1.tenTK')
-            ->where('a3.A2', $request->user()->tenTK)
+            ->where('a3.A2', Auth::guard('a2')->user()->tenTK)
             ->select('thongtin.*')
             ->get();
         return $list;
@@ -139,7 +139,7 @@ class A2Controller extends Controller
     */
     public function showOne(Request $request, thongtin $thongtin) {
         $users = a3::join('b1', 'a3.tenTK', '=', 'b1.A3')
-                    ->where('a3.A2', $request->user()->tenTK)
+                    ->where('a3.A2', Auth::guard('a2')->user()->tenTK)
                     ->select('b1.tenTK')
                     ->get();
         
@@ -157,7 +157,7 @@ class A2Controller extends Controller
     */
     public function trangthai(Request $request) {
         $users = a3::join('b1', 'a3.tenTK', '=', 'b1.A3')
-                    ->where('a3.A2', $request->user()->tenTK)
+                    ->where('a3.A2', Auth::guard('a2')->user()->tenTK)
                     ->select('a3.*', 'trangthai')
                     ->distinct()
                     ->get();

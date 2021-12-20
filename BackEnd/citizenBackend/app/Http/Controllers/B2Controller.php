@@ -24,14 +24,14 @@ class B2Controller extends Controller
     Tra lai danh sach thong tin quanly
     */
     public function showAll(Request $request) {
-        return thongtin::where('B2', $request->user()->tenTK)->get();
+        return thongtin::where('B2', Auth::guard('b2')->user()->tenTK)->get();
     }
 
     /*
     Tra lai thong tin quanly chi dinh|| check xem thong tin co duoc goi boi dung nguoi ko
     */
     public function showOne(Request $request, thongtin $thongtin) {
-        if($thongtin->B2 == $request->user()->tenTK) {
+        if($thongtin->B2 == Auth::guard('b2')->user()->tenTK) {
             return $thongtin;
         }
         return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
@@ -63,8 +63,8 @@ class B2Controller extends Controller
         }
 
         $user = thongtin::create(array_merge($validator->validated(), [
-            'B2' => $request->user()->tenTK,
-            'B1' => $request->user()->B1,
+            'B2' => Auth::guard('b2')->user()->tenTK,
+            'B1' => Auth::guard('b2')->user()->B1,
         ]));
         $user->save();
 
@@ -124,7 +124,7 @@ class B2Controller extends Controller
     Check xem co duoc phep chinh sua khong
     */
     public function checkQuyen(Request $request) {
-        $user = b2::where('tenTK',$request->user()->tenTK)->first();
+        $user = b2::where('tenTK',Auth::guard('b2')->user()->tenTK)->first();
         if($user->endPermission > date('Y-m-d H:i:s')) {
             return response()->json([
                 'error' => 'Bạn không có quyền thao tác'

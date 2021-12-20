@@ -108,7 +108,7 @@ class A1Controller extends Controller
 
     //Trả lại danh sách tài khoản quản lý
     public function danhSachAcc(Request $request) {
-        return a1::where('tenTK', $request->user()->tenTK)->first()->a2;
+        return a1::where('tenTK', Auth::guard('a1')->user()->tenTK)->first()->a2;
     }
 
     /*
@@ -118,7 +118,7 @@ class A1Controller extends Controller
         $list = a2::join('a3', 'a2.tenTK', '=', 'a3.A2')
             ->join('b1', 'a3.tenTK', '=', 'b1.A3')
             ->join('thongtin', 'thongtin.B1', '=', 'b1.tenTK')
-            ->where('a2.A1', $request->user()->tenTK)
+            ->where('a2.A1', Auth::guard('a1')->user()->tenTK)
             ->select('thongtin.*')
             ->get();
         return $list;
@@ -130,7 +130,7 @@ class A1Controller extends Controller
     public function showOne(Request $request, thongtin $thongtin) {
         $users = a2::join('a3', 'a2.tenTK', '=', 'a3.A2')
                     ->join('b1', 'a3.tenTK', '=', 'b1.A3')
-                    ->where('a2.A1', $request->user()->tenTK)
+                    ->where('a2.A1', Auth::guard('a1')->user()->tenTK)
                     ->select('b1.tenTK')
                     ->get();
         
@@ -149,7 +149,7 @@ class A1Controller extends Controller
     public function trangthai(Request $request) {
         $users = a2::join('a3', 'a2.tenTK', '=', 'a3.A2')
                     ->join('b1', 'a3.tenTK', '=', 'b1.A3')
-                    ->where('a2.A1', $request->user()->tenTK)
+                    ->where('a2.A1', Auth::guard('a1')->user()->tenTK)
                     ->select('a2.*', 'trangthai')
                     ->distinct()
                     ->get();
