@@ -257,7 +257,7 @@ class B1Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh() {
-        return $this->createNewToken(auth()->refresh());
+        return $this->createNewToken(Auth::guard('b1')->refresh());
     }
 
      /**

@@ -181,7 +181,7 @@ class A3Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh() {
-        return $this->createNewToken(auth()->refresh());
+        return $this->createNewToken(Auth::guard('a3')->refresh());
     }
 
      /**
@@ -190,7 +190,7 @@ class A3Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return response()->json(auth()->user());
+        return response()->json(Auth::guard('a3')->user());
     }
 
     /*

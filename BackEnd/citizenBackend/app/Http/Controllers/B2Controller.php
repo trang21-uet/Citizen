@@ -150,7 +150,7 @@ class B2Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh() {
-        return $this->createNewToken(auth()->refresh());
+        return $this->createNewToken(Auth::guard('b2')->refresh());
     }
 
      /**
@@ -159,6 +159,6 @@ class B2Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return response()->json(auth()->user());
+        return response()->json(Auth::guard('b2')->user());
     }
 }
