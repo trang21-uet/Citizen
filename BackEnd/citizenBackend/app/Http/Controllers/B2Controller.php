@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Validation\Rule;
+use App\Models\b1;
 use App\Models\b2;
 use App\Models\thongtin;
 
@@ -159,6 +160,12 @@ class B2Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return response()->json(Auth::guard('b2')->user());
+        
+        $user = Auth::guard('b2')->user();
+
+        return response()->json([
+            'userProfile' => $user,
+            'manager' => b1::where('tenTK', $user->B1)->first(),
+        ]);
     }
 }

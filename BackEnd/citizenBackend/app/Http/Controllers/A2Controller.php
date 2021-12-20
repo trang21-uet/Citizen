@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Validation\Rule;
+use App\Models\a1;
 use App\Models\a2;
 use App\Models\a3;
 
@@ -192,7 +193,13 @@ class A2Controller extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function userProfile() {
-        return response()->json(Auth::guard('a2')->user());
+
+        $user = Auth::guard('a2')->user();
+
+        return response()->json([
+            'userProfile' => $user,
+            'manager' => a1::where('tenTK', $user->A1)->first(),
+        ]);
     }
 
     /*

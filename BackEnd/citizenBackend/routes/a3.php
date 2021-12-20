@@ -16,7 +16,7 @@ Route::group([
     Route::post('/quyen',[A3Controller::class, 'setQuyen']);
     Route::get('/list', [A3Controller::class,'showAll']);
     Route::get('/list/{thongtin}', [A3Controller::class,'showOne']);
-    Route::get('/trangthai', [A1Controller::class, 'trangthai']);
+    Route::get('/trangthai', [A3Controller::class, 'trangthai']);
 
     Route::match(['get', 'post'], '/{slug}', function (Request $request) {
         return response()->json([
