@@ -15,7 +15,8 @@ class b2 extends Authenticatable implements JWTSubject
     protected $primaryKey = 'maThon';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false;
+    public $timestamps = true;
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $attributes = [
         
@@ -35,6 +36,8 @@ class b2 extends Authenticatable implements JWTSubject
         'startPermission',
         'endPermission',
         'MK',
+        'created_at',
+        'updated_at',
     ];
 
     public function b1() {
