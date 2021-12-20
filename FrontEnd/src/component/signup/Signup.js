@@ -14,10 +14,37 @@ const Signup = () => {
 
   useEffect(() => {
     document.title = "Citizen - Đăng ký";
-  });
+    const accBtn = document.getElementById("account-tab");
+    const accTab = document.getElementById("account");
+    const prsBtn = document.getElementById("person-tab");
+    const prsTab = document.getElementById("person");
+    switch (auth.info().type) {
+      case "a1":
+      case "a2":
+      case "a3":
+        accBtn.removeAttribute("disabled");
+        prsBtn.removeAttribute("aria-selected");
+        prsBtn.classList.remove("active");
+        prsTab.classList.remove("active", "show");
+        break;
+      case "b2":
+        prsBtn.removeAttribute("disabled");
+        accBtn.removeAttribute("aria-selected");
+        accBtn.classList.remove("active");
+        accTab.classList.remove("active", "show");
+        break;
+      default:
+        accBtn.removeAttribute("disabled");
+        prsBtn.removeAttribute("disabled");
+        prsBtn.removeAttribute("aria-selected");
+        prsBtn.classList.remove("active");
+        prsTab.classList.remove("active", "show");
+        break;
+    }
+  }, []);
 
   return (
-    <div className="container-fluid d-lg-flex justify-content-start bg-light bg-opacity-25 p-4">
+    <div className="bg-secondary bg-opacity-25 px-lg-5 px-3 py-4">
       <SignupForm child={child} />
     </div>
   );

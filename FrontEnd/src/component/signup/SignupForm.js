@@ -6,63 +6,60 @@ const SignupForm = (props) => {
   return (
     <>
       <ul className="nav nav-pills mb-3" id="form-tab" role="tablist">
-        <li className="nav-item" role="presentation">
-          <button
-            className="nav-link active"
-            id="account-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#account"
-            type="button"
-            role="tab"
-            aria-controls="account"
-            aria-selected="true"
-          >
-            Create
-          </button>
-        </li>
-        <li className="nav-item" role="presentation">
-          <button
-            className="nav-link"
-            id="person-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#person"
-            type="button"
-            role="tab"
-            aria-controls="person"
-            aria-selected="false"
-          >
-            Register
-          </button>
-        </li>
+        <TabLabel form="account">Cấp tài khoản mới</TabLabel>
+        <TabLabel form="person">Nhập thông tin người dân</TabLabel>
       </ul>
-
-      <div className="tab-content">
-        <div
-          className="tab-pane fade show active"
-          id="account"
-          role="tabpanel"
-          aria-labelledby="account-tab"
-        >
+      <br />
+      <div className="tab-content d-lg-flex justify-content-center">
+        <TabPane form="account">
           <AccountForm
             child={props.child}
             id={props.id}
             className={props.className}
           />
-        </div>
-        <div
-          className="tab-pane fade"
-          id="person"
-          role="tabpanel"
-          aria-labelledby="person-tab"
-        >
+        </TabPane>
+        <TabPane form="person">
           <PersonForm
             child={props.child}
             id={props.id}
             className={props.className}
           />
-        </div>
+        </TabPane>
       </div>
     </>
+  );
+};
+
+const TabLabel = ({ form, children }) => {
+  return (
+    <li className="nav-item" role="presentation">
+      <button
+        disabled
+        className="nav-link text-dark m-1 active"
+        id={form + "-tab"}
+        data-bs-toggle="pill"
+        data-bs-target={"#" + form}
+        type="button"
+        role="tab"
+        aria-controls={form}
+        aria-selected={true}
+      >
+        {children}
+      </button>
+    </li>
+  );
+};
+
+const TabPane = ({ children, form }) => {
+  return (
+    <div
+      className="tab-pane fade active show"
+      id={form}
+      role="tabpanel"
+      aria-labelledby={form + "-tab"}
+    >
+      {children}
+    </div>
   );
 };
 

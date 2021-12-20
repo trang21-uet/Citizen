@@ -59,7 +59,7 @@ const LoginForm = (props) => {
         label="Tài khoản"
         size="big"
         placeholder="Nhập tài khoản"
-        formtype="login"
+        form="login"
       ></InputGroup>
       <InputGroup
         type="password"
@@ -68,7 +68,7 @@ const LoginForm = (props) => {
         label="Mật khẩu"
         size="big"
         placeholder="Nhập mật khẩu"
-        formtype="login"
+        form="login"
       ></InputGroup>
       {error ? <Error status={error} /> : <></>}
       <button

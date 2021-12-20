@@ -27,9 +27,7 @@ const Layout = () => {
   return (
     <ProtectedRoute>
       <Header></Header>
-      <div className="">
-        <Outlet></Outlet>
-      </div>
+      <Outlet></Outlet>
     </ProtectedRoute>
   );
 };

@@ -8,6 +8,11 @@ a.logo-small {
   font-family: "Genshin", sans-serif;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  border: 2px solid #f00 !important;
+}
+
 .navbar {
   background-color: #00e3aa;
 }
@@ -17,7 +22,7 @@ a.logo-small {
 }
 
 .navbar-toggler:focus + #navmenu {
-  height: 184px;
+  height: 210px;
   width: 695px;
 }
 
@@ -42,6 +47,19 @@ a.logo-small {
   opacity: 0.8;
 }
 
+.nav-pills .nav-link {
+  border: 2px solid #228b22;
+  transition: 0.5s;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #00e3aa;
+}
+
+.nav-pills .nav-link:not(:disabled, .active):hover {
+  background-color: #def;
+}
+
 .error {
   height: 25vh;
 }
@@ -54,7 +72,7 @@ a.logo-small {
 }
 
 @media all and (max-width: 992px) {
-  .nav-item:hover a {
+  .navbar-nav .nav-item:hover a {
     border-radius: 0.25rem;
     box-shadow: -5px 0 5px 1px;
     cursor: pointer;
@@ -62,7 +80,7 @@ a.logo-small {
     animation-fill-mode: forwards;
   }
 
-  .nav-item:not(:hover) {
+  .navbar-nav .nav-item:not(:hover) {
     animation: slide-to-left 0.5s;
     animation-fill-mode: forwards;
     animation-direction: reverse;

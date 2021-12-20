@@ -22,7 +22,7 @@ const Table = ({ data, name }) => {
   }
 
   return (
-    <table className="table table-light table-bordered table-striped mt-3">
+    <table className="container table table-light table-bordered table-striped mt-3">
       <thead>
         <tr>{heads}</tr>
       </thead>

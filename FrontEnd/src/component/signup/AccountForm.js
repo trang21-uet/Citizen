@@ -12,6 +12,7 @@ const AccountForm = (props) => {
     a2: ["maHuyen", "tenHuyen", "MK"],
     a3: ["maXa", "tenXa", "MK"],
     b1: ["maThon", "tenThon", "MK"],
+    b2: ["", ""],
   };
 
   const names = {
@@ -24,12 +25,6 @@ const AccountForm = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    // const data = JSON.stringify({
-    //   maTinh: formData.get("tenTK").trim(),
-    //   tenTinh: formData.get("tenTinh").trim(),
-    //   MK: formData.get("MK").trim(),
-    //   [userType]: auth.info().user,
-    // });
     let data = {};
     fields[auth.info().type].forEach((element) => {
       data[element] = formData.get(element).trim();
