@@ -48,7 +48,7 @@ const LoginForm = (props) => {
     <form
       onSubmit={handleSubmit}
       className={props.className + " shadow bg-light p-3 rounded"}
-      id={props.id}
+      id="login-form"
       autoComplete="off"
     >
       <h1 className="mb-4">Đăng nhập</h1>

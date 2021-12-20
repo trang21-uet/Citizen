@@ -72,14 +72,14 @@ const AccountForm = (props) => {
         id="username"
         label="Tài khoản"
         placeholder="Nhập tài khoản"
-        formtype="account"
+        form="account"
       ></InputGroup>
       <InputGroup
         name={fields[auth.info().type][1]}
         id="province"
         label={"Tên " + names[auth.info().type]}
         placeholder={"Nhập tên " + names[auth.info().type]}
-        formtype="account"
+        form="account"
       ></InputGroup>
       <InputGroup
         type="password"
@@ -87,7 +87,7 @@ const AccountForm = (props) => {
         id="password"
         label="Mật khẩu"
         placeholder="Nhập mật khẩu"
-        formtype="account"
+        form="account"
         onChange={checkPass}
       ></InputGroup>
       <InputGroup
@@ -96,7 +96,7 @@ const AccountForm = (props) => {
         id="repassword"
         label="Nhập lại mật khẩu"
         placeholder="Nhập mật khẩu"
-        formtype="account"
+        form="account"
         onChange={checkPass}
       ></InputGroup>
       {error ? <Error status={error} /> : <></>}

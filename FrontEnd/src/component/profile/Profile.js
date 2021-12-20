@@ -5,7 +5,8 @@ import Error from "../shared/Error";
 
 const Profile = () => {
   const name = {
-    id: "ID",
+    ID: "ID",
+    tenTK: "Tên tài khoản",
   };
   const auth = useAuth();
   const [data, setData] = useState();
@@ -24,16 +25,16 @@ const Profile = () => {
         if (data.message) {
           throw data.message;
         } else {
-          setData(data);
+          setData([data]);
         }
       })
       .catch((error) => setError(error));
   };
-  console.log(data);
 
   useEffect(() => {
     request();
   }, []);
+
   return data ? <Table name={name} data={data} /> : <Error status={error} />;
 };
 

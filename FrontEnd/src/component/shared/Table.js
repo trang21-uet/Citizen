@@ -12,6 +12,7 @@ const Table = ({ data, name }) => {
         </th>
       );
   }
+  console.log(heads);
 
   for (let key in data) {
     let cells = [];
