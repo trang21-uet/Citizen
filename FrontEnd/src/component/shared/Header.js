@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
-import "../../assets/pdf/PDT.pdf";
+
 const Header = () => {
   return (
-    <nav className="navbar navbar-expand-lg py-0">
+    <nav className="navbar navbar-expand-lg py-0 navbar-fixed-top">
       <div className="container">
         <Link to="/" className="navbar-brand logo-small text-dark">
           citizen
@@ -38,7 +38,8 @@ const Navbar = (props) => {
         <NavItem className="bi bi-graph-up-arrow" to={paths.stat}>
           Dữ liệu dân số
         </NavItem>
-        <NavItem className="bi bi-download" to={paths.down}>
+        <NavItem className="bi bi-file-earmark" to={paths.down}>
+          
           Mẫu Phiếu
         </NavItem>
         <SignOut className="bi bi-box-arrow-right"></SignOut>
