@@ -27,15 +27,12 @@ class b2 extends Authenticatable implements JWTSubject
         'maThon',
         'startPermission',
         'endPermission',
-        'tenTK',
-        'MK',
         'B1',
     ];
 
     protected $hidden = [
         'startPermission',
         'endPermission',
-        'MK',
         'created_at',
         'updated_at',
     ];

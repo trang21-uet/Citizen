@@ -18,10 +18,20 @@ class A3Controller extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('jwt.verify:a3');
+        $this->middleware('jwt.verify');
     }
 
+    /**
+     * Cập nhật quyền thao tác cho cấp dưới
+     */
     public function setQuyen(Request $request) {
+
+        if ($request->user()->role != 'A3') {
+            return response()->json([
+                'error' => 'You don\'t have permission',
+            ], 404);
+        }
+
         $validator = Validator::make($request->all(), [
             'startPermission' => 'required|date_format:Y-m-d H:i:s',
             'endPermission' => 'required|date_format:Y-m-d H:i:s',
@@ -32,14 +42,14 @@ class A3Controller extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
-        if($validator->validated()['endPermission'] > a3::where('tenTK', Auth::guard('a3')->user()->tenTK)->first()->endPermission
+        if($validator->validated()['endPermission'] > a3::where('maHuyen', Auth::user()->tenTK)->first()->endPermission
         ||$validator->validated()['endPermission'] < date('Y-m-d H:i:s')) {
             return response()->json([
                 'error' => "Thời gian sai"
             ], 400);
         }
 
-        $user = b1::where('tenTK', $validator->validated()['B1'])->first();
+        $user = b1::where('maXa', $validator->validated()['B1'])->first();
         
         if($user == null) {
             return response()->json([
@@ -58,106 +68,29 @@ class A3Controller extends Controller
         ], 201);
     }
 
-    /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'maXa' => 'required|string',
-            'tenXa' => 'required|string',
-            'MK' => 'required|string|min:8',
-        ]);
+    public function danhSachAcc(Request $request) {
 
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-
-        if(strlen($validator->validated()['maXa']) != 2){
+        if ($request->user()->role != 'A3') {
             return response()->json([
-                'error' => 'Sai định dạng tài khoản cấp dưới'
-            ], 400);
-        }
-
-        $maXa = Auth::guard('a3')->user()->tenTK. $validator->validated()['maXa'];
-
-        $user = b1::where('tenTK', $maXa)->first();
-        
-        if(!$user == null) {
-            return response()->json([
-                'error' => 'Tài khoản đã tồn tại'
+                'error' => 'You don\'t have permission',
             ], 404);
         }
 
-        $user = b1::create([
-            'maXa' => $maXa,
-            'tenXa' => $validator->validated()['tenXa'],
-            'tenTK' => $maXa,
-            'A3' => Auth::guard('a3')->user()->tenTK,
-            'MK' => bcrypt($validator->validated()['MK']),
-        ]);
-        
-        $user->save();
-        
-        return response()->json([
-            'message' => 'Cấp tài khoản thành công',
-            'user' => $maXa,
-            'password' => $request->MK,
-            'type' => 'b1',
-        ], 201);
-    }
-
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout() {
-
-        Auth::guard('a3')->logout();
-
-        return response()->json(['message' => 'User successfully signed out'], 200);
-    }
-
-    public function danhSachAcc(Request $request) {
-        return a3::where('tenTK', Auth::guard('a3')->user()->tenTK)->first()->b1;
-    }
+        return b1::where('A3', Auth::user()->tenTK)->get();
+    }    
 
     /*
-    Tra lai danh sach thong tin quanly
-    */
-    public function showAll(Request $request) {
-        $list = b1::join('thongtin', 'thongtin.B1', '=', 'b1.tenTK')
-            ->where('b1.A3', Auth::guard('a3')->user()->tenTK)
-            ->select('thongtin.*')
-            ->get();
-        return $list;
-    }
-
-    /*
-    Tra lai thong tin quanly chi dinh
-    */
-    public function showOne(Request $request, thongtin $thongtin) {
-        $users = b1::where('b1.A3', Auth::guard('a3')->user()->tenTK)
-                    ->select('b1.tenTK')
-                    ->get();
-        
-        foreach ($users as $user) {
-            if($thongtin->B1 == $user->tenTK) {
-                return $thongtin;
-            }
-        }
-
-        return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
-    }
-    
-
-    /*
-    Trả lại danh sách trạng thái cấp dưới
+    Trả lại danh sách trạng thái tiến độ hoàn thành công việc
     */
     public function trangthai(Request $request) {
-        $users = b1::where('b1.A3', Auth::guard('a3')->user()->tenTK)
+        
+        if ($request->user()->role != 'A3') {
+            return response()->json([
+                'error' => 'You don\'t have permission',
+            ], 404);
+        }
+        
+        $users = b1::where('b1.A3', Auth::user()->tenTK)
                     ->select('b1.*')
                     ->get();
         
@@ -176,60 +109,4 @@ class A3Controller extends Controller
         return $users;
     }
 
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh() {
-        return $this->createNewToken(Auth::guard('a3')->refresh());
-    }
-
-     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function userProfile() {
-        
-        $user = Auth::guard('a3')->user();
-
-        return response()->json([
-            'userProfile' => $user,
-            'manager' => a2::where('tenTK', $user->A2)->first(),
-        ]);
-    }
-
-    /*
-    Thay đổi mật khẩu cho cấp dưới
-    */
-    public function changePassWord(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'MK' => 'required|string|min:8',
-            'B1' => 'required|string',
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
-        }
-
-        //check A3 có tồn tại ko
-        $user = b1::where('tenTK', $validator->validated()['B1'])->first();
-
-        if($user == null) {
-            return response()->json([
-                'error' => 'Sai B1',
-            ],404);
-        }
-
-        $user->update([
-            'MK' => bcrypt($validator->validated()['MK']),
-        ]);
-
-        return response()->json([
-            'message' => 'Cấp lại mật khẩu thành công',
-            'user' => $user->tenTK,
-            'MK' => $validator->validated()['MK'],
-        ], 201);
-    }
 }

@@ -26,8 +26,6 @@ class b1 extends Authenticatable implements JWTSubject
         'maXa',
         'startPermission',
         'endPermission',
-        'tenTK',
-        'MK',
         'A3',
         'trangThai',
     ];
@@ -35,7 +33,6 @@ class b1 extends Authenticatable implements JWTSubject
     protected $hidden = [
         'startPermission',
         'endPermission',
-        'MK',
         'created_at',
         'updated_at',
     ];

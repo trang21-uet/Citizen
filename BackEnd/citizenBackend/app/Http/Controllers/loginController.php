@@ -5,11 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Validator;
-use App\Models\a1;
-use App\Models\a2;
-use App\Models\a3;
-use App\Models\b1;
-use App\Models\b2;
+use App\Models\user;
 use Illuminate\Support\Facades\Auth;
 
 class loginController extends Controller
@@ -28,27 +24,11 @@ class loginController extends Controller
             return response()->json($validator->errors(), 422);
         }
         $user = $validator->validated();
-        if (strlen($request->tenTK) == '2') {
-            if ($token = Auth::guard('a2')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
-                return $this->createNewToken($token, 'a2');
-            }
-        } else if (strlen($request->tenTK) == '4') {
-            if ($token = Auth::guard('a3')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
-                return $this->createNewToken($token, 'a3');
-            }
-        } else if (strlen($request->tenTK) == '6') {
-            if ($token = Auth::guard('b1')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
-                return $this->createNewToken($token, 'b1');
-            }
-        } else if (strlen($request->tenTK) == '8') {
-            if ($token = Auth::guard('b2')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
-                return $this->createNewToken($token, 'b2');
-            }
-        } else {
-            if ($token = Auth::guard('a1')->attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
-                return $this->createNewToken($token, 'a1');
-            }
+        
+        if ($token = Auth::attempt(['tenTK' => $user['tenTK'], 'password' => $user['MK']])) {
+            return $this->createNewToken($token);
         }
+
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
@@ -59,13 +39,13 @@ class loginController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function createNewToken($token, $type){
+    protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => Auth::factory()->getTTL() * 60,
-            'user' => Auth::guard($type)->user()->tenTK,
-            'type' => $type
+            'user' => Auth::user()->tenTK,
+            'type' => Auth::user()->role,
         ]);
     }
 }

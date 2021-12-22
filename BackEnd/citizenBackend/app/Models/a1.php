@@ -13,17 +13,19 @@ class a1 extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable;
 
     protected $table = 'a1';
-    protected $primaryKey = 'ID';
+    protected $primaryKey = 'maTongCuc';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
 
     protected $fillable = [
-        'tenTK',
-        'MK'
+        'maTongCuc',
+        'created_at',
+        'updated_at',
     ];
 
     protected $hidden = [
-        'MK',
         'created_at',
         'updated_at',
     ];

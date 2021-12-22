@@ -26,15 +26,12 @@ class a3 extends Authenticatable implements JWTSubject
         'maHuyen',
         'startPermission',
         'endPermission',
-        'tenTK',
-        'MK',
         'A2'
     ];
 
     protected $hidden = [
         'startPermission',
         'endPermission',
-        'MK',
         'created_at',
         'updated_at',
     ];
