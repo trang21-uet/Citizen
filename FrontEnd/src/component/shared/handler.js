@@ -1,5 +1,5 @@
 const checkInputs = (id) => {
-  const inputs = document.querySelectorAll("#" + id + "input");
+  const inputs = document.querySelectorAll("#" + id + " input");
   for (let input of inputs) {
     if (!input.value) {
       return false;

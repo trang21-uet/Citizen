@@ -24,7 +24,6 @@ const AuthProvider = (props) => {
     profile: "/profile",
     stat: "/statistic",
     manage: "/manage",
-    down: "/download",
   };
 
   let value = { login, logout, info, paths };

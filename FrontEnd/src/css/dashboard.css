@@ -8,26 +8,37 @@ a.logo-small {
   font-family: "Genshin", sans-serif;
 }
 
-button:disabled {
-  cursor: not-allowed;
-  border: 2px solid #f00 !important;
-}
-
 .navbar {
   background-color: #00e3aa;
 }
 
-.navbar-toggler-icon {
-  background-image: url(../assets/img/menu.png);
+input[type="search"] {
+  width: 400px;
+  z-index: 3;
 }
 
-.navbar-toggler:focus + #navmenu {
-  height: 210px;
-  width: 695px;
+.search-info {
+  background-color: #fff;
+  width: 400px;
+  transform: translateY(-5px);
+  z-index: 2;
 }
 
-.navbar-toggler:not(:focus) + #navmenu {
-  transition-delay: 0.5s;
+.search-result {
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.search-result * {
+  cursor: pointer;
+}
+
+.search-box:not(:focus-within) .search-info {
+  display: none;
+}
+
+.search-result:hover {
+  background-color: #90ee90;
 }
 
 #account-btn,
@@ -47,6 +58,10 @@ button:disabled {
   opacity: 0.8;
 }
 
+.stat tbody tr {
+  cursor: pointer;
+}
+
 .nav-pills .nav-link {
   border: 2px solid #228b22;
   transition: 0.5s;
@@ -54,6 +69,11 @@ button:disabled {
 
 .nav-pills .nav-link.active {
   background-color: #00e3aa;
+}
+
+.nav-pills button:disabled {
+  cursor: not-allowed;
+  border: 2px solid #f00 !important;
 }
 
 .nav-pills .nav-link:not(:disabled, .active):hover {
@@ -65,9 +85,12 @@ button:disabled {
 }
 
 @media all and (min-width: 992px) {
-  #account-form,
-  #person-form {
+  #account-form {
     width: 500px;
+  }
+
+  #person-form {
+    width: 1000px;
   }
 }
 
@@ -80,16 +103,33 @@ button:disabled {
     animation-fill-mode: forwards;
   }
 
+  .navbar-toggler-icon {
+    background-image: url(../assets/img/menu.png);
+    transition: 0.25s;
+  }
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+
+  .navbar-toggler.clicked .navbar-toggler-icon {
+    background-image: url(../assets/img/close.svg);
+  }
+
+  #navmenu {
+    max-height: 0px;
+    transition: max-height 0.5s;
+    overflow-y: hidden;
+  }
+
+  #navmenu.show {
+    max-height: 305px;
+    transition: max-height 0.5s;
+  }
+
   .navbar-nav .nav-item:not(:hover) {
     animation: slide-to-left 0.5s;
     animation-fill-mode: forwards;
     animation-direction: reverse;
-  }
-
-  #navmenu {
-    height: 0px;
-    transition: 0.5s;
-    overflow-y: hidden;
   }
 }
 

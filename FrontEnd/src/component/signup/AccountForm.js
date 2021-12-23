@@ -17,8 +17,8 @@ const AccountForm = (props) => {
 
   const names = {
     a1: "tỉnh/thành phố",
-    a2: "quận/huyện/",
-    a3: "phương/xã/",
+    a2: "quận/huyện",
+    a3: "phường/xã",
     b1: "thôn/bản",
   };
 
@@ -42,10 +42,13 @@ const AccountForm = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        alert(data.message);
+        if (data.error) {
+          throw data.error;
+        }
       })
-      .catch((error) => setError(error));
+      .catch((error) => {
+        setError(error);
+      });
   };
 
   const checkPass = () => {
@@ -53,6 +56,9 @@ const AccountForm = (props) => {
     const repass = document.getElementById("repassword").value;
     if (pass !== repass) {
       setError("Passwords not match");
+      toggleBtn("account-btn", false);
+    } else if (pass.length < 8) {
+      setError("Password too short");
       toggleBtn("account-btn", false);
     } else {
       setError(null);

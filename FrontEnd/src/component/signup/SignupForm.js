@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AccountForm from "./AccountForm";
 import PersonForm from "./PersonForm";
 
@@ -9,7 +9,6 @@ const SignupForm = (props) => {
         <TabLabel form="account">Cấp tài khoản mới</TabLabel>
         <TabLabel form="person">Nhập thông tin người dân</TabLabel>
       </ul>
-      <br />
       <div className="tab-content d-lg-flex justify-content-center">
         <TabPane form="account">
           <AccountForm

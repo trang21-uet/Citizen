@@ -35,7 +35,10 @@ const PersonForm = (props) => {
         console.log(data);
         alert(data.message);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        alert(error);
+        console.log(error);
+      });
   };
   return (
     <form
@@ -45,92 +48,144 @@ const PersonForm = (props) => {
       autoComplete="off"
     >
       <h3 className="mb-4">Nhập thông tin người dân</h3>
-      <InputGroup
-        name="ho"
-        id="fname"
-        label="Họ"
-        placeholder="Nguyễn"
-        form="person"
-      />
-      <InputGroup
-        name="ten"
-        id="lname"
-        label="Tên"
-        placeholder="Xuân Trang"
-        form="person"
-      />
-      <InputGroup
-        name="cccd"
-        id="id"
-        label="Chứng minh thư/ Căn cước công dân/ Hộ chiếu"
-        placeholder="123456789"
-        form="person"
-      />
-      <InputGroup
-        name="gioiTinh"
-        id="sex"
-        label="Giới tính"
-        placeholder="Nam"
-        form="person"
-      />
-      <InputGroup
-        name="ngaySinh"
-        id="dob"
-        label="Ngày sinh"
-        placeholder="2001-12-31"
-        form="person"
-      />
-      <InputGroup
-        name="queQuan"
-        id="que"
-        label="Quê quán"
-        placeholder="Hà Nội"
-        form="person"
-      />
-      <InputGroup
-        name="thuongTru"
-        id="thuong"
-        label="Thường trú"
-        placeholder="Hà Nội"
-        form="person"
-      />
-      <InputGroup
-        name="tamTru"
-        id="tam"
-        label="Tạm trú"
-        placeholder="Hà Nội"
-        form="person"
-      />
-      <InputGroup
-        name="tonGiao"
-        id="religion"
-        label="Tôn giáo"
-        placeholder="Không"
-        form="person"
-      />
-      <InputGroup
-        name="trinhDoVanHoa"
-        id="level"
-        label="Trình độ văn hoá"
-        placeholder="12/12"
-        form="person"
-      />
-      <InputGroup
-        name="ngheNghiep"
-        id="job"
-        label="Nghề nghiệp"
-        placeholder="Sinh viên"
-        form="person"
-      />
+
+      <div className="d-flex flex-column">
+        <div className="row">
+          <InputGroup
+            className="col-sm-4"
+            name="ho"
+            id="fname"
+            label="Họ"
+            placeholder="Họ"
+            form="person"
+          />
+          <InputGroup
+            className="col-sm-5"
+            name="ten"
+            id="lname"
+            label="Tên"
+            placeholder="Tên"
+            form="person"
+          />
+          <Radio id="sex"></Radio>
+        </div>
+        {/* <InputGroup
+          name="gioiTinh"
+          id="sex"
+          label="Giới tính"
+          placeholder="Nam"
+          form="person"
+        /> */}
+        <div className="row">
+          <InputGroup
+            className="col-sm"
+            name="cccd"
+            id="id"
+            label="CMT/ CCCD"
+            placeholder="123456789"
+            form="person"
+          />
+          <InputGroup
+            className="col-sm"
+            name="ngaySinh"
+            type="date"
+            id="dob"
+            label="Ngày sinh"
+            placeholder="2001-12-31"
+            form="person"
+          />
+        </div>
+        <InputGroup
+          name="queQuan"
+          id="que"
+          label="Quê quán"
+          placeholder="Hà Nội"
+          form="person"
+        />
+        <InputGroup
+          name="thuongTru"
+          id="thuong"
+          label="Thường trú"
+          placeholder="Hà Nội"
+          form="person"
+        />
+        <InputGroup
+          name="tamTru"
+          id="tam"
+          label="Tạm trú"
+          placeholder="Hà Nội"
+          form="person"
+        />
+        <div className="row">
+          <InputGroup
+            className="col-sm"
+            name="tonGiao"
+            id="religion"
+            label="Tôn giáo"
+            placeholder="Không"
+            form="person"
+          />
+          <InputGroup
+            className="col-sm"
+            name="trinhDoVanHoa"
+            id="level"
+            label="Trình độ văn hoá"
+            placeholder="12/12"
+            form="person"
+          />
+          <InputGroup
+            className="col-sm"
+            name="ngheNghiep"
+            id="job"
+            label="Nghề nghiệp"
+            placeholder="Sinh viên"
+            form="person"
+          />
+        </div>
+      </div>
 
       <button
         id="person-btn"
         type="submit"
         className="btn shadow rounded w-100 fs-5 py-3"
+        disabled
       >
         Đăng ký
       </button>
     </form>
+  );
+};
+
+const Radio = (props) => {
+  return (
+    <div className={props.className + " col-sm"}>
+      <label className="d-block form-label fs-5">Giới tính</label>
+      <div className="form-check form-check-inline pt-2">
+        <input
+          className="form-check-input"
+          type="radio"
+          name="gioiTinh"
+          id="male"
+          value="Nam"
+          defaultChecked
+        />
+        <label htmlFor="male" className="form-check-label">
+          Nam
+        </label>
+      </div>
+      <div className="form-check form-check-inline pt-2 mb-4">
+        <input
+          className="form-check-input"
+          type="radio"
+          name="gioiTinh"
+          id="female"
+          value="Nữ"
+        />
+        <label htmlFor="female" className="form-check-label">
+          Nữ
+        </label>
+      </div>
+    </div>
   );
 };
 

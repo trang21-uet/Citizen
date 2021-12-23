@@ -16,27 +16,22 @@ const Dashboard = () => {
       data-bs-ride="carousel"
     >
       <div className="carousel-inner">
-        <div className="carousel-item active">
-          <img src={img1} className="img-fluid w-100 " alt="#" />
-          <div className="carousel-caption d-none d-md-block text-dark">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
-          </div>
-        </div>
-        <div className="carousel-item">
-          <img src={img2} className="img-fluid w-100  " alt="#" />
-          <div className="carousel-caption d-none d-md-block text-dark">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
-          </div>
-        </div>
-        <div className="carousel-item ">
-          <img src={img3} className="img-fluid w-100 " alt="#" />
-          <div className="carousel-caption d-none d-md-block text-dark">
-            <h5>First slide label</h5>
-            <p>Some representative placeholder content for the first slide.</p>
-          </div>
-        </div>
+        <SlideItem
+          className="active"
+          src={img1}
+          label="Citizen"
+          desc="Hệ thống điều tra dân số"
+        />
+        <SlideItem
+          src={img2}
+          label="React"
+          desc="A JavaScript library for building user interfaces"
+        />
+        <SlideItem
+          src={img3}
+          label="Laravel"
+          desc="The PHP Framework for Web Artisans"
+        />
       </div>
       <button
         className="carousel-control-prev"
@@ -44,7 +39,10 @@ const Dashboard = () => {
         data-bs-target="#fadeslide"
         data-bs-slide="prev"
       >
-        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span
+          className="bi bi-chevron-left text-dark h1 fw-bold"
+          aria-hidden="true"
+        ></span>
         <span className="visually-hidden">Previous</span>
       </button>
       <button
@@ -53,9 +51,24 @@ const Dashboard = () => {
         data-bs-target="#fadeslide"
         data-bs-slide="next"
       >
-        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+        <span
+          className="bi bi-chevron-right text-dark h1 fw-bold"
+          aria-hidden="true"
+        ></span>
         <span className="visually-hidden">Next</span>
       </button>
+    </div>
+  );
+};
+
+const SlideItem = ({ className, src, label, desc }) => {
+  return (
+    <div className={"carousel-item " + className}>
+      <img src={src} className="img-fluid w-100 " alt="#" />
+      <div className="carousel-caption d-none d-md-block text-dark">
+        <p className="gi h2">{label}</p>
+        <p className="gi h5">{desc}</p>
+      </div>
     </div>
   );
 };

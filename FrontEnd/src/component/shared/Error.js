@@ -13,15 +13,26 @@ const Error = ({ status }) => {
       {status === "Passwords not match" && (
         <p className="text-danger fw-bold">Mật khẩu không trùng khớp!</p>
       )}
+      {status === "Password too short" && (
+        <p className="text-danger fw-bold">
+          Mật khẩu phải gồm ít nhất 8 ký tự!
+        </p>
+      )}
+      {status === "Tài khoản đã tồn tại" && (
+        <p className="text-danger fw-bold">Tài khoản đã tồn tại!</p>
+      )}
+      {status === "not found" && (
+        <p className="my-3">Không tìm thấy kết quả!</p>
+      )}
       {status === 404 && <NotFound />}
-      {status === "Không có gì cả T_T" && <NothingHere />}
+      {status === "nothing" && <NothingHere />}
     </>
   );
 };
 
 const NotFound = () => {
   return (
-    <div className="h-100 d-flex flex-column align-items-center justify-content-center">
+    <div className="vh-100 d-flex flex-column align-items-center justify-content-center">
       <h1 className="gi text-dark text-opacity-75">404 NOT FOUND</h1>
       <img src={notFound} className="error w-auto py-3" alt="Not Found" />
       <h3 className="gi text-dark text-opacity-50 px-3 text-center">
@@ -34,7 +45,7 @@ const NotFound = () => {
 const NothingHere = () => {
   return (
     <>
-      <div className="h-100 d-flex flex-column align-items-center justify-content-center">
+      <div className="vh-100 d-flex flex-column align-items-center justify-content-center">
         <h1 className="gi text-dark text-opacity-75">Nothing Here</h1>
         <img src={nothing} className="error w-auto py-3" alt="Not Found" />
         <h3 className="gi text-dark text-opacity-50 px-3 text-center">

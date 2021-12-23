@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
-import Table from "../shared/Table";
+import InfoGroup from "../shared/InfoGroup";
 import Error from "../shared/Error";
 
 const Profile = () => {
-  const name = {
-    ID: "ID",
-    tenTK: "Tên tài khoản",
-  };
   const auth = useAuth();
   const [data, setData] = useState();
   const [error, setError] = useState();
   const request = async () => {
-    document.title = "Citizen - Quản lý";
+    document.title = "Citizen - Thông tin tài khoản";
     await fetch("http://localhost:8000/" + auth.info().type + "/user", {
       method: "GET",
       headers: {
@@ -22,10 +18,11 @@ const Profile = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.message) {
-          throw data.message;
+        if (data.error) {
+          throw data.error;
         } else {
-          setData([data]);
+          data.type = auth.info().type;
+          setData(data);
         }
       })
       .catch((error) => setError(error));
@@ -35,7 +32,53 @@ const Profile = () => {
     request();
   }, []);
 
-  return data ? <Table name={name} data={data} /> : <Error status={error} />;
+  return data ? <ProfileInfo data={data} /> : <Error status={error} />;
+};
+
+const ProfileInfo = ({ data }) => {
+  const name = {
+    type: "Loại tài khoản",
+    tenTK: "Tên tài khoản",
+    tenTinh: "Tên tỉnh",
+    tenHuyen: "Tên huyện",
+    tenXa: "Tên xã",
+    tenThon: "Tên thôn",
+    quyen: "Quyền khai báo thông tin",
+  };
+  const parentName = {
+    tenTinh: "Trực thuộc tỉnh",
+    tenHuyen: "Trực thuộc huyện",
+    tenXa: "Trực thuộc xã",
+  };
+  let userInfo = [];
+  for (let key in data.userProfile) {
+    name[key] &&
+      userInfo.push(
+        <InfoGroup key={key} label={name[key]} value={data.userProfile[key]} />
+      );
+  }
+  for (let key in data.manager) {
+    parentName[key] &&
+      userInfo.push(
+        <InfoGroup
+          key={key + "-parent"}
+          label={parentName[key]}
+          value={data.manager[key]}
+        />
+      );
+  }
+  console.log(data);
+
+  return (
+    <div className="container mt-4">
+      <InfoGroup label="Loại tài khoản" value={data.type.toUpperCase()} />
+      {data.type !== "a1" ? (
+        userInfo
+      ) : (
+        <InfoGroup label="Cơ quan" value="Bộ Y tế" />
+      )}
+    </div>
+  );
 };
 
 export default Profile;

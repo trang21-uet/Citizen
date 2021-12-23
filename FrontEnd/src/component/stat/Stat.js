@@ -6,20 +6,15 @@ import Error from "../shared/Error";
 const Stat = () => {
   const name = {
     ID: "STT",
-    cccd: "CCCD",
     ho: "Họ",
     ten: "Tên",
+    cccd: "CCCD",
     ngaySinh: "Ngày Sinh",
     gioiTinh: "Giới tính",
-    queQuan: "Quê quán",
-    thuongTru: "Thường trú",
-    tamTru: "Tạm trú",
-    tonGiao: "Tôn giáo",
-    trinhDoVanHoa: "Trình độ",
-    ngheNghiep: "Nghề nghiệp",
+    thuongTru: "Địa chỉ",
   };
   const auth = useAuth();
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const request = async () => {
@@ -32,13 +27,24 @@ const Stat = () => {
         },
       })
         .then((response) => response.json())
-        .then((data) => setData(data))
+        .then((data) => {
+          console.log(data);
+          setData(data);
+        })
         .catch((error) => console.log(error));
     };
     request();
   }, [auth]);
 
-  return <>{data ? <Table name={name} data={data} /> : <Error />}</>;
+  return (
+    <>
+      {data.length ? (
+        <Table name={name} data={data} clickable={true} />
+      ) : (
+        <Error status="nothing" />
+      )}
+    </>
+  );
 };
 
 export default Stat;

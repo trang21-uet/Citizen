@@ -12,7 +12,7 @@ const InputGroup = (props) => {
   };
 
   return (
-    <div className="mb-4">
+    <div className={props.className + " mb-4"}>
       <label
         htmlFor={props.name}
         className={"form-label " + (props.size === "big" ? "fs-4" : "fs-5")}
@@ -21,7 +21,7 @@ const InputGroup = (props) => {
       </label>
       <input
         className={
-          "form-control" + (props.size === "big" ? " p-3 fs-5" : " px-3 py-2")
+          " form-control" + (props.size === "big" ? " p-3 fs-5" : " px-3 py-2")
         }
         type={props.type ? props.type : "text"}
         name={props.name}

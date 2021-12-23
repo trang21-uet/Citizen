@@ -27,7 +27,12 @@ const LoginForm = (props) => {
       },
       body: data,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status !== 200) {
+          throw response.status;
+        }
+        return response.json();
+      })
       .then((data) => {
         auth.login(() => {
           sessionStorage.setItem(

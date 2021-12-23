@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Models\a2;
 use App\Models\a3;
 use App\Models\b1;
+use App\Models\thongtin;
 
 class A3Controller extends Controller
 {

@@ -5,13 +5,18 @@ import Error from "../shared/Error";
 
 const Manage = () => {
   const name = {
-    maTinh: "ID",
-    tenTinh: "Tỉnh",
+    maTinh: "Tên tài khoản",
+    tenTinh: "Tên tỉnh",
+    maHuyen: "Tên tài khoản",
+    maXa: "Tên tài khoản",
+    maThon: "Tên tài khoản",
+    tenHuyen: "Tên huyện",
+    tenXa: "Tên xã",
+    tenThon: "Tên thôn",
     quyen: "Quyền khai báo",
   };
   const auth = useAuth();
-  const [data, setData] = useState();
-  const [error, setError] = useState();
+  const [data, setData] = useState([]);
   const request = async () => {
     document.title = "Citizen - Quản lý";
     await fetch("http://localhost:8000/" + auth.info().type + "/quanly", {
@@ -26,18 +31,24 @@ const Manage = () => {
         if (data.error) {
           throw data.error;
         } else {
+          console.log(data);
           setData(data);
         }
       })
-      .catch((error) => setError(error));
+      .catch((error) => console.log(error));
   };
-  console.log(data);
 
   useEffect(() => {
     request();
   }, [auth]);
   return (
-    <>{data ? <Table name={name} data={data} /> : <Error status={error} />}</>
+    <>
+      {data.length ? (
+        <Table name={name} data={data} />
+      ) : (
+        <Error status="nothing" />
+      )}
+    </>
   );
 };
 
