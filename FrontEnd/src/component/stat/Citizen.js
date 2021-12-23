@@ -9,7 +9,7 @@ const Citizen = () => {
   const [data, setData] = useState();
   const request = async () => {
     document.title = "Citizen - Thông tin người dân";
-    await fetch("http://localhost:8000/" + auth.info().type + "/list/" + id, {
+    await fetch("http://localhost:8000/api/list/" + id, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth.info().access_token,

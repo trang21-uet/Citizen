@@ -19,7 +19,7 @@ const Stat = () => {
   useEffect(() => {
     const request = async () => {
       document.title = "Citizen - Thông tin";
-      await fetch("http://localhost:8000/" + auth.info().type + "/list", {
+      await fetch("http://localhost:8000/api/list", {
         method: "GET",
         headers: {
           Authorization: "Bearer " + auth.info().access_token,

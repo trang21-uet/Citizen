@@ -8,18 +8,18 @@ const AccountForm = (props) => {
   const auth = useAuth();
   const [error, setError] = useState();
   const fields = {
-    a1: ["maTinh", "tenTinh", "MK"],
-    a2: ["maHuyen", "tenHuyen", "MK"],
-    a3: ["maXa", "tenXa", "MK"],
-    b1: ["maThon", "tenThon", "MK"],
-    b2: ["", ""],
+    A1: ["tenTK", "tenDonvi", "MK"],
+    A2: ["tenTK", "tenDonvi", "MK"],
+    A3: ["tenTK", "tenDonvi", "MK"],
+    B1: ["tenTK", "tenDonvi", "MK"],
+    B2: ["", ""],
   };
 
   const names = {
-    a1: "tỉnh/thành phố",
-    a2: "quận/huyện",
-    a3: "phường/xã",
-    b1: "thôn/bản",
+    A1: "tỉnh/thành phố",
+    A2: "quận/huyện",
+    A3: "phường/xã",
+    B1: "thôn/bản",
   };
 
   const handleSubmit = async (event) => {
@@ -31,7 +31,7 @@ const AccountForm = (props) => {
     });
     data[auth.info().type.toUpperCase()] = auth.info().user;
     console.log(data);
-    await fetch("http://localhost:8000/" + auth.info().type + "/register", {
+    await fetch("http://localhost:8000/api/register", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + auth.info().access_token,

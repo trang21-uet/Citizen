@@ -21,7 +21,7 @@ const PersonForm = (props) => {
       ngheNghiep: formData.get("ngheNghiep").trim(),
     });
 
-    await fetch("http://localhost:8000/" + auth.info().type + "/insert", {
+    await fetch("http://localhost:8000/api/insert", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + auth.info().access_token,

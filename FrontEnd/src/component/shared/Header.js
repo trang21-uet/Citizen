@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
-<<<<<<< Updated upstream
-=======
 import pdf from "../../assets/pdf/PDT.pdf";
 import Error from "./Error";
->>>>>>> Stashed changes
 
 const Header = () => {
   const click = () => {
@@ -51,18 +48,10 @@ const Navbar = (props) => {
         <NavItem className="bi bi-graph-up-arrow" to={auth.paths.stat}>
           Dữ liệu dân số
         </NavItem>
-<<<<<<< Updated upstream
-        <NavItem className="bi bi-file-earmark" to={paths.down}>
-          
-          Mẫu Phiếu
-        </NavItem>
-        <SignOut className="bi bi-box-arrow-right"></SignOut>
-=======
         {["b1", "b2"].includes(auth.info().type) ? (
           <Download className="bi bi-download" />
         ) : null}
         <SignOut className="bi bi-box-arrow-right" />
->>>>>>> Stashed changes
       </ul>
     </div>
   );
@@ -81,9 +70,7 @@ const SearchBox = () => {
     setValue(event.target.value);
     const request = async () => {
       await fetch(
-        "http://localhost:8000/" +
-          auth.info().type +
-          "/list/" +
+        "http://localhost:8000/api/list/" +
           event.target.value,
         {
           method: "GET",
@@ -205,7 +192,7 @@ const SignOut = (props) => {
   const navigate = useNavigate();
   const logout = async (event) => {
     event.preventDefault();
-    await fetch("http://localhost:8000/" + auth.info().type + "/logout", {
+    await fetch("http://localhost:8000/api/logout", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth.info().access_token,

@@ -9,7 +9,7 @@ const Profile = () => {
   const [error, setError] = useState();
   const request = async () => {
     document.title = "Citizen - Thông tin tài khoản";
-    await fetch("http://localhost:8000/" + auth.info().type + "/user", {
+    await fetch("http://localhost:8000/api/user", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth.info().access_token,
@@ -72,7 +72,7 @@ const ProfileInfo = ({ data }) => {
   return (
     <div className="container mt-4">
       <InfoGroup label="Loại tài khoản" value={data.type.toUpperCase()} />
-      {data.type !== "a1" ? (
+      {data.type !== "A1" ? (
         userInfo
       ) : (
         <InfoGroup label="Cơ quan" value="Bộ Y tế" />
