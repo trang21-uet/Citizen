@@ -45,7 +45,7 @@ class thongtinController extends Controller
         } else if ($request->user()->role == 'A2') {
             $list = a3::join('b1', 'a3.maHuyen', '=', 'b1.A3')
                 ->join('thongtin', 'thongtin.B1', '=', 'b1.maXa')
-                ->where('a3.A2', Auth:user()->tenTK)
+                ->where('a3.A2', Auth::user()->tenTK)
                 ->select('thongtin.*')
                 ->get();
             return $list;
