@@ -4,7 +4,7 @@ import Table from "../shared/Table";
 import Error from "../shared/Error";
 
 const Stat = () => {
-  const name = {
+  const fields = {
     ID: "STT",
     ho: "Họ",
     ten: "Tên",
@@ -39,7 +39,7 @@ const Stat = () => {
   return (
     <>
       {data.length ? (
-        <Table name={name} data={data} clickable={true} />
+        <Table className="stat" fields={fields} data={data} clickable={true} />
       ) : (
         <Error status="nothing" />
       )}

@@ -7,14 +7,7 @@ import { useAuth } from "../../auth/AuthProvider";
 const AccountForm = (props) => {
   const auth = useAuth();
   const [error, setError] = useState();
-  const fields = {
-    A1: ["tenTK", "tenDonvi", "MK"],
-    A2: ["tenTK", "tenDonvi", "MK"],
-    A3: ["tenTK", "tenDonvi", "MK"],
-    B1: ["tenTK", "tenDonvi", "MK"],
-    B2: ["", ""],
-  };
-
+  const fields = ["tenTK", "tenDonvi", "MK"];
   const names = {
     A1: "tỉnh/thành phố",
     A2: "quận/huyện",
@@ -26,7 +19,7 @@ const AccountForm = (props) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     let data = {};
-    fields[auth.info().type].forEach((element) => {
+    fields.forEach((element) => {
       data[element] = formData.get(element).trim();
     });
     data[auth.info().type.toUpperCase()] = auth.info().user;
@@ -45,6 +38,7 @@ const AccountForm = (props) => {
         if (data.error) {
           throw data.error;
         }
+        alert(data.message);
       })
       .catch((error) => {
         setError(error);
@@ -74,14 +68,14 @@ const AccountForm = (props) => {
     >
       <h3 className="mb-4">Tạo tài khoản {props.child.toUpperCase()} mới</h3>
       <InputGroup
-        name={fields[auth.info().type][0]}
+        name={fields[0]}
         id="username"
         label="Tài khoản"
         placeholder="Nhập tài khoản"
         form="account"
       ></InputGroup>
       <InputGroup
-        name={fields[auth.info().type][1]}
+        name={fields[1]}
         id="province"
         label={"Tên " + names[auth.info().type]}
         placeholder={"Nhập tên " + names[auth.info().type]}
@@ -89,7 +83,7 @@ const AccountForm = (props) => {
       ></InputGroup>
       <InputGroup
         type="password"
-        name="MK"
+        name={fields[2]}
         id="password"
         label="Mật khẩu"
         placeholder="Nhập mật khẩu"
@@ -98,7 +92,7 @@ const AccountForm = (props) => {
       ></InputGroup>
       <InputGroup
         type="password"
-        name="MK"
+        name={fields[2]}
         id="repassword"
         label="Nhập lại mật khẩu"
         placeholder="Nhập mật khẩu"

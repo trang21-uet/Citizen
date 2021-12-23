@@ -36,7 +36,7 @@ const Profile = () => {
 };
 
 const ProfileInfo = ({ data }) => {
-  const name = {
+  const fields = {
     type: "Loại tài khoản",
     tenTK: "Tên tài khoản",
     tenTinh: "Tên tỉnh",
@@ -52,9 +52,13 @@ const ProfileInfo = ({ data }) => {
   };
   let userInfo = [];
   for (let key in data.userProfile) {
-    name[key] &&
+    fields[key] &&
       userInfo.push(
-        <InfoGroup key={key} label={name[key]} value={data.userProfile[key]} />
+        <InfoGroup
+          key={key}
+          label={fields[key]}
+          value={data.userProfile[key]}
+        />
       );
   }
   for (let key in data.manager) {
@@ -82,3 +86,4 @@ const ProfileInfo = ({ data }) => {
 };
 
 export default Profile;
+export { ProfileInfo };

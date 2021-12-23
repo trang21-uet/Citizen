@@ -10,20 +10,29 @@ const Error = ({ status }) => {
           Tên đăng nhập hoặc mật khẩu không đúng!
         </p>
       )}
+
       {status === "Passwords not match" && (
         <p className="text-danger fw-bold">Mật khẩu không trùng khớp!</p>
       )}
+
       {status === "Password too short" && (
         <p className="text-danger fw-bold">
           Mật khẩu phải gồm ít nhất 8 ký tự!
         </p>
       )}
+
       {status === "Tài khoản đã tồn tại" && (
         <p className="text-danger fw-bold">Tài khoản đã tồn tại!</p>
       )}
+
       {status === "not found" && (
         <p className="my-3">Không tìm thấy kết quả!</p>
       )}
+
+      {status === "invalid time" && (
+        <p className="text-danger fw-bold">Thời gian không hợp lệ</p>
+      )}
+
       {status === 404 && <NotFound />}
       {status === "nothing" && <NothingHere />}
     </>

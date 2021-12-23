@@ -62,6 +62,10 @@ input[type="search"] {
   cursor: pointer;
 }
 
+th {
+  vertical-align: middle;
+}
+
 .nav-pills .nav-link {
   border: 2px solid #228b22;
   transition: 0.5s;

@@ -1,16 +1,14 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
 
-const Table = ({ data, name, clickable }) => {
-  const need = Object.keys(name);
-  const navigate = useNavigate();
+const Table = ({ data, fields, clickable, className }) => {
+  const need = Object.keys(fields);
   let heads = [];
   let rows = [];
   for (let key in data[0]) {
     need.includes(key) &&
       heads.push(
         <th key={key} scope="col">
-          {name[key]}
+          {fields[key]}
         </th>
       );
   }
@@ -38,7 +36,12 @@ const Table = ({ data, name, clickable }) => {
   }
 
   return (
-    <table className="stat container table table-light table-bordered table-striped mt-3">
+    <table
+      className={
+        className +
+        " container table table-light table-bordered table-striped mt-3"
+      }
+    >
       <thead>
         <tr>{heads}</tr>
       </thead>
