@@ -33,114 +33,30 @@ const Navbar = (props) => {
   return (
     <div className="navbar-collapse" id={props.id}>
       <ul className="navbar-nav ms-auto">
-        <SearchBox />
         <NavItem className="bi bi-person-circle" to={auth.paths.profile}>
           Thông tin tài khoản
         </NavItem>
         <NavItem className="bi bi-person-plus-fill" to={auth.paths.signup}>
-          {["b1", "b2"].includes(type)
+          {["B1", "B2"].includes(type)
             ? "Nhập thông tin người dân"
             : "Cấp tài khoản mới"}
         </NavItem>
-        <NavItem className="bi bi-people-fill" to={auth.paths.manage}>
-          Quản lý tài khoản
-        </NavItem>
+        {type === "B2" ? (
+          <></>
+        ) : (
+          <NavItem className="bi bi-people-fill" to={auth.paths.manage}>
+            Quản lý tài khoản
+          </NavItem>
+        )}
         <NavItem className="bi bi-graph-up-arrow" to={auth.paths.stat}>
           Dữ liệu dân số
         </NavItem>
-        {["b1", "b2"].includes(auth.info().type) ? (
+        {["B1", "B2"].includes(auth.info().type) ? (
           <Download className="bi bi-download" />
         ) : null}
         <SignOut className="bi bi-box-arrow-right" />
       </ul>
     </div>
-  );
-};
-
-const SearchBox = () => {
-  const [value, setValue] = useState("");
-  const [data, setData] = useState([]);
-  const [error, setError] = useState();
-  const auth = useAuth();
-
-  const handleChange = (event) => {
-    document
-      .getElementsByClassName("search-info")[0]
-      .classList.remove("d-none");
-    setValue(event.target.value);
-    const request = async () => {
-      await fetch(
-        "http://localhost:8000/api/list/" +
-          event.target.value,
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + auth.info().access_token,
-            Accept: "application/json",
-          },
-        }
-      )
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            console.log(response.json());
-            throw "not found";
-          }
-        })
-        .then((data) => {
-          console.log(data);
-          setData([data]);
-        })
-        .catch((error) => setError(error));
-    };
-    if (event.target.value) {
-      request();
-    }
-  };
-
-  return (
-    <li className="d-flex mb-1 search-box justify-content-end position-relative">
-      <input
-        className="form-control shadow-none"
-        type="search"
-        id="searchbar"
-        onChange={handleChange}
-        value={value}
-        placeholder="Tìm kiếm..."
-        autoComplete="off"
-      />
-      <div
-        tabIndex={0}
-        className="search-info text-dark position-absolute top-100 border border-top-0 rounded-bottom end-0 text-center"
-      >
-        {data.length ? <SearchResult data={data} /> : <Error status={error} />}
-      </div>
-    </li>
-  );
-};
-
-const SearchResult = ({ data }) => {
-  let info = [];
-  for (let user of data) {
-    info.push(
-      <li
-        key={JSON.stringify(user)}
-        className="row search-result border-bottom py-3 m-0 gi"
-        onClick={() => {
-          window.open("/statistic/" + user.ID, "_blank");
-        }}
-      >
-        <label className="col-8">{user.ho.concat(" ", user.ten)}</label>
-        <label className="col">{"ID: " + user.ID}</label>
-      </li>
-    );
-  }
-  return (
-    <>
-      <div className="p-1">Kết quả tìm kiếm</div>
-      <ul className="p-0">{info}</ul>
-    </>
   );
 };
 

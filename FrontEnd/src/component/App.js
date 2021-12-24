@@ -10,6 +10,7 @@ import Stat from "./stat/Stat";
 import Signup from "./signup/Signup";
 import Citizen from "./stat/Citizen";
 import Error from "./shared/Error";
+import PersonForm from "./signup/PersonForm";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="" element={<Dashboard />} />
           <Route path="profile" element={<Profile />} />
           <Route path="register" element={<Signup />} />
+          <Route path="modify" element={<PersonForm method="PUT" />} />
           <Route path="manage" element={<Manage />} />
           <Route path="statistic" element={<Stat />}></Route>
           <Route path="statistic/:id" element={<Citizen />}></Route>

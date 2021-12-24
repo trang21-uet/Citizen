@@ -19,6 +19,7 @@ const SignupForm = (props) => {
         </TabPane>
         <TabPane form="person">
           <PersonForm
+            method="POST"
             child={props.child}
             id={props.id}
             className={props.className}

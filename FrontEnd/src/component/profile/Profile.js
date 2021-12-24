@@ -67,31 +67,34 @@ const ProfileInfo = ({ data }) => {
       );
   }
 
-  const start = new Date(data.userProfile.startPermission);
+  const now = new Date();
   const end = new Date(data.userProfile.endPermission);
   userInfo.push(
     <InfoGroup
       key="permission"
       label="Quyền khai báo thông tin"
-      value={start < end ? "Có" : "Không"}
+      value={now < end ? "Có" : "Không"}
     />
   );
 
-  for (const key in managerFields) {
-    data.manager[key] &&
-      userInfo.push(
-        <InfoGroup
-          key={key + "-manager"}
-          label={managerFields[key]}
-          value={data.manager[key]}
-        />
-      );
+  if (data.manager) {
+    for (const key in managerFields) {
+      data.manager[key] &&
+        userInfo.push(
+          <InfoGroup
+            key={key + "-manager"}
+            label={managerFields[key]}
+            value={data.manager[key]}
+          />
+        );
+    }
   }
 
   console.log(data);
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-5 p-3 rounded border">
+      <h2 className="gi mb-5">Thông tin tài khoản</h2>
       <InfoGroup label="Loại tài khoản" value={data.type.toUpperCase()} />
       {data.type !== "A1" ? (
         userInfo

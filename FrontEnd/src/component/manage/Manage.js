@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import InputGroup from "../shared/InputGroup";
+import Modal from "../shared/Modal";
 import Error from "../shared/Error";
 
 const Manage = () => {
@@ -92,12 +93,12 @@ const UsersTable = ({ data, fields }) => {
     cells.push(
       <td key="changePermission">
         <button
-          className="btn btn-link"
+          className="btn btn-link py-0"
           onClick={() => {
             setSelectedChild(data[key][name[auth.info().type]]);
           }}
           data-bs-toggle="modal"
-          data-bs-target="#set-permission-modal"
+          data-bs-target="#permission-modal"
         >
           Đặt quyền khai báo
         </button>
@@ -115,42 +116,9 @@ const UsersTable = ({ data, fields }) => {
         <tbody>{rows}</tbody>
       </table>
 
-      <div className="modal fade" id="set-permission-modal">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <p className="modal-title fs-5">Đặt lại thời gian khai báo</p>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <SetPermissionForm target={selectedChild} />
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Huỷ bỏ
-              </button>
-              <button
-                disabled
-                type="submit"
-                form="modal-form"
-                className="btn btn-success"
-                id="modal-btn"
-              >
-                Lưu lại
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Modal label="Đặt lại thời gian khai báo" id="permission-modal">
+        <SetPermissionForm target={selectedChild} />
+      </Modal>
     </div>
   );
 };
@@ -193,12 +161,16 @@ const SetPermissionForm = ({ target }) => {
         body: JSON.stringify(data),
       })
         .then((response) => response.json())
-        .then((data) => alert(data.message))
-        .catch((error) => console.log(error));
+        .then((data) => {
+          if (data.error) {
+            throw data.error;
+          }
+          alert(data.message);
+          document.querySelector("button[data-bs-dismiss='modal']").click();
+        })
+        .catch((error) => alert(error));
     }
   };
-
-  const handleChange = () => {};
 
   return (
     <form onSubmit={handleSubmit} className="row" id="modal-form">

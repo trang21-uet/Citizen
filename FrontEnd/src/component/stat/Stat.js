@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
-import Table from "../shared/Table";
 import Error from "../shared/Error";
 
 const Stat = () => {
   const fields = {
-    ID: "STT",
-    ho: "Họ",
-    ten: "Tên",
-    cccd: "CCCD",
+    cccd: "CMT/CCCD",
     ngaySinh: "Ngày Sinh",
     gioiTinh: "Giới tính",
     thuongTru: "Địa chỉ",
@@ -36,14 +32,70 @@ const Stat = () => {
     request();
   }, [auth]);
 
+  return data.length ? (
+    <div className="container">
+      <h2 className="my-4 gi">Thông tin người dân</h2>
+      <StatTable fields={fields} data={data} />
+      <p className="text-muted my-4">
+        (Bấm vào hàng của bảng để xem thông tin chi tiết).
+      </p>
+    </div>
+  ) : (
+    <Error status="nothing" />
+  );
+};
+
+const StatTable = ({ data, fields }) => {
+  const need = Object.keys(fields);
+  let heads = [];
+  heads.push(
+    <th key="stt" scope="col">
+      STT
+    </th>
+  );
+  heads.push(
+    <th key="fullName" scope="col">
+      Họ và tên
+    </th>
+  );
+  let rows = [];
+  for (let key in data[0]) {
+    need.includes(key) &&
+      heads.push(
+        <th key={key} scope="col">
+          {fields[key]}
+        </th>
+      );
+  }
+
+  for (const key in data) {
+    let cells = [];
+    cells.push(<td key="stt">{rows.length + 1}</td>);
+    cells.push(
+      <td key="fullName">{data[key].ho.concat(" ", data[key].ten)}</td>
+    );
+    for (const a in data[key]) {
+      need.includes(a) && cells.push(<td key={a}>{data[key][a]}</td>);
+    }
+    rows.push(
+      <tr
+        key={key}
+        onClick={() => {
+          window.open("/statistic/" + data[key].ID, "_blank");
+        }}
+      >
+        {cells}
+      </tr>
+    );
+  }
+
   return (
-    <>
-      {data.length ? (
-        <Table className="stat" fields={fields} data={data} clickable={true} />
-      ) : (
-        <Error status="nothing" />
-      )}
-    </>
+    <table className="stat table table-light table-bordered table-striped">
+      <thead>
+        <tr>{heads}</tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </table>
   );
 };
 

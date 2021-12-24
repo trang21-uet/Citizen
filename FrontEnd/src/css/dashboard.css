@@ -12,35 +12,6 @@ a.logo-small {
   background-color: #00e3aa;
 }
 
-input[type="search"] {
-  width: 400px;
-  z-index: 3;
-}
-
-.search-info {
-  background-color: #fff;
-  width: 400px;
-  transform: translateY(-5px);
-  z-index: 2;
-}
-
-.search-result {
-  transition: 0.5s;
-  cursor: pointer;
-}
-
-.search-result * {
-  cursor: pointer;
-}
-
-.search-box:not(:focus-within) .search-info {
-  display: none;
-}
-
-.search-result:hover {
-  background-color: #90ee90;
-}
-
 #account-btn,
 #person-btn {
   background-color: #00e3aa;

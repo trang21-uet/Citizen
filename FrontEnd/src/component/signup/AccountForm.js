@@ -39,6 +39,7 @@ const AccountForm = (props) => {
           throw data.error;
         }
         alert(data.message);
+        window.location.reload();
       })
       .catch((error) => {
         setError(error);

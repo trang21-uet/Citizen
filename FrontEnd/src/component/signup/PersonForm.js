@@ -4,21 +4,25 @@ import InputGroup from "../shared/InputGroup";
 
 const PersonForm = (props) => {
   const auth = useAuth();
+  const fields = [
+    "cccd",
+    "ho",
+    "ten",
+    "ngaySinh",
+    "gioiTinh",
+    "queQuan",
+    "thuongTru",
+    "tamTru",
+    "tonGiao",
+    "trinhDoVanHoa",
+    "ngheNghiep",
+  ];
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data = JSON.stringify({
-      cccd: formData.get("cccd").trim(),
-      ho: formData.get("ho").trim(),
-      ten: formData.get("ten").trim(),
-      ngaySinh: formData.get("ngaySinh").trim(),
-      gioiTinh: formData.get("gioiTinh").trim(),
-      queQuan: formData.get("queQuan").trim(),
-      thuongTru: formData.get("thuongTru").trim(),
-      tamTru: formData.get("tamTru").trim(),
-      tonGiao: formData.get("tonGiao").trim(),
-      trinhDoVanHoa: formData.get("trinhDoVanHoa").trim(),
-      ngheNghiep: formData.get("ngheNghiep").trim(),
+    let data = {};
+    fields.forEach((element) => {
+      data[element] = formData.get(element).trim();
     });
 
     await fetch("http://localhost:8000/api/insert", {
@@ -28,12 +32,13 @@ const PersonForm = (props) => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: data,
+      body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         alert(data.message);
+        window.location.reload();
       })
       .catch((error) => {
         alert(error);
@@ -69,13 +74,6 @@ const PersonForm = (props) => {
           />
           <Radio id="sex"></Radio>
         </div>
-        {/* <InputGroup
-          name="gioiTinh"
-          id="sex"
-          label="Giới tính"
-          placeholder="Nam"
-          form="person"
-        /> */}
         <div className="row">
           <InputGroup
             className="col-sm"
@@ -190,3 +188,4 @@ const Radio = (props) => {
 };
 
 export default PersonForm;
+export { Radio };
