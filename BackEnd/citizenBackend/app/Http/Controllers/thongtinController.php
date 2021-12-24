@@ -40,6 +40,7 @@ class thongtinController extends Controller
                 ->join('thongtin', 'thongtin.B1', '=', 'b1.maXa')
                 ->where('a2.A1', Auth::user()->tenTK)
                 ->select('thongtin.*')
+                ->whereNull('thongtin.deleted_at')
                 ->get();
             return $list;
         } else if ($request->user()->role == 'A2') {
@@ -47,18 +48,24 @@ class thongtinController extends Controller
                 ->join('thongtin', 'thongtin.B1', '=', 'b1.maXa')
                 ->where('a3.A2', Auth::user()->tenTK)
                 ->select('thongtin.*')
+                ->whereNull('thongtin.deleted_at')
                 ->get();
             return $list;
         } else if ($request->user()->role == 'A3') {
             $list = b1::join('thongtin', 'thongtin.B1', '=', 'b1.maXa')
                 ->where('b1.A3', Auth::user()->tenTK)
                 ->select('thongtin.*')
+                ->whereNull('thongtin.deleted_at')
                 ->get();
             return $list;
         } else if ($request->user()->role == 'B1') {
-            return thongtin::where('B1', Auth::user()->tenTK)->get();
+            return thongtin::where('B1', Auth::user()->tenTK)
+            ->whereNull('thongtin.deleted_at')
+            ->get();
         } else if ($request->user()->role == 'B2') {
-            return thongtin::where('B2', Auth::user()->tenTK)->get();
+            return thongtin::where('B2', Auth::user()->tenTK)
+            ->whereNull('thongtin.deleted_at')
+            ->get();
         }
     }
 
