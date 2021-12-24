@@ -38,21 +38,26 @@ const Profile = () => {
 const ProfileInfo = ({ data }) => {
   const fields = {
     type: "Loại tài khoản",
-    tenTK: "Tên tài khoản",
-    tenTinh: "Tên tỉnh",
-    tenHuyen: "Tên huyện",
-    tenXa: "Tên xã",
-    tenThon: "Tên thôn",
-    quyen: "Quyền khai báo thông tin",
+    maTinh: "Tên tài khoản",
+    maHuyen: "Tên tài khoản",
+    maXa: "Tên tài khoản",
+    maThon: "Tên tài khoản",
+    tenTinh: "Tên tỉnh/thành phố",
+    tenHuyen: "Tên quận/huyện",
+    tenXa: "Tên xã/phường",
+    tenThon: "Tên thôn/bản",
+    trangThai: "Trạng thái thu thập dữ liệu",
   };
-  const parentName = {
+  const managerFields = {
+    maTongCuc: "Trực thuộc",
     tenTinh: "Trực thuộc tỉnh",
     tenHuyen: "Trực thuộc huyện",
     tenXa: "Trực thuộc xã",
   };
+
   let userInfo = [];
-  for (let key in data.userProfile) {
-    fields[key] &&
+  for (const key in fields) {
+    data.userProfile[key] &&
       userInfo.push(
         <InfoGroup
           key={key}
@@ -61,16 +66,28 @@ const ProfileInfo = ({ data }) => {
         />
       );
   }
-  for (let key in data.manager) {
-    parentName[key] &&
+
+  const start = new Date(data.userProfile.startPermission);
+  const end = new Date(data.userProfile.endPermission);
+  userInfo.push(
+    <InfoGroup
+      key="permission"
+      label="Quyền khai báo thông tin"
+      value={start < end ? "Có" : "Không"}
+    />
+  );
+
+  for (const key in managerFields) {
+    data.manager[key] &&
       userInfo.push(
         <InfoGroup
-          key={key + "-parent"}
-          label={parentName[key]}
+          key={key + "-manager"}
+          label={managerFields[key]}
           value={data.manager[key]}
         />
       );
   }
+
   console.log(data);
 
   return (
