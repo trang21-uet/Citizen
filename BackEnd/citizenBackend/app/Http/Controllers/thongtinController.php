@@ -14,6 +14,9 @@ use App\Models\thongtin;
 
 class thongtinController extends Controller
 {
+
+    private $regex = '/^([a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+)$/';
+
     /**
      * Create a new AuthController instance.
      *
@@ -40,6 +43,7 @@ class thongtinController extends Controller
                 ->join('thongtin', 'thongtin.B1', '=', 'b1.maXa')
                 ->where('a2.A1', Auth::user()->tenTK)
                 ->select('thongtin.*')
+                ->whereNull('thongtin.deleted_at')
                 ->get();
             return $list;
         } else if ($request->user()->role == 'A2') {
@@ -47,18 +51,24 @@ class thongtinController extends Controller
                 ->join('thongtin', 'thongtin.B1', '=', 'b1.maXa')
                 ->where('a3.A2', Auth::user()->tenTK)
                 ->select('thongtin.*')
+                ->whereNull('thongtin.deleted_at')
                 ->get();
             return $list;
         } else if ($request->user()->role == 'A3') {
             $list = b1::join('thongtin', 'thongtin.B1', '=', 'b1.maXa')
                 ->where('b1.A3', Auth::user()->tenTK)
                 ->select('thongtin.*')
+                ->whereNull('thongtin.deleted_at')
                 ->get();
             return $list;
         } else if ($request->user()->role == 'B1') {
-            return thongtin::where('B1', Auth::user()->tenTK)->get();
+            return thongtin::where('B1', Auth::user()->tenTK)
+            ->whereNull('thongtin.deleted_at')
+            ->get();
         } else if ($request->user()->role == 'B2') {
-            return thongtin::where('B2', Auth::user()->tenTK)->get();
+            return thongtin::where('B2', Auth::user()->tenTK)
+            ->whereNull('thongtin.deleted_at')
+            ->get();
         }
     }
 
@@ -115,17 +125,17 @@ class thongtinController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'cccd' => 'string',
-            'ho' => 'required|string',
-            'ten' => 'required|string',
+            'cccd' => 'string|regex:' . $this->regex,
+            'ho' => 'required|string|regex:' . $this->regex,
+            'ten' => 'required|string|regex:' . $this->regex,
             'ngaySinh' => 'required|date_format:Y-m-d',
-            'gioiTinh' => 'required|string',
-            'queQuan' => 'required|string',
-            'thuongTru' => 'required|string',
-            'tamTru' => 'required|string',
-            'tonGiao' => 'required|string',
-            'trinhDoVanHoa' => 'required|string',
-            'ngheNghiep' => 'required|string',
+            'gioiTinh' => 'required|string|regex:' . $this->regex,
+            'queQuan' => 'required|string|regex:' . $this->regex,
+            'thuongTru' => 'required|string|regex:' . $this->regex,
+            'tamTru' => 'required|string|regex:' . $this->regex,
+            'tonGiao' => 'required|string|regex:' . $this->regex,
+            'trinhDoVanHoa' => 'required|string|regex:' . $this->regex,
+            'ngheNghiep' => 'required|string|regex:' . $this->regex,
         ]);
 
         if($validator->fails()){
@@ -162,17 +172,17 @@ class thongtinController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'cccd' => 'string',
-            'ho' => 'required|string',
-            'ten' => 'required|string',
+            'cccd' => 'string|regex:' . $this->regex,
+            'ho' => 'required|string|regex:' . $this->regex,
+            'ten' => 'required|string|regex:' . $this->regex,
             'ngaySinh' => 'required|date_format:Y-m-d',
-            'gioiTinh' => 'required|string',
-            'queQuan' => 'required|string',
-            'thuongTru' => 'required|string',
-            'tamTru' => 'required|string',
-            'tonGiao' => 'required|string',
-            'trinhDoVanHoa' => 'required|string',
-            'ngheNghiep' => 'required|string',
+            'gioiTinh' => 'required|string|regex:' . $this->regex,
+            'queQuan' => 'required|string|regex:' . $this->regex,
+            'thuongTru' => 'required|string|regex:' . $this->regex,
+            'tamTru' => 'required|string|regex:' . $this->regex,
+            'tonGiao' => 'required|string|regex:' . $this->regex,
+            'trinhDoVanHoa' => 'required|string|regex:' . $this->regex,
+            'ngheNghiep' => 'required|string|regex:' . $this->regex,
         ]);
 
         if($validator->fails()){

@@ -26,9 +26,9 @@ class userController extends Controller
      */
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            'tenTK' => 'required|string',
-            'tenDonvi' => 'required|string',
-            'MK' => 'required|string|min:8',
+            'tenTK' => 'required|string|regex:/^[0-9]+$/',
+            'tenDonvi' => 'required|string|regex:/^([a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+)$/',
+            'MK' => 'required|string|min:8|regex:/^\S*(?=\S*[a-zA-Z])(?=\S*[\d])\S*$/',
         ]);
 
         if($validator->fails()){
@@ -171,8 +171,8 @@ class userController extends Controller
     */
     public function changePassWord(Request $request) {
         $validator = Validator::make($request->all(), [
-            'MK' => 'required|string|min:8',
-            'user' => 'required|string',
+            'MK' => 'required|string|min:8|regex:/^\S*(?=\S*[a-zA-Z])(?=\S*[\d])\S*$/',
+            'user' => 'required|string|regex:/^[0-9a-zA-Z]+$/',
         ]);
 
         if($validator->fails()){

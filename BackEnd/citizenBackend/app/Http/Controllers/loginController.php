@@ -17,8 +17,8 @@ class loginController extends Controller
      */
     public function login(Request $request){
     	$validator = Validator::make($request->all(), [
-            'tenTK' => 'required|string',
-            'MK' => 'required|string',
+            'tenTK' => 'required|string|regex:/^[0-9a-zA-Z]+$/',
+            'MK' => 'required|string|regex:/^[0-9a-zA-Z]+$/',
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
