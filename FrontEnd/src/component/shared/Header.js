@@ -118,7 +118,7 @@ const SignOut = (props) => {
         auth.logout(() => {
           sessionStorage.removeItem("info");
           navigate("/login", { replace: true });
-          alert("Bạn đã đăng xuất thành công!");
+          // alert("Bạn đã đăng xuất thành công!");
         });
       })
       .catch((error) => console.log(error));

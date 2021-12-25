@@ -63,6 +63,7 @@ const PersonForm = (props) => {
             label="Họ"
             placeholder="Họ"
             form="person"
+            required
           />
           <InputGroup
             className="col-sm-5"
@@ -71,6 +72,7 @@ const PersonForm = (props) => {
             label="Tên"
             placeholder="Tên"
             form="person"
+            required
           />
           <Radio id="sex"></Radio>
         </div>
@@ -82,6 +84,7 @@ const PersonForm = (props) => {
             label="CMT/ CCCD"
             placeholder="123456789"
             form="person"
+            required
           />
           <InputGroup
             className="col-sm"
@@ -91,6 +94,7 @@ const PersonForm = (props) => {
             label="Ngày sinh"
             placeholder="2001-12-31"
             form="person"
+            required
           />
         </div>
         <InputGroup
@@ -99,6 +103,7 @@ const PersonForm = (props) => {
           label="Quê quán"
           placeholder="Hà Nội"
           form="person"
+          required
         />
         <InputGroup
           name="thuongTru"
@@ -106,6 +111,7 @@ const PersonForm = (props) => {
           label="Thường trú"
           placeholder="Hà Nội"
           form="person"
+          required
         />
         <InputGroup
           name="tamTru"
@@ -122,6 +128,7 @@ const PersonForm = (props) => {
             label="Tôn giáo"
             placeholder="Không"
             form="person"
+            required
           />
           <InputGroup
             className="col-sm"
@@ -130,6 +137,7 @@ const PersonForm = (props) => {
             label="Trình độ văn hoá"
             placeholder="12/12"
             form="person"
+            required
           />
           <InputGroup
             className="col-sm"
@@ -138,6 +146,7 @@ const PersonForm = (props) => {
             label="Nghề nghiệp"
             placeholder="Sinh viên"
             form="person"
+            required
           />
         </div>
       </div>
