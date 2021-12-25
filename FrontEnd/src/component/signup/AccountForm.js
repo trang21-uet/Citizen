@@ -33,23 +33,32 @@ const AccountForm = (props) => {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else if (response.status === "400") {
-          throw "Invalid password";
-        }
-        throw response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        if (data.error) {
-          throw data.error;
+        if (typeof data === "string") {
+          data = JSON.parse(data);
         }
+
+        if (data.error || data.MK || data.tenDonvi || data.tenTK) {
+          throw data;
+        }
+
         alert(data.message);
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((error) => {
-        setError(error);
+        console.log(error);
+        if (error.MK) {
+          setError("Invalid password");
+        } else if (error.tenDonvi) {
+          setError("tenDonvi");
+        } else if (error.tenTK) {
+          setError("wrongtenTK");
+        } else if (error.error == "Sai định dạng tài khoản cấp dưới") {
+          setError("wrongtenTK");
+        } else if (error.error == "Tài khoản đã tồn tại") {
+          setError("existtenTK");
+        }
       });
   };
 

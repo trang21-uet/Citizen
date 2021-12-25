@@ -34,6 +34,22 @@ const Error = ({ status }) => {
         <p className="text-danger fw-bold">Thời gian không hợp lệ</p>
       )}
 
+      {status === "error" && (
+        <p className="text-danger fw-bold">Có lỗi xảy ra, vui lòng thử lại</p>
+      )}
+
+      {status === "wrongtenTK" && (
+        <p className="text-danger fw-bold">Sai định dạng tài khoản</p>
+      )}
+      
+      {status === "existtenTK" && (
+        <p className="text-danger fw-bold">Tài khoản đã tồn tại</p>
+      )}
+
+      {status === "tenDonvi" && (
+        <p className="text-danger fw-bold">Sai tên Tỉnh/Thành phố</p>
+      )}
+
       {status === 404 && <NotFound />}
       {status === "nothing" && <NothingHere />}
     </>

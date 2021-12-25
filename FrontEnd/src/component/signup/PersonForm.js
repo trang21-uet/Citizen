@@ -36,6 +36,7 @@ const PersonForm = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        data = JSON.parse(data);
         console.log(data);
         alert(data.message);
         window.location.reload();
