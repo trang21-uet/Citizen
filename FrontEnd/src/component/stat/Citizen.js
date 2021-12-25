@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
 import InfoGroup from "../shared/InfoGroup";
 import InputGroup from "../shared/InputGroup";
@@ -95,7 +95,7 @@ const CitizenInfo = ({ data }) => {
         <button
           className="btn btn-danger"
           data-bs-toggle="modal"
-          data-bs-target="#delete"
+          data-bs-target="#delete-modal"
         >
           Xoá tất cả thông tin
         </button>
@@ -183,6 +183,7 @@ const ModifyForm = ({ fields, oldData, target }) => {
 
 const DeleteForm = ({ target }) => {
   const auth = useAuth();
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     await fetch("http://localhost:8000/api/delete/" + target.ID, {
@@ -197,7 +198,8 @@ const DeleteForm = ({ target }) => {
       .then((data) => {
         console.log(data);
         alert(data.message);
-        window.history.back();
+        document.querySelector("button[data-bs-dismiss='modal']").click();
+        navigate("/statistic", { replace: true });
       })
       .catch((error) => {
         alert(error);

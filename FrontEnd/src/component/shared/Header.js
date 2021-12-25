@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
 import pdf from "../../assets/pdf/PDT.pdf";
-import Error from "./Error";
 
 const Header = () => {
   const click = () => {
@@ -63,7 +62,7 @@ const Navbar = (props) => {
 const NavItem = (props) => {
   return (
     <li
-      className="nav-item d-flex justify-content-end"
+      className="nav-item d-flex justify-content-end m-1 m-lg-0"
       data-bs-toggle="tooltip"
       data-bs-placement="bottom"
       title={props.children}
@@ -72,9 +71,7 @@ const NavItem = (props) => {
         to={props.to}
         className="pb-1 py-lg-2 text-dark text-decoration-none"
       >
-        <span className="gi d-lg-none lh-base fw-light ps-3">
-          {props.children}
-        </span>
+        <span className="gi d-lg-none lh-base ps-3">{props.children}</span>
         <i className={props.className + " px-3 fs-5"}></i>
       </Link>
     </li>
@@ -84,7 +81,7 @@ const NavItem = (props) => {
 const Download = (props) => {
   return (
     <li
-      className="nav-item d-flex justify-content-end"
+      className="nav-item d-flex justify-content-end m-1 m-lg-0"
       data-bs-toggle="tooltip"
       data-bs-placement="bottom"
       title="Tải mẫu phiếu"
@@ -128,7 +125,7 @@ const SignOut = (props) => {
   };
   return (
     <li
-      className="nav-item d-flex justify-content-end"
+      className="nav-item d-flex justify-content-end m-1 m-lg-0 pb-1"
       data-bs-toggle="tooltip"
       data-bs-placement="bottom"
       title="Đăng xuất"

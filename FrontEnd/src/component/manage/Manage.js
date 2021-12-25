@@ -3,6 +3,7 @@ import { useAuth } from "../../auth/AuthProvider";
 import InputGroup from "../shared/InputGroup";
 import Modal from "../shared/Modal";
 import Error from "../shared/Error";
+import { toggleBtn, checkInputs } from "../shared/handler";
 
 const Manage = () => {
   const fields = {
@@ -66,7 +67,7 @@ const UsersTable = ({ data, fields }) => {
     A3: "maXa",
     B1: "maThon",
   };
-  const [selectedChild, setSelectedChild] = useState();
+  const [target, setTarget] = useState();
   const auth = useAuth();
 
   let heads = [];
@@ -88,27 +89,39 @@ const UsersTable = ({ data, fields }) => {
   for (let key in data) {
     let cells = [];
     for (let i in data[key]) {
-      need.includes(i) && cells.push(<td key={i}>{data[key][i]}</td>);
+      need.includes(i) &&
+        cells.push(
+          <td key={i} className="align-middle">
+            {data[key][i]}
+          </td>
+        );
     }
     cells.push(
-      <td key="changePermission">
+      <td key="changePermission" className="align-middle">
         <button
-          className="btn btn-link py-0"
+          className="btn bi bi-key-fill"
           onClick={() => {
-            setSelectedChild(data[key][name[auth.info().type]]);
+            setTarget(data[key][name[auth.info().type]]);
           }}
           data-bs-toggle="modal"
-          data-bs-target="#permission-modal"
-        >
-          Đặt quyền khai báo
-        </button>
+          data-bs-target="#set-permission-modal"
+        />
+        <button
+          className="btn bi bi-shield-fill-check"
+          onClick={() => {
+            setTarget(data[key][name[auth.info().type]]);
+          }}
+          data-bs-toggle="modal"
+          data-bs-target="#reset-password-modal"
+        />
       </td>
     );
     rows.push(<tr key={key}>{cells}</tr>);
   }
 
   return (
-    <div className="container">
+    <div className="container table-responsive">
+      <h2 className="gi my-4">Thông tin tài khoản</h2>
       <table className="manage table table-light table-bordered table-striped mt-3">
         <thead>
           <tr>{heads}</tr>
@@ -116,8 +129,12 @@ const UsersTable = ({ data, fields }) => {
         <tbody>{rows}</tbody>
       </table>
 
-      <Modal label="Đặt lại thời gian khai báo" id="permission-modal">
-        <SetPermissionForm target={selectedChild} />
+      <Modal label="Đặt lại thời gian khai báo" id="set-permission-modal">
+        <SetPermissionForm target={target} />
+      </Modal>
+
+      <Modal label="Cấp lại mật khẩu" id="reset-password-modal">
+        <ResetPasswordForm target={target} />
       </Modal>
     </div>
   );
@@ -173,14 +190,18 @@ const SetPermissionForm = ({ target }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="row" id="modal-form">
+    <form
+      onSubmit={handleSubmit}
+      className="row"
+      id="set-permission-modal-form"
+    >
       <div className="col">
         <InputGroup
           id="startPermission"
           name="startPermission"
           label="Bắt đầu"
           type="datetime-local"
-          form="modal"
+          form="set-permission-modal"
         />
       </div>
       <div className="col">
@@ -189,9 +210,60 @@ const SetPermissionForm = ({ target }) => {
           name="endPermission"
           label="Kết thúc"
           type="datetime-local"
-          form="modal"
+          form="set-permission-modal"
         />
       </div>
+      {error ? <Error status={error} /> : <></>}
+    </form>
+  );
+};
+
+const ResetPasswordForm = ({ target }) => {
+  const [error, setError] = useState();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = {
+      MK:
+    }
+  };
+
+  const checkPass = () => {
+    const pass = document.getElementById("pass").value;
+    const repass = document.getElementById("repass").value;
+    if (pass !== repass) {
+      setError("Passwords not match");
+      toggleBtn("reset-password-modal-btn", false);
+    } else if (pass.length < 8) {
+      setError("Password too short");
+      toggleBtn("reset-password-modal-btn", false);
+    } else {
+      setError(null);
+      toggleBtn(
+        "reset-password-modal-btn",
+        checkInputs("reset-password-modal-form")
+      );
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} id="reset-password-modal-form">
+      <InputGroup
+        id="pass"
+        name="MK"
+        label="Mật khẩu"
+        type="password"
+        placeholder="Nhập mật khẩu"
+        onChange={checkPass}
+      />
+      <InputGroup
+        id="repass"
+        name="MK"
+        label="Nhập lại mật khẩu"
+        type="password"
+        placeholder="Nhập lại mật khẩu"
+        onChange={checkPass}
+      />
       {error ? <Error status={error} /> : <></>}
     </form>
   );

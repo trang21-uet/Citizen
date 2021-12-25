@@ -34,7 +34,16 @@ const Stat = () => {
 
   return data.length ? (
     <div className="container">
-      <h2 className="my-4 gi">Thông tin người dân</h2>
+      <div className="d-flex justify-content-between">
+        <h2 className="my-4 gi">Thông tin người dân</h2>
+        <SortSelector
+          className="w-auto align-self-end"
+          data={data}
+          setData={(data) => {
+            setData(data);
+          }}
+        />
+      </div>
       <StatTable fields={fields} data={data} />
       <p className="text-muted my-4">
         (Bấm vào hàng của bảng để xem thông tin chi tiết).
@@ -42,6 +51,55 @@ const Stat = () => {
     </div>
   ) : (
     <Error status="nothing" />
+  );
+};
+
+const SortSelector = ({ className, data, setData }) => {
+  const [value, setValue] = useState("0");
+  const oldData = data;
+
+  const handleChange = (event) => {
+    const key = event.target.value;
+    setValue(key);
+    if (key === "0") {
+      data = oldData;
+    } else {
+      switch (key) {
+        case "fullName":
+          console.log(key);
+          for (let i = 0; i < data.length; i++) {
+            for (let j = i + 1; j < data.length; j++) {
+              if (data[i].ho > data[j].ho) {
+                console.log("haoaa");
+                const temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+                setData(data);
+              }
+            }
+          }
+          break;
+        case "age":
+          break;
+        case "address":
+          break;
+      }
+    }
+  };
+  return (
+    <div className="d-flex">
+      <span className="my-auto me-2">Sắp xếp theo:</span>
+      <select
+        className={className + " form-select p-2 pe-5 my-auto"}
+        value={value}
+        onChange={handleChange}
+      >
+        <option value="0">Mặc định</option>
+        <option value="fullName">Tên</option>
+        <option value="age">Tuổi</option>
+        <option value="address">Địa chỉ</option>
+      </select>
+    </div>
   );
 };
 

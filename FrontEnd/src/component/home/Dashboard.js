@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
-import { useAuth } from "../../auth/AuthProvider";
 import img1 from "../../assets/img/hao1.jpg";
 import img2 from "../../assets/img/hao2.jpeg";
 import img3 from "../../assets/img/hao3.png";
 
 const Dashboard = () => {
-  const auth = useAuth();
   useEffect(() => {
     document.title = "Citizen - Trang chủ";
   });

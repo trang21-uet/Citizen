@@ -2,8 +2,13 @@ import React, { useEffect } from "react";
 
 const Modal = ({ id, label, children }) => {
   useEffect(() => {
-    if (id === "delete") {
-      document.querySelector("#" + id + "-btn").removeAttribute("disabled");
+    if (id === "delete-modal") {
+      const btn = document.querySelector("#" + id + "-btn");
+      console.log(btn);
+      btn.removeAttribute("disabled");
+      btn.classList.remove("btn-success");
+      btn.classList.add("btn-danger");
+      btn.innerHTML = "Xoá";
     }
   }, []);
   return (
