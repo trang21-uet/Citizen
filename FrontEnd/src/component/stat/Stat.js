@@ -26,7 +26,7 @@ const Stat = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setData(data);
         })
         .catch((error) => console.log(error));
@@ -64,32 +64,76 @@ const Stat = () => {
 
 const SortSelector = ({ className, data, setData }) => {
   const [value, setValue] = useState("0");
-  const oldData = data;
+  const oldData = new Array(...data);
+  console.log(oldData);
 
   const handleChange = (event) => {
     const key = event.target.value;
     setValue(key);
     if (key === "0") {
-      data = oldData;
+      for (let i = 0; i < data.length; i++) {
+        for (let j = i + 1; j < data.length; j++) {
+          if (data[i].ID > data[j].ID) {
+            const temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
+          }
+        }
+      }
+      setData(new Array(...data));
     } else {
       switch (key) {
         case "fullName":
-          console.log(key);
           for (let i = 0; i < data.length; i++) {
             for (let j = i + 1; j < data.length; j++) {
               if (data[i].ho > data[j].ho) {
-                console.log("haoaa");
                 const temp = data[i];
                 data[i] = data[j];
                 data[j] = temp;
-                setData(data);
               }
             }
           }
+          setData(new Array(...data));
           break;
         case "age":
+          for (let i = 0; i < data.length; i++) {
+            for (let j = i + 1; j < data.length; j++) {
+              var d1 = new Date(data[i].ngaySinh);
+              var d2 = new Date(data[j].ngaySinh);
+              if (d1 > d2) {
+                const temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+              }
+            }
+          }
+          setData(new Array(...data));
           break;
-        case "address":
+        case "level":
+          for (let i = 0; i < data.length; i++) {
+            for (let j = i + 1; j < data.length; j++) {
+              var t1
+              if (parseInt(data[i].trinhDoVanHoa)) {
+                t1 = parseInt(data[i].trinhDoVanHoa)
+              } else {
+                t1 = 14;
+              }
+              var t2
+              if (parseInt(data[i].trinhDoVanHoa)) {
+                t2 = parseInt(data[j].trinhDoVanHoa)
+              } else {
+                t2 = 14;
+              }
+              if (t1 > t2) {
+                const temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+              }
+            }
+          }
+          setData(new Array(...data));
+          break;
+        default:
           break;
       }
     }
@@ -105,7 +149,7 @@ const SortSelector = ({ className, data, setData }) => {
         <option value="0">Mặc định</option>
         <option value="fullName">Tên</option>
         <option value="age">Tuổi</option>
-        <option value="address">Địa chỉ</option>
+        <option value="level">Trình độ học vấn</option>
       </select>
     </div>
   );
