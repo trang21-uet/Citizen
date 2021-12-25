@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
 import InfoGroup from "../shared/InfoGroup";
 import InputGroup from "../shared/InputGroup";
 import Modal from "../shared/Modal";
 import { Radio } from "../signup/PersonForm";
 import Error from "../shared/Error";
-import { toggleModal } from "../shared/handler";
 
 const Citizen = () => {
   const { id } = useParams();
@@ -46,6 +45,7 @@ const Citizen = () => {
 
 const CitizenInfo = ({ data }) => {
   const [selectedField, setSelectedField] = useState("cccd");
+  const auth = useAuth();
   const fields = {
     cccd: "Số CMT/CCCD",
     ngaySinh: "Ngày Sinh",
@@ -82,6 +82,26 @@ const CitizenInfo = ({ data }) => {
         />
       );
   }
+
+  const deletePerson = async (target) => {
+    await fetch("http://localhost:8000/api/delete/" + target.ID, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + auth.info().access_token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        alert(error);
+        console.log(error);
+      });
+  };
+
   return (
     <div className="container my-5 p-3 rounded border">
       <h2 className="mb-5 gi">Thông tin chi tiết</h2>
@@ -89,14 +109,22 @@ const CitizenInfo = ({ data }) => {
       <Modal label="Cập nhật thông tin" id="modify-modal">
         <ModifyForm fields={fields} oldData={data} target={selectedField} />
       </Modal>
-      <Modal label="Xoá thông tin người dân?" id="delete-modal">
-        <DeleteForm target={data} />
+      <Modal
+        label="Xoá thông tin người dân?"
+        type="alert"
+        to="/statistic"
+        id="delete-modal"
+      >
+        Xoá thông tin thành công!
       </Modal>
       <div className="text-center">
         <button
           className="btn btn-danger"
           data-bs-toggle="modal"
           data-bs-target="#delete-modal"
+          onClick={() => {
+            deletePerson(data);
+          }}
         >
           Xoá tất cả thông tin
         </button>
@@ -137,7 +165,6 @@ const ModifyForm = ({ fields, oldData, target }) => {
       .then((data) => {
         console.log(data);
         alert(data.message);
-        window.location.reload();
       })
       .catch((error) => {
         alert(error);
@@ -178,38 +205,6 @@ const ModifyForm = ({ fields, oldData, target }) => {
         </div>
       )}
       {target === "gioiTinh" && <Radio id="gioiTinh" />}
-    </form>
-  );
-};
-
-const DeleteForm = ({ target }) => {
-  const auth = useAuth();
-  const navigate = useNavigate();
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await fetch("http://localhost:8000/api/delete/" + target.ID, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + auth.info().access_token,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        alert(data.message);
-        toggleModal("delete-modal", false);
-        navigate("/statistic", { replace: true });
-      })
-      .catch((error) => {
-        alert(error);
-        console.log(error);
-      });
-  };
-  return (
-    <form onSubmit={handleSubmit} id="delete-modal-form">
-      Bạn có chắc chắn muốn xoá tất cả thông tin?
     </form>
   );
 };

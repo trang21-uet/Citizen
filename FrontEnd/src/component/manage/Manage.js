@@ -264,7 +264,7 @@ const ResetPasswordForm = ({ target }) => {
           throw data.error;
         }
 
-        // toggleModal("reset-password-modal", false);
+        toggleModal("reset-password-modal", false);
         toggleModal("reset-password-alert", true);
         console.log(data);
       })
@@ -275,7 +275,7 @@ const ResetPasswordForm = ({ target }) => {
     const pass = document.getElementById("pass").value;
     const repass = document.getElementById("repass").value;
     if (pass !== repass) {
-      setError("Passwords not match");
+      setError("passwords not match");
       toggleBtn("reset-password-modal-btn", false);
     } else {
       setError(null);

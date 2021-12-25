@@ -12,11 +12,11 @@ const Error = ({ status }) => {
         </p>
       )}
 
-      {status === "Passwords not match" && (
+      {status === "passwords not match" && (
         <p className="text-danger fw-bold">Mật khẩu không trùng khớp!</p>
       )}
 
-      {status === "Invalid password" && (
+      {status === "invalid password" && (
         <p className="text-danger fw-bold">
           Mật khẩu phải gồm ít nhất 8 ký tự, trong đó có ít nhất một ký tự số và
           1 ký tự chữ cái!
@@ -39,12 +39,8 @@ const Error = ({ status }) => {
         <p className="text-danger fw-bold">Có lỗi xảy ra, vui lòng thử lại</p>
       )}
 
-      {status === "wrongtenTK" && (
+      {status === "wrong username" && (
         <p className="text-danger fw-bold">Sai định dạng tài khoản</p>
-      )}
-      
-      {status === "existtenTK" && (
-        <p className="text-danger fw-bold">Tài khoản đã tồn tại</p>
       )}
 
       {status === "tenDonvi" && (

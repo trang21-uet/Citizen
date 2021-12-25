@@ -48,15 +48,15 @@ const AccountForm = (props) => {
       .catch((error) => {
         console.log(error);
         if (error.MK) {
-          setError("Invalid password");
+          setError("invalid password");
         } else if (error.tenDonvi) {
           setError("tenDonvi");
         } else if (error.tenTK) {
-          setError("wrongtenTK");
+          setError("wrong username");
         } else if (error.error === "Sai định dạng tài khoản cấp dưới") {
-          setError("wrongtenTK");
+          setError("wrong username");
         } else if (error.error === "Tài khoản đã tồn tại") {
-          setError("existtenTK");
+          setError("already exists");
         }
       });
   };
@@ -65,7 +65,7 @@ const AccountForm = (props) => {
     const pass = document.getElementById("password").value;
     const repass = document.getElementById("repassword").value;
     if (pass !== repass) {
-      setError("Passwords not match");
+      setError("passwords not match");
       toggleBtn("account-btn", false);
     } else {
       setError(null);

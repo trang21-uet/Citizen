@@ -18,7 +18,7 @@ const toggleBtn = (id, force) => {
 
 const toggleModal = (id, state) => {
   const modal = new Modal(document.getElementById(id));
-  state ? modal.show() : modal.hide();
+  state === true ? modal.show() : modal.hide();
 };
 
 export { checkInputs, toggleBtn, toggleModal };

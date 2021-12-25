@@ -1,18 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Modal = ({ id, label, type, children, to }) => {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (id === "delete-modal") {
-      const btn = document.querySelector("#" + id + "-btn");
-      console.log(btn);
-      btn.removeAttribute("disabled");
-      btn.classList.remove("btn-success");
-      btn.classList.add("btn-danger");
-      btn.innerHTML = "Xoá";
-    }
-  }, []);
   return (
     <div className="modal fade" id={id}>
       <div className="modal-dialog">
@@ -39,9 +29,13 @@ const Modal = ({ id, label, type, children, to }) => {
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
                 onClick={() => {
-                  document.querySelectorAll("form input").forEach((element) => {
-                    element.value = "";
-                  });
+                  to
+                    ? navigate(to, { replace: true })
+                    : document
+                        .querySelectorAll("form input")
+                        .forEach((element) => {
+                          element.value = "";
+                        });
                 }}
               >
                 Đóng
