@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputGroup from "../shared/InputGroup";
-import { checkInputs, toggleBtn } from "../shared/handler";
+import { checkInputs, toggleBtn, toggleModal } from "../shared/handler";
 import Error from "../shared/Error";
 import { useAuth } from "../../auth/AuthProvider";
 
@@ -43,8 +43,7 @@ const AccountForm = (props) => {
           throw data;
         }
 
-        // alert(data.message);
-        // window.location.reload();
+        toggleModal("account-alert", true);
       })
       .catch((error) => {
         console.log(error);

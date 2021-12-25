@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
+import { toggleModal } from "../shared/handler";
 import InputGroup from "../shared/InputGroup";
 import Error from "../shared/Error";
 
@@ -19,6 +20,7 @@ const PersonForm = (props) => {
     "trinhDoVanHoa",
     "ngheNghiep",
   ];
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -41,16 +43,13 @@ const PersonForm = (props) => {
         if (typeof data === "string") {
           data = JSON.parse(data);
         }
-        
+
         if (data.error) {
           throw data;
         }
-        // console.log(data);
-        // alert(data.message);
-        // window.location.reload();
+        toggleModal("person-alert", true);
       })
       .catch((error) => {
-        
         console.log(error);
 
         if (error.error) {

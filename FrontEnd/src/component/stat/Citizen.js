@@ -6,6 +6,7 @@ import InputGroup from "../shared/InputGroup";
 import Modal from "../shared/Modal";
 import { Radio } from "../signup/PersonForm";
 import Error from "../shared/Error";
+import { toggleModal } from "../shared/handler";
 
 const Citizen = () => {
   const { id } = useParams();
@@ -198,7 +199,7 @@ const DeleteForm = ({ target }) => {
       .then((data) => {
         console.log(data);
         alert(data.message);
-        document.querySelector("button[data-bs-dismiss='modal']").click();
+        toggleModal("delete-modal", false);
         navigate("/statistic", { replace: true });
       })
       .catch((error) => {

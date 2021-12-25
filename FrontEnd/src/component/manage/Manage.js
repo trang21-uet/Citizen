@@ -3,7 +3,7 @@ import { useAuth } from "../../auth/AuthProvider";
 import InputGroup from "../shared/InputGroup";
 import Modal from "../shared/Modal";
 import Error from "../shared/Error";
-import { toggleBtn, checkInputs } from "../shared/handler";
+import { toggleBtn, checkInputs, toggleModal } from "../shared/handler";
 
 const Manage = () => {
   const fields = {
@@ -133,9 +133,21 @@ const UsersTable = ({ data, fields }) => {
         <SetPermissionForm target={target} />
       </Modal>
 
+      <Modal
+        label="Đặt thời gian khai báo thành công!"
+        type="alert"
+        id="set-permission-alert"
+      ></Modal>
+
       <Modal label="Cấp lại mật khẩu" id="reset-password-modal">
         <ResetPasswordForm target={target} />
       </Modal>
+
+      <Modal
+        label="Cấp lại mật khẩu thành công"
+        type="alert"
+        id="reset-password-alert"
+      ></Modal>
     </div>
   );
 };
@@ -183,7 +195,6 @@ const SetPermissionForm = ({ target }) => {
             throw data.error;
           }
           alert(data.message);
-          document.querySelector("button[data-bs-dismiss='modal']").click();
         })
         .catch((error) => alert(error));
     }
@@ -252,7 +263,9 @@ const ResetPasswordForm = ({ target }) => {
         if (data.error) {
           throw data.error;
         }
-        alert(data.message);
+
+        // toggleModal("reset-password-modal", false);
+        toggleModal("reset-password-alert", true);
         console.log(data);
       })
       .catch((error) => setError(error));
@@ -292,11 +305,6 @@ const ResetPasswordForm = ({ target }) => {
         onChange={checkPass}
       />
       {error ? <Error status={error} /> : <></>}
-      <Modal
-        label="Cấp lại mật khẩu thành công"
-        type="alert"
-        id="reset-password-alert"
-      ></Modal>
     </form>
   );
 };

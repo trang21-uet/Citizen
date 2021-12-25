@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Modal = ({ id, label, type, children }) => {
+const Modal = ({ id, label, type, children, to }) => {
+  const navigate = useNavigate();
   useEffect(() => {
     if (id === "delete-modal") {
       const btn = document.querySelector("#" + id + "-btn");
@@ -22,28 +24,77 @@ const Modal = ({ id, label, type, children }) => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={() => {
+                document.querySelectorAll("form input").forEach((element) => {
+                  element.value = "";
+                });
+              }}
             ></button>
           </div>
-          <div className="modal-body">{children}</div>
+          {children ? <div className="modal-body">{children}</div> : <></>}
           <div className="modal-footer">
-            {type === "alert" ? (
+            {type === "alert" && (
               <button
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={() => {
+                  document.querySelectorAll("form input").forEach((element) => {
+                    element.value = "";
+                  });
+                }}
               >
                 Đóng
               </button>
-            ) : (
+            )}
+
+            {type === "redirect" && (
               <>
                 <button
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  onClick={() => {
+                    document
+                      .querySelectorAll("form input")
+                      .forEach((element) => {
+                        element.value = "";
+                      });
+                  }}
+                >
+                  Tiếp tục
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    navigate(to);
+                  }}
+                >
+                  Chuyển hướng
+                </button>
+              </>
+            )}
+
+            {!type && (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  onClick={() => {
+                    document
+                      .querySelectorAll("form input")
+                      .forEach((element) => {
+                        element.value = "";
+                      });
+                  }}
                 >
                   Huỷ bỏ
                 </button>
                 <button
+                  disabled
                   type="submit"
                   form={id + "-form"}
                   className="btn btn-success"

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
 import Error from "../shared/Error";
 
 const Stat = () => {
+  const navigate = useNavigate();
   const fields = {
     cccd: "CMT/CCCD",
     ngaySinh: "Ngày Sinh",
@@ -44,7 +46,13 @@ const Stat = () => {
           }}
         />
       </div>
-      <StatTable fields={fields} data={data} />
+      <StatTable
+        fields={fields}
+        data={data}
+        navigate={(url) => {
+          navigate(url);
+        }}
+      />
       <p className="text-muted my-4">
         (Bấm vào hàng của bảng để xem thông tin chi tiết).
       </p>
@@ -103,7 +111,7 @@ const SortSelector = ({ className, data, setData }) => {
   );
 };
 
-const StatTable = ({ data, fields }) => {
+const StatTable = ({ data, fields, navigate }) => {
   const need = Object.keys(fields);
   let heads = [];
   heads.push(
@@ -139,7 +147,7 @@ const StatTable = ({ data, fields }) => {
       <tr
         key={key}
         onClick={() => {
-          window.open("/statistic/" + data[key].ID, "_blank");
+          navigate("/statistic/" + data[key].ID);
         }}
       >
         {cells}

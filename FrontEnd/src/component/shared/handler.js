@@ -1,3 +1,5 @@
+import { Modal } from "bootstrap/dist/js/bootstrap.bundle";
+
 const checkInputs = (id) => {
   const inputs = document.querySelectorAll("#" + id + " input");
   for (let input of inputs) {
@@ -14,4 +16,9 @@ const toggleBtn = (id, force) => {
   btn.classList.toggle("enabled", force);
 };
 
-export { checkInputs, toggleBtn };
+const toggleModal = (id, state) => {
+  const modal = new Modal(document.getElementById(id));
+  state ? modal.show() : modal.hide();
+};
+
+export { checkInputs, toggleBtn, toggleModal };

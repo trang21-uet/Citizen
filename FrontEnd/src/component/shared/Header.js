@@ -36,9 +36,7 @@ const Navbar = (props) => {
           Thông tin tài khoản
         </NavItem>
         <NavItem className="bi bi-person-plus-fill" to={auth.paths.signup}>
-          {["B1", "B2"].includes(type)
-            ? "Nhập thông tin người dân"
-            : "Cấp tài khoản mới"}
+          Tạo mới
         </NavItem>
         {type === "B2" ? (
           <></>

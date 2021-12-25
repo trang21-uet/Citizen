@@ -1,6 +1,7 @@
 import React from "react";
 import notFound from "../../assets/img/paimon_sleep.png";
 import nothing from "../../assets/img/whymon.png";
+import noPermission from "../../assets/img/no permission.png";
 
 const Error = ({ status }) => {
   return (
@@ -22,7 +23,7 @@ const Error = ({ status }) => {
         </p>
       )}
 
-      {status === "Tài khoản đã tồn tại" && (
+      {status === "already exists" && (
         <p className="text-danger fw-bold">Tài khoản đã tồn tại!</p>
       )}
 
@@ -52,6 +53,7 @@ const Error = ({ status }) => {
 
       {status === 404 && <NotFound />}
       {status === "nothing" && <NothingHere />}
+      {status === "no permission" && <NoPermission />}
     </>
   );
 };
@@ -74,6 +76,20 @@ const NothingHere = () => {
       <div className="vh-100 d-flex flex-column align-items-center justify-content-center">
         <h1 className="gi text-dark text-opacity-75">Nothing Here</h1>
         <img src={nothing} className="error w-auto py-3" alt="Not Found" />
+        <h3 className="gi text-dark text-opacity-50 px-3 text-center">
+          How about we explore the area ahead of us later ?
+        </h3>
+      </div>
+    </>
+  );
+};
+
+const NoPermission = () => {
+  return (
+    <>
+      <div className="vh-100 d-flex flex-column align-items-center justify-content-center">
+        <h1 className="gi text-dark text-opacity-75">No Permission</h1>
+        <img src={noPermission} className="error w-auto py-3" alt="Not Found" />
         <h3 className="gi text-dark text-opacity-50 px-3 text-center">
           How about we explore the area ahead of us later ?
         </h3>

@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "../shared/Modal";
 import AccountForm from "./AccountForm";
 import PersonForm from "./PersonForm";
 
@@ -26,6 +27,22 @@ const SignupForm = (props) => {
           />
         </TabPane>
       </div>
+      <Modal
+        label="Cấp tài khoản thành công!"
+        type="redirect"
+        to="/manage"
+        id="account-alert"
+      >
+        Bạn muốn tiếp tục hay chuyển đến trang quản lý tài khoản?
+      </Modal>
+      <Modal
+        label="Nhập thông tin thành công!"
+        type="redirect"
+        to="/statistic"
+        id="person-alert"
+      >
+        Bạn muốn tiếp tục hay chuyển đển trang thông tin dân số
+      </Modal>
     </>
   );
 };
