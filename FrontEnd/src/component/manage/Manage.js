@@ -16,36 +16,67 @@ const Manage = () => {
     tenXa: "Tên xã",
     tenThon: "Tên thôn",
     quyen: "Quyền khai báo",
+    trangthai: "Trạng thái nhập liệu",
   };
   const auth = useAuth();
   const [data, setData] = useState([]);
   const request = async () => {
-    document.title = "Citizen - Quản lý";
-    await fetch("http://localhost:8000/" + auth.info().type + "/quanly", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + auth.info().access_token,
-        Accept: "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          throw data.error;
-        } else {
-          data.forEach((element) => {
-            let end = new Date(element.endPermission);
-            let now = new Date();
-            element.quyen = end > now ? "Có" : "Không";
-          });
-          console.log(data);
-          setData(data);
-        }
+    ["B1", "B2"].includes(auth.info().type) &&
+      (await fetch("http://localhost:8000/" + auth.info().type + "/quanly", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + auth.info().access_token,
+          Accept: "application/json",
+        },
       })
-      .catch((error) => console.log(error));
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            throw data.error;
+          } else {
+            data.forEach((element) => {
+              let end = new Date(element.endPermission);
+              let now = new Date();
+              element.quyen = end > now ? "Có" : "Không";
+            });
+            console.log(data);
+            setData(data);
+          }
+        })
+        .catch((error) => console.log(error)));
+
+    ["A1", "A2", "A3"].includes(auth.info().type) &&
+      (await fetch("http://localhost:8000/" + auth.info().type + "/trangthai", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + auth.info().access_token,
+          Accept: "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            throw data.error;
+          } else {
+            console.log(data);
+            const dataArray = Object.keys(data).map((key) => data[key]);
+            dataArray.forEach((element) => {
+              let end = new Date(element.endPermission);
+              let now = new Date();
+              element.quyen = end > now ? "Có" : "Không";
+              element.trangthai = element.trangthai
+                ? "Hoàn thành"
+                : "Chưa hoàn thành";
+            });
+            console.log(dataArray);
+            setData(dataArray);
+          }
+        })
+        .catch((error) => console.log(error)));
   };
 
   useEffect(() => {
+    document.title = "Citizen - Quản lý";
     request();
   }, [auth]);
   return (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import InfoGroup from "../shared/InfoGroup";
 import Error from "../shared/Error";
+import Modal from "../shared/Modal";
 
 const Profile = () => {
   const auth = useAuth();
@@ -36,6 +37,9 @@ const Profile = () => {
 };
 
 const ProfileInfo = ({ data }) => {
+  const auth = useAuth();
+  const [done, setDone] = useState(data.userProfile.trangThai);
+
   const fields = {
     type: "Loại tài khoản",
     maTinh: "Tên tài khoản",
@@ -46,7 +50,6 @@ const ProfileInfo = ({ data }) => {
     tenHuyen: "Tên quận/huyện",
     tenXa: "Tên xã/phường",
     tenThon: "Tên thôn/bản",
-    trangThai: "Trạng thái thu thập dữ liệu",
   };
   const managerFields = {
     maTongCuc: "Trực thuộc",
@@ -77,6 +80,21 @@ const ProfileInfo = ({ data }) => {
     />
   );
 
+  auth.info().type === "B1" &&
+    userInfo.push(
+      <InfoGroup
+        key="complete"
+        label="Trạng thái thu thập dữ liệu"
+        value={done ? "Hoàn thành" : "Chưa hoàn thành"}
+      >
+        <button
+          className="btn col-1 bi bi-pencil-square"
+          data-bs-toggle="modal"
+          data-bs-target="#done-modal"
+        ></button>
+      </InfoGroup>
+    );
+
   if (data.manager) {
     for (const key in managerFields) {
       data.manager[key] &&
@@ -101,7 +119,57 @@ const ProfileInfo = ({ data }) => {
       ) : (
         <InfoGroup label="Cơ quan" value="Bộ Y tế" />
       )}
+
+      <Modal
+        label="Thay đổi trạng thái thu thập dữ liệu"
+        id="done-modal"
+        type="confirm"
+      >
+        <SetDoneForm
+          state={done}
+          setState={(state) => setDone(state)}
+          id="done-modal-form"
+        />
+      </Modal>
     </div>
+  );
+};
+
+const SetDoneForm = ({ state, setState, id }) => {
+  const auth = useAuth();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = JSON.stringify({
+      trangThai: 1 - state,
+    });
+    await fetch("http://localhost:8000/" + auth.info().type + "/hoanthanh", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + auth.info().access_token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          throw data.error;
+        } else {
+          setState(1 - state);
+          alert(data.message);
+          console.log(data);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
+  return (
+    <form onSubmit={handleSubmit} id={id}>
+      {"Cập nhật trạng thái nhập liệu thành" +
+        (state ? " chưa " : " đã ") +
+        "hoàn thành?"}
+    </form>
   );
 };
 

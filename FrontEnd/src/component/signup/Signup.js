@@ -6,6 +6,7 @@ import SignupForm from "./SignupForm";
 const Signup = () => {
   const auth = useAuth();
   const [error, setError] = useState("");
+  const [permission, setPermission] = useState(false);
   const children = {
     A1: "A2",
     A2: "A3",
@@ -32,7 +33,7 @@ const Signup = () => {
       .then((data) => {
         console.log(data);
       })
-      .catch((error) => setError(error === 401 ? "no permission" : error));
+      .catch((error) => setPermission(error !== 401));
   };
 
   useEffect(() => {
@@ -64,6 +65,16 @@ const Signup = () => {
         prsBtn.classList.remove("active");
         prsTab.classList.remove("active", "show");
         break;
+    }
+
+    if (!permission) {
+      if (auth.info().type === "B2") {
+        setError("no permission");
+      } else {
+        prsBtn.removeAttribute("aria-selected");
+        prsBtn.classList.remove("active");
+        prsTab.classList.remove("active", "show");
+      }
     }
   }, []);
 

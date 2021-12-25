@@ -71,6 +71,26 @@ const Modal = ({ id, label, type, children, to }) => {
               </>
             )}
 
+            {type === "confirm" && (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Huỷ bỏ
+                </button>
+                <button
+                  type="submit"
+                  form={id + "-form"}
+                  className="btn btn-success"
+                  id={id + "-btn"}
+                >
+                  Đồng ý
+                </button>
+              </>
+            )}
+
             {!type && (
               <>
                 <button
