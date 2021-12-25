@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import InputGroup from "../shared/InputGroup";
+import Error from "../shared/Error";
 
 const PersonForm = (props) => {
   const auth = useAuth();
+  const [error, setError] = useState();
   const fields = [
     "cccd",
     "ho",
@@ -36,14 +38,24 @@ const PersonForm = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        data = JSON.parse(data);
-        console.log(data);
-        alert(data.message);
-        window.location.reload();
+        if (typeof data === "string") {
+          data = JSON.parse(data);
+        }
+        
+        if (data.error) {
+          throw data;
+        }
+        // console.log(data);
+        // alert(data.message);
+        // window.location.reload();
       })
       .catch((error) => {
-        alert(error);
+        
         console.log(error);
+
+        if (error.error) {
+          setError("error");
+        }
       });
   };
   return (
@@ -151,7 +163,7 @@ const PersonForm = (props) => {
           />
         </div>
       </div>
-
+      {error ? <Error status={error} /> : <></>}
       <button
         id="person-btn"
         type="submit"

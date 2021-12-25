@@ -43,7 +43,7 @@ const AccountForm = (props) => {
           throw data;
         }
 
-        alert(data.message);
+        // alert(data.message);
         // window.location.reload();
       })
       .catch((error) => {
@@ -54,9 +54,9 @@ const AccountForm = (props) => {
           setError("tenDonvi");
         } else if (error.tenTK) {
           setError("wrongtenTK");
-        } else if (error.error == "Sai định dạng tài khoản cấp dưới") {
+        } else if (error.error === "Sai định dạng tài khoản cấp dưới") {
           setError("wrongtenTK");
-        } else if (error.error == "Tài khoản đã tồn tại") {
+        } else if (error.error === "Tài khoản đã tồn tại") {
           setError("existtenTK");
         }
       });
