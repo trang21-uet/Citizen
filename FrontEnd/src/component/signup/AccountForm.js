@@ -33,7 +33,14 @@ const AccountForm = (props) => {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status === "400") {
+          throw "Invalid password";
+        }
+        throw response.json();
+      })
       .then((data) => {
         if (data.error) {
           throw data.error;
@@ -51,9 +58,6 @@ const AccountForm = (props) => {
     const repass = document.getElementById("repassword").value;
     if (pass !== repass) {
       setError("Passwords not match");
-      toggleBtn("account-btn", false);
-    } else if (pass.length < 8) {
-      setError("Password too short");
       toggleBtn("account-btn", false);
     } else {
       setError(null);

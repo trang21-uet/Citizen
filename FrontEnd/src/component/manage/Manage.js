@@ -219,13 +219,43 @@ const SetPermissionForm = ({ target }) => {
 };
 
 const ResetPasswordForm = ({ target }) => {
+  const auth = useAuth();
   const [error, setError] = useState();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = {
-      MK:
-    }
+    console.log(target);
+    const data = JSON.stringify({
+      MK: document.getElementById("pass").value.trim(),
+      user: target,
+    });
+
+    await fetch("http://localhost:8000/api/resetpassword", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + auth.info().access_token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else if (response.status === 400) {
+          throw "Invalid password";
+        } else {
+          throw response.json();
+        }
+      })
+      .then((data) => {
+        if (data.error) {
+          throw data.error;
+        }
+        alert(data.message);
+        console.log(data);
+      })
+      .catch((error) => setError(error));
   };
 
   const checkPass = () => {
@@ -233,9 +263,6 @@ const ResetPasswordForm = ({ target }) => {
     const repass = document.getElementById("repass").value;
     if (pass !== repass) {
       setError("Passwords not match");
-      toggleBtn("reset-password-modal-btn", false);
-    } else if (pass.length < 8) {
-      setError("Password too short");
       toggleBtn("reset-password-modal-btn", false);
     } else {
       setError(null);
@@ -265,6 +292,11 @@ const ResetPasswordForm = ({ target }) => {
         onChange={checkPass}
       />
       {error ? <Error status={error} /> : <></>}
+      <Modal
+        label="Cấp lại mật khẩu thành công"
+        type="alert"
+        id="reset-password-alert"
+      ></Modal>
     </form>
   );
 };

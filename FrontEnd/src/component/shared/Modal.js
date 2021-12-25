@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Modal = ({ id, label, children }) => {
+const Modal = ({ id, label, type, children }) => {
   useEffect(() => {
     if (id === "delete-modal") {
       const btn = document.querySelector("#" + id + "-btn");
@@ -26,21 +26,33 @@ const Modal = ({ id, label, children }) => {
           </div>
           <div className="modal-body">{children}</div>
           <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Huỷ bỏ
-            </button>
-            <button
-              type="submit"
-              form={id + "-form"}
-              className="btn btn-success"
-              id={id + "-btn"}
-            >
-              Lưu lại
-            </button>
+            {type === "alert" ? (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Đóng
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Huỷ bỏ
+                </button>
+                <button
+                  type="submit"
+                  form={id + "-form"}
+                  className="btn btn-success"
+                  id={id + "-btn"}
+                >
+                  Lưu lại
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
