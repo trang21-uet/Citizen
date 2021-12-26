@@ -9,6 +9,7 @@ Route::group([
     'middleware' => ['jwt.verify'],
 ],function($router) {
     
+    //Định tuyến cho các tài khoản B1
     Route::get('/quanly',[B1Controller::class, 'danhSachAcc']);
     Route::post('/quyen',[B1Controller::class, 'setQuyen']);
     Route::post('/hoanthanh', [B1Controller::class, 'hoanthanh']);

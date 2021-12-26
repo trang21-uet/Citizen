@@ -8,14 +8,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class thongtin extends Model
 {
-
     use HasFactory, SoftDeletes;
     
+    //Table mà model kết nối với
     protected $table = 'thongtin';
+
+    //Khóa chính
     protected $primaryKey = 'ID';
+
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
 
+    //Thuộc tính mặc định của các trường
     protected $attributes = [
         'cccd' => null,
         'tonGiao' => null,
@@ -23,6 +27,7 @@ class thongtin extends Model
         'B2' => null,
     ];
 
+    //Những field mà user được phép chỉnh sửa
     protected $fillable = [
         'ID',
         'cccd',
@@ -40,6 +45,7 @@ class thongtin extends Model
         'B1',
     ];
 
+    //Không cho người dùng nhận được những field này
     protected $hidden = [
         'deleted_at',
         'created_at',

@@ -15,16 +15,23 @@ use App\Models\b2;
 class userController extends Controller
 {
 
+    /** 
+     * yêu cầu phải được xác thực mới có thể truy cập
+    */
     public function __construct() {
         $this->middleware('jwt.verify')->except('logout');
     }
 
     /**
-     * Register a User.
+     * Cấp một tài khoản mới
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
+
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'tenTK' => 'required|string|regex:/^[0-9]+$/',
             'tenDonvi' => 'required|string|regex:/^([a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+)$/',
@@ -43,6 +50,9 @@ class userController extends Controller
 
         $tenTK;
 
+        /**
+         * Kiểm tra role phù hợp
+         */
         if(in_array(Auth::user()->role, ['A2', 'A3', 'B1', 'B2'])) {
             $tenTK = Auth::user()->tenTK . $validator->validated()['tenTK'];
         } else if (Auth::user()->role == 'A1') {
@@ -58,6 +68,9 @@ class userController extends Controller
             ], 404);
         }
 
+        /**
+         * Tạo tài khoản mới
+         */
         $role = 'A1';
         
         if(Auth::user()->role == 'A1') {
@@ -114,7 +127,7 @@ class userController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token).
+     * Đăng xuất người dùng
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -126,7 +139,7 @@ class userController extends Controller
     }
 
     /**
-     * Refresh a token.
+     * Làm mới token của người dùng
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -135,7 +148,7 @@ class userController extends Controller
     }
 
      /**
-     * Get the authenticated User.
+     * Lấy thông tin của tài khoản gửi lên
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -144,6 +157,9 @@ class userController extends Controller
 
         $manager = null;
 
+        /**
+         * Kiểm tra role phù hợp
+         */
         if($user->role == 'A2') {
             $manager = a1::where('maTongcuc', $user->manager)->first();
             $user = a2::where('maTinh', $user->tenTK)->first();
@@ -170,6 +186,10 @@ class userController extends Controller
     Thay đổi mật khẩu cho cấp dưới
     */
     public function changePassWord(Request $request) {
+
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'MK' => 'required|string|min:8|regex:/^\S*(?=\S*[a-zA-Z])(?=\S*[\d])\S*$/',
             'user' => 'required|string|regex:/^[0-9a-zA-Z]+$/',
@@ -179,6 +199,9 @@ class userController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
         
+        /**
+         * Không cho phép thay đổi mật khẩu của chính bản thân
+         */
         if($validator->validated()['user'] ==Auth::user()->tenTK) {
             return response()->json([
                 'error' => 'Không thể thay đổi mật khẩu của bản thân',
@@ -200,6 +223,9 @@ class userController extends Controller
             ],404);
         }
 
+        /**
+         * Cập nhật mật khẩu
+         */
         $user->update([
             'MK' => bcrypt($validator->validated()['MK']),
         ]);

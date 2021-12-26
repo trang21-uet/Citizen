@@ -12,11 +12,9 @@ use App\Models\thongtin;
 
 class B2Controller extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+    /** 
+     * yêu cầu phải được xác thực mới có thể truy cập
+    */
     public function __construct() {
         $this->middleware('jwt.verify');
     }

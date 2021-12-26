@@ -13,11 +13,9 @@ use App\Models\thongtin;
 
 class A3Controller extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+    /** 
+     * yêu cầu phải được xác thực mới có thể truy cập
+    */
     public function __construct() {
         $this->middleware('jwt.verify');
     }
@@ -27,12 +25,18 @@ class A3Controller extends Controller
      */
     public function setQuyen(Request $request) {
 
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'A3') {
             return response()->json([
                 'error' => 'You don\'t have permission',
             ], 404);
         }
 
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'startPermission' => 'required|date_format:Y-m-d H:i:s',
             'endPermission' => 'required|date_format:Y-m-d H:i:s',
@@ -58,6 +62,9 @@ class A3Controller extends Controller
             ], 404);
         }
 
+        /**
+         * Đặt quyền cho người dùng
+         */
         $user->update([
             'startPermission' => $validator->validated()['startPermission'],
             'endPermission' => $validator->validated()['endPermission'],
@@ -69,8 +76,14 @@ class A3Controller extends Controller
         ], 201);
     }
 
+    /**
+     * Trả lại danh sách tài khoản quản lý
+     */
     public function danhSachAcc(Request $request) {
 
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'A3') {
             return response()->json([
                 'error' => 'You don\'t have permission',
@@ -85,27 +98,21 @@ class A3Controller extends Controller
     */
     public function trangthai(Request $request) {
         
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'A3') {
             return response()->json([
                 'error' => 'You don\'t have permission',
             ], 404);
         }
         
+        /**
+         * Lấy dữ liệu trạng thái của các đơn vị
+         */
         $users = b1::where('b1.A3', Auth::user()->tenTK)
                     ->select('b1.*')
                     ->get();
-        
-        // $temp = $users->count();
-        // for ($i = 0; $i < $temp - 1; $i++ ) {
-        //     //Kiem tra xem co 2 ban ghi trung tenTK nhung khac trang thai khong
-        //     if($users[$i]->tenTK == $users[$i + 1]->tenTK) {
-        //         if($users[$i]->trangthai == 1) {
-        //             $users->forget($i);
-        //         } else {
-        //             $users->forget($i + 1);
-        //         }
-        //     }
-        // }
 
         return $users;
     }

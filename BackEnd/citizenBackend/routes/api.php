@@ -25,11 +25,14 @@ Route::match(['get', 'post'],'/login', [loginController::class, 'login']);
 Route::group([
     'middleware' => ['jwt.verify'],
 ],function($router) {
+    
+    //Các thao tác với dữ liệu người dùng: đăng nhập, đăng xuất, reset mật khẩu, cấp tài khoản
     Route::get('/logout', [userController::class, 'logout']);
     Route::get('/user', [userController::class, 'userProfile']);
     Route::post('/resetpassword', [userController::class, 'changePassword']);
     Route::post('/register', [userController::class, 'register']);
     
+    //Các thao tác với xử lý thông tin người dân
     Route::get('/trangthaiquyen', [thongtinController::class,'trangThaiQuyen']);
     Route::get('/list', [thongtinController::class,'showAll']);
     Route::get('/list/{thongtin}', [thongtinController::class,'showOne']);

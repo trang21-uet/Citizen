@@ -11,11 +11,15 @@ use Illuminate\Support\Facades\Auth;
 class loginController extends Controller
 {
     /**
-     * Get a JWT via given credentials.
+     * Xác minh người dùng
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request){
+        
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
     	$validator = Validator::make($request->all(), [
             'tenTK' => 'required|string|regex:/^[0-9a-zA-Z]+$/',
             'MK' => 'required|string|regex:/^[0-9a-zA-Z]+$/',
@@ -33,7 +37,7 @@ class loginController extends Controller
     }
 
     /**
-     * Get the token array structure.
+     * Trả lại token cho FrontEnd
      *
      * @param  string $token
      *
