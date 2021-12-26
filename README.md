@@ -28,6 +28,7 @@ CitizenV là ứng dụng web được phát triển nhằm phục vụ công t�
 Chức năng cụ thể cho từng vai trò sử dụng như sau:
 
 A1
+
 Một hoặc nhiều tài khoản cán bộ A1 được thiết lập trước hoặc được cấp bởi admin. Cán bộ A1 thực hiện các chức năng sau:
 - Khai báo và cấp mã cho 63 tỉnh/thành phố. Mỗi mã tỉnh/thành phố bao gồm hai (02) chữ số. Các mã cấp cho các tỉnh/thành lần lượt từ 01 đến 63.
 - Cấp tài khoản cho cán bộ A2. Mỗi chi cục được cấp một tài khoản duy nhất, tên tài khoản trùng với tên mã tỉnh/thành phố.
@@ -38,6 +39,7 @@ Một hoặc nhiều tài khoản cán bộ A1 được thiết lập trước h
 - Xem thông tin về một người dân bất kỳ trên toàn quốc.
 
 A2
+
 Cán bộ A2 có chức năng tương tự A1 nhưng chỉ trong phạm vi một tỉnh/thành phố. Cán bộ A2 của tỉnh/thành phố nào thì chỉ được quyền trên dữ liệu dân số và người dùng của tỉnh/thành phố đó. Cụ thể, cán bộ A2 thực hiện các chức năng sau:
 - Khai báo và cấp mã cho các huyện/quận trực thuộc tỉnh/thành phố. Mỗi mã huyện/quận bao gồm bốn (04) chữ số, trong đó hai (02) chữ số đầu là mã tỉnh/thành phố, hai (02) chữ số cuối là số thứ tự của huyện/quận trong tỉnh/thành phố.
 - Cấp tài khoản cho cán bộ A3. Mỗi huyện/quận được cấp một tài khoản duy nhất, tên tài khoản trùng với tên mã huyện/quận.
@@ -58,6 +60,7 @@ Cán bộ A3 có chức năng tương tự A1, A2 nhưng chỉ trong phạm vi m
 - Xem thông tin về một người dân bất kỳ trên toàn huyện/quận.
 
 B1
+
 Các cấp A1-A2-A3 chỉ đạo và theo dõi tình hình thực hiện điều tra và nhập liệu. Ngược lại, các cấp B1 và B2 mới trực tiếp thực hiện điều tra và nhập liệu về dân số trên địa bàn từng xã/phường. Mỗi cán bộ B1 chịu trách nhiệm về dữ liệu dân số trên địa bàn xã/phường của mình. Cụ thể, cán bộ B1 thực hiện các chức năng sau:
 - Khai báo và cấp mã cho các thôn/bản/tổ dân phố trực thuộc xã/phường. Mã của thôn/bản/tổ dân phố gồm tám (08) chữ số, trong đó sáu (06) chữ số đầu là mã xã/phường cấp trên, hai (02) chữ số cuối là số thứ tự của thôn/bản/tổ dân phố.
 - Cấp tài khoản cho cán bộ B2. Mỗi thôn/bản/tổ dân phố được cấp một tài khoản B2 duy nhất, tên tài khoản trùng với tên mã thôn/bản/tổ dân phố.
@@ -71,6 +74,7 @@ Các cấp A1-A2-A3 chỉ đạo và theo dõi tình hình thực hiện điều
 - Báo cáo hoàn thành (kích hoạt trạng thái đã hoàn thành) việc điều tra và nhập dữ liệu và dân số thuộc xã/phường của mình.
 
 B2
+
 - Phát phiếu điều tra dân số đến từng hộ dân thuộc thôn/bản/tổ dân phố và thu phiếu điều tra sau khi các các hộ khai báo xong.
 - Nhập liệu về dân số thuộc các phiếu đã khảo sát hoặc nộp phiếu cho B1 để B1 nhập.
  
