@@ -36,6 +36,7 @@ Một hoặc nhiều tài khoản cán bộ A1 được thiết lập trước h
 - Xem tổng hợp và phân tích số liệu dân số trên toàn quốc, của từng tỉnh/thành hoặc nhóm tỉnh/thành phố, của từng huyện/quận hoặc nhóm huyện/quận, của từng xã/phường hoặc nhóm xã/phường.
 - Xem danh sách dân số trên toàn quốc, của từng tỉnh/thành hoặc nhóm tỉnh/thành phố, của từng huyện/quận hoặc nhóm huyện/quận, của từng xã/phường hoặc nhóm xã/phường.
 - Xem thông tin về một người dân bất kỳ trên toàn quốc.
+
 A2
 Cán bộ A2 có chức năng tương tự A1 nhưng chỉ trong phạm vi một tỉnh/thành phố. Cán bộ A2 của tỉnh/thành phố nào thì chỉ được quyền trên dữ liệu dân số và người dùng của tỉnh/thành phố đó. Cụ thể, cán bộ A2 thực hiện các chức năng sau:
 - Khai báo và cấp mã cho các huyện/quận trực thuộc tỉnh/thành phố. Mỗi mã huyện/quận bao gồm bốn (04) chữ số, trong đó hai (02) chữ số đầu là mã tỉnh/thành phố, hai (02) chữ số cuối là số thứ tự của huyện/quận trong tỉnh/thành phố.
@@ -45,6 +46,7 @@ Cán bộ A2 có chức năng tương tự A1 nhưng chỉ trong phạm vi một
 - Xem tổng hợp và phân tích số liệu dân số trên toàn tỉnh/thành phố, của từng huyện/quận hoặc nhóm huyện/quận, của từng xã/phường hoặc nhóm xã/phường.
 - Xem danh sách dân số trên toàn tỉnh/thành phố, của từng huyện/quận hoặc nhóm huyện/quận, của từng xã/phường hoặc nhóm xã/phường.
 - Xem thông tin về một người dân bất kỳ trên toàn tỉnh/thành phố.
+
 A3
 Cán bộ A3 có chức năng tương tự A1, A2 nhưng chỉ trong phạm vi một huyện/quận. Cán bộ A3 của huyện/quận nào thì chỉ được quyền trên dữ liệu dân số và người dùng của huyện/quận đó. Cụ thể, cán bộ A3 thực hiện các chức năng sau:
 - Khai báo và cấp mã cho các xã/phường trực thuộc huyện/quận. Mã của xã phường gồm sáu (06) chữ số, trong đó bốn (04) chữ số đầu là mã huyện/quận cấp trên, hai (02) chữ số cuối là số thứ tự của xã/phường.
@@ -54,6 +56,7 @@ Cán bộ A3 có chức năng tương tự A1, A2 nhưng chỉ trong phạm vi m
 - Xem tổng hợp và phân tích số liệu dân số trên toàn huyện/quận, của từng xã/phường hoặc nhóm xã/phường.
 - Xem danh sách dân số trên toàn huyện/quận, của từng xã/phường hoặc nhóm xã/phường.
 - Xem thông tin về một người dân bất kỳ trên toàn huyện/quận.
+
 B1
 Các cấp A1-A2-A3 chỉ đạo và theo dõi tình hình thực hiện điều tra và nhập liệu. Ngược lại, các cấp B1 và B2 mới trực tiếp thực hiện điều tra và nhập liệu về dân số trên địa bàn từng xã/phường. Mỗi cán bộ B1 chịu trách nhiệm về dữ liệu dân số trên địa bàn xã/phường của mình. Cụ thể, cán bộ B1 thực hiện các chức năng sau:
 - Khai báo và cấp mã cho các thôn/bản/tổ dân phố trực thuộc xã/phường. Mã của thôn/bản/tổ dân phố gồm tám (08) chữ số, trong đó sáu (06) chữ số đầu là mã xã/phường cấp trên, hai (02) chữ số cuối là số thứ tự của thôn/bản/tổ dân phố.
