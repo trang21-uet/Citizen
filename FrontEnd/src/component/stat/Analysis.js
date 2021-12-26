@@ -97,18 +97,32 @@ const PopulationChart = ({ data, children }) => {
   console.log(result);
 
   return (
-    <Chart
-      class="mx-auto"
-      width={"900px"}
-      height={"500px"}
-      chartType="PieChart"
-      loader={<div>Đang tải biểu đồ</div>}
-      data={result}
-      options={{
-        title: "Biểu đồ dân số của từng vùng",
-      }}
-      rootProps={{ "data-testid": "1" }}
-    />
+    <div class=" top-50 start-50">
+      <Chart
+        class="mx-auto"
+        width={"900px"}
+        height={"500px"}
+        text-align="center"
+        chartType="BarChart"
+        loader={<div>Đang tải biểu đồ</div>}
+        data={result}
+        options={{
+          hAxis: {
+            title: "Số người"
+          },
+          vAxis: {
+            title: "Địa phương"
+          },
+          title: "Biểu đồ dân số của từng vùng",
+          animation: {
+            startup: true,
+            easing: 'inAndOut',
+            duration: 1000,
+          },
+        }}
+        rootProps={{ "data-testid": "1" }}
+      />
+    </div>
   );
 };
 
