@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import { RadioGroup } from "../shared/InputGroup";
 import { Chart } from "react-google-charts";
-import InfoGroup from "../shared/InfoGroup";
 
 const Analysis = ({ data }) => {
   const [content, setContent] = useState([]);
@@ -28,20 +27,18 @@ const Analysis = ({ data }) => {
         if (data.error) {
           throw data.error;
         } else {
-          // console.log(data);
           let childName = {};
           data.forEach((element) => {
             childName[element[child[auth.info().type][0]]] =
               element[child[auth.info().type][1]];
           });
-          // console.log(childName);
           setChildren({ ...childName });
         }
       })
       .catch((error) => console.log(error));
   };
 
-  useEffect(() => auth.info().type !== "B1" && request(), []);
+  useEffect(() => auth.info().type !== "B2" && request(), []);
 
   const handleChange = (event) => {
     const field = event.target.value;
@@ -87,6 +84,7 @@ const PopulationChart = ({ data, children }) => {
         if (person.B2 === id) {
           return 1;
         }
+        return 0;
       } else if (person.B1.slice(0, id.length) === id) {
         return 1;
       }
@@ -94,12 +92,11 @@ const PopulationChart = ({ data, children }) => {
     });
     result.push([children[id], counter.filter((x) => x === 1).length]);
   });
-  console.log(result);
 
   return (
-    <div class=" top-50 start-50">
+    <div className=" top-50 start-50">
       <Chart
-        class="mx-auto"
+        className="mx-auto"
         width={"900px"}
         height={"500px"}
         text-align="center"
@@ -108,15 +105,15 @@ const PopulationChart = ({ data, children }) => {
         data={result}
         options={{
           hAxis: {
-            title: "Số người"
+            title: "Số người",
           },
           vAxis: {
-            title: "Địa phương"
+            title: "Địa phương",
           },
           title: "Biểu đồ dân số của từng vùng",
           animation: {
             startup: true,
-            easing: 'inAndOut',
+            easing: "inAndOut",
             duration: 1000,
           },
         }}
@@ -168,7 +165,7 @@ const AgeChart = ({ data }) => {
 
   return (
     <Chart
-      class="mx-auto"
+      className="mx-auto"
       width={"900px"}
       height={"500px"}
       chartType="PieChart"

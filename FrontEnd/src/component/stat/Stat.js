@@ -39,27 +39,39 @@ const Stat = () => {
 
   return data.length ? (
     <div className="container">
-      <div className="d-flex justify-content-between">
-        <h2 className="my-4 gi">Thông tin người dân</h2>
-        <SortSelector
-          className="w-auto align-self-end"
-          data={data}
-          setData={(data) => {
-            setData(data);
-          }}
-        />
+      <ul className="nav nav-pills my-3" id="stat-tab" role="tablist">
+        <TabLabel target="stat-table" className="active">
+          Tất cả thông tin
+        </TabLabel>
+        <TabLabel target="analysis">Phân tích thông tin</TabLabel>
+      </ul>
+      <div className="tab-content">
+        <TabPane target="stat-table" className="active show">
+          <div className="d-flex justify-content-between">
+            <h2 className="my-4 gi">Thông tin người dân</h2>
+            <SortSelector
+              className="w-auto align-self-end"
+              data={data}
+              setData={(data) => {
+                setData(data);
+              }}
+            />
+          </div>
+          <StatTable
+            fields={fields}
+            data={data}
+            navigate={(url) => {
+              navigate(url);
+            }}
+          />
+          <p className="text-muted my-4">
+            (Bấm vào hàng của bảng để xem thông tin chi tiết).
+          </p>
+        </TabPane>
+        <TabPane target="analysis">
+          <Analysis data={data} />
+        </TabPane>
       </div>
-      <StatTable
-        fields={fields}
-        data={data}
-        navigate={(url) => {
-          navigate(url);
-        }}
-      />
-      <p className="text-muted my-4">
-        (Bấm vào hàng của bảng để xem thông tin chi tiết).
-      </p>
-      <Analysis data={data} />
     </div>
   ) : (
     <Error status="nothing" />
@@ -208,6 +220,38 @@ const StatTable = ({ data, fields, navigate }) => {
       </thead>
       <tbody>{rows}</tbody>
     </table>
+  );
+};
+
+const TabLabel = ({ target, children, className }) => {
+  return (
+    <li className="nav-item" role="presentation">
+      <button
+        className={"nav-link text-dark m-1 " + className}
+        id={target + "-toggler"}
+        data-bs-toggle="pill"
+        data-bs-target={"#" + target + "-tab"}
+        type="button"
+        role="tab"
+        aria-controls={target + "-tab"}
+        aria-selected={true}
+      >
+        {children}
+      </button>
+    </li>
+  );
+};
+
+const TabPane = ({ children, target, className }) => {
+  return (
+    <div
+      className={"tab-pane fade " + className}
+      id={target + "-tab"}
+      role="tabpanel"
+      aria-labelledby={target + "-toggler"}
+    >
+      {children}
+    </div>
   );
 };
 
