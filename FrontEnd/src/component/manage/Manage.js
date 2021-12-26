@@ -130,7 +130,7 @@ const UsersTable = ({ data, fields }) => {
     cells.push(
       <td key="changePermission" className="align-middle">
         <button
-          className="btn bi bi-key-fill"
+          className="btn bi bi-shield-fill-check"
           onClick={() => {
             setTarget(data[key][name[auth.info().type]]);
           }}
@@ -138,7 +138,7 @@ const UsersTable = ({ data, fields }) => {
           data-bs-target="#set-permission-modal"
         />
         <button
-          className="btn bi bi-shield-fill-check"
+          className="btn bi bi-key-fill"
           onClick={() => {
             setTarget(data[key][name[auth.info().type]]);
           }}
@@ -225,7 +225,11 @@ const SetPermissionForm = ({ target }) => {
           if (data.error) {
             throw data.error;
           }
-          alert(data.message);
+          document.querySelectorAll("form input").forEach((element) => {
+            element.value = "";
+          });
+
+          toggleModal("set-permission-alert", true);
         })
         .catch((error) => alert(error));
     }
@@ -294,8 +298,9 @@ const ResetPasswordForm = ({ target }) => {
         if (data.error) {
           throw data.error;
         }
-
-        toggleModal("reset-password-modal", false);
+        document.querySelectorAll("form input").forEach((element) => {
+          element.value = "";
+        });
         toggleModal("reset-password-alert", true);
         console.log(data);
       })

@@ -63,9 +63,9 @@ const SlideItem = ({ className, src, label, desc }) => {
   return (
     <div className={"carousel-item " + className}>
       <img src={src} className="img-fluid w-100 " alt="#" />
-      <div className="carousel-caption d-none d-md-block text-dark">
+      <div className="carousel-caption d-none d-lg-block text-dark">
         <p className="gi h2">{label}</p>
-        <p className="gi h5">{desc}</p>
+        <p className="gi h5 text-muted">{desc}</p>
       </div>
     </div>
   );
