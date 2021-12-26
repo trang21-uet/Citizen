@@ -93,23 +93,35 @@ class A2Controller extends Controller
 
         $users = a3::leftJoin('b1', 'a3.maHuyen', '=', 'b1.A3')
                     ->where('a3.A2', Auth::user()->tenTK)
-                    ->select('a3.*', 'trangthai')
+                    ->select('a3.*', 'b1.trangThai')
                     ->distinct()
                     ->get();
         
-        $temp = $users->count();
-        for ($i = 0; $i < $temp - 1; $i++ ) {
+        $temp = array();
+
+        $count = $users->count();
+
+        for ($i = 0; $i < $count - 1; $i++ ) {
             //Kiem tra xem co 2 ban ghi trung tenTK nhung khac trang thai khong
             if($users[$i]->maHuyen == $users[$i + 1]->maHuyen) {
-                if($users[$i]->trangthai == 1) {
-                    $users->forget($i);
+                if($users[$i]->trangThai == 1) {
+                    $temp[] = $users[$i + 1];
                 } else {
-                    $users->forget($i + 1);
+                    $temp[] = $users[$i];
+                }
+            } else {
+                if(count($temp) == 0) {
+                    $temp[] = $users[$i];
+                } else if($users[$i]->maHuyen != $temp[count($temp) - 1]->maHuyen) {
+                    $temp[] = $users[$i];
+                }
+                if(!in_array($users[$i + 1], $temp)) {
+                    $temp[] = $users[$i + 1];
                 }
             }
         }
 
-        return $users;
+        return $temp;
     }
 
 }
