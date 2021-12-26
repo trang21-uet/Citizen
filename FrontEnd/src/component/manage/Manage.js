@@ -285,7 +285,7 @@ const ResetPasswordForm = ({ target }) => {
         if (response.ok) {
           return response.json();
         } else if (response.status === 400) {
-          throw "Invalid password";
+          throw "invalid password";
         } else {
           throw response.json();
         }

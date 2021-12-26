@@ -10,27 +10,29 @@ const Stat = () => {
     ngaySinh: "Ngày Sinh",
     gioiTinh: "Giới tính",
     thuongTru: "Địa chỉ",
+    trinhDoVanHoa: "Trình độ học vấn",
   };
   const auth = useAuth();
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const request = async () => {
-      document.title = "Citizen - Thông tin";
-      await fetch("http://localhost:8000/api/list", {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + auth.info().access_token,
-          Accept: "application/json",
-        },
+  const request = async () => {
+    document.title = "Citizen - Thông tin";
+    await fetch("http://localhost:8000/api/list", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth.info().access_token,
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setData(data);
       })
-        .then((response) => response.json())
-        .then((data) => {
-          // console.log(data);
-          setData(data);
-        })
-        .catch((error) => console.log(error));
-    };
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
     request();
   }, [auth]);
 
@@ -64,8 +66,6 @@ const Stat = () => {
 
 const SortSelector = ({ className, data, setData }) => {
   const [value, setValue] = useState("0");
-  const oldData = new Array(...data);
-  console.log(oldData);
 
   const handleChange = (event) => {
     const key = event.target.value;
@@ -112,15 +112,15 @@ const SortSelector = ({ className, data, setData }) => {
         case "level":
           for (let i = 0; i < data.length; i++) {
             for (let j = i + 1; j < data.length; j++) {
-              var t1
+              var t1;
               if (parseInt(data[i].trinhDoVanHoa)) {
-                t1 = parseInt(data[i].trinhDoVanHoa)
+                t1 = parseInt(data[i].trinhDoVanHoa);
               } else {
                 t1 = 14;
               }
-              var t2
+              var t2;
               if (parseInt(data[i].trinhDoVanHoa)) {
-                t2 = parseInt(data[j].trinhDoVanHoa)
+                t2 = parseInt(data[j].trinhDoVanHoa);
               } else {
                 t2 = 14;
               }
