@@ -50,6 +50,7 @@ Cán bộ A2 có chức năng tương tự A1 nhưng chỉ trong phạm vi một
 - Xem thông tin về một người dân bất kỳ trên toàn tỉnh/thành phố.
 
 A3
+
 Cán bộ A3 có chức năng tương tự A1, A2 nhưng chỉ trong phạm vi một huyện/quận. Cán bộ A3 của huyện/quận nào thì chỉ được quyền trên dữ liệu dân số và người dùng của huyện/quận đó. Cụ thể, cán bộ A3 thực hiện các chức năng sau:
 - Khai báo và cấp mã cho các xã/phường trực thuộc huyện/quận. Mã của xã phường gồm sáu (06) chữ số, trong đó bốn (04) chữ số đầu là mã huyện/quận cấp trên, hai (02) chữ số cuối là số thứ tự của xã/phường.
 - Cấp tài khoản cho cán bộ B1. Mỗi xã/phường được cấp một tài khoản B1 duy nhất, tên tài khoản trùng với tên mã xã/phường.
