@@ -7,22 +7,17 @@ const SignupForm = (props) => {
   return (
     <>
       <ul className="nav nav-pills mb-3" id="form-tab" role="tablist">
-        <TabLabel form="account">Cấp tài khoản mới</TabLabel>
-        <TabLabel form="person">Nhập thông tin người dân</TabLabel>
+        <TabLabel target="account">Cấp tài khoản mới</TabLabel>
+        <TabLabel target="person">Nhập thông tin người dân</TabLabel>
       </ul>
       <div className="tab-content d-lg-flex justify-content-center">
-        <TabPane form="account">
-          <AccountForm
-            child={props.child}
-            id={props.id}
-            className={props.className}
-          />
+        <TabPane target="account">
+          <AccountForm child={props.child} className={props.className} />
         </TabPane>
-        <TabPane form="person">
+        <TabPane target="person">
           <PersonForm
             method="POST"
             child={props.child}
-            id={props.id}
             className={props.className}
           />
         </TabPane>
@@ -47,18 +42,18 @@ const SignupForm = (props) => {
   );
 };
 
-const TabLabel = ({ form, children }) => {
+const TabLabel = ({ target, children }) => {
   return (
     <li className="nav-item" role="presentation">
       <button
         disabled
         className="nav-link text-dark m-1 active"
-        id={form + "-tab"}
+        id={target + "-tab"}
         data-bs-toggle="pill"
-        data-bs-target={"#" + form}
+        data-bs-target={"#" + target}
         type="button"
         role="tab"
-        aria-controls={form}
+        aria-controls={target}
         aria-selected={true}
       >
         {children}
@@ -67,13 +62,13 @@ const TabLabel = ({ form, children }) => {
   );
 };
 
-const TabPane = ({ children, form }) => {
+const TabPane = ({ children, target }) => {
   return (
     <div
       className="tab-pane fade active show"
-      id={form}
+      id={target}
       role="tabpanel"
-      aria-labelledby={form + "-tab"}
+      aria-labelledby={target + "-tab"}
     >
       {children}
     </div>
