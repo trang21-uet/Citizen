@@ -38,12 +38,17 @@ const PersonForm = (props) => {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response.status;
+      })
       .then((data) => {
         if (typeof data === "string") {
           data = JSON.parse(data);
         }
-
+        console.log(data);
         if (data.error) {
           throw data;
         }
@@ -51,10 +56,8 @@ const PersonForm = (props) => {
       })
       .catch((error) => {
         console.log(error);
-
-        if (error.error) {
-          setError("error");
-        }
+        error === 400 && alert("Lỗi dữ liệu");
+        error.error && setError("error");
       });
   };
   return (

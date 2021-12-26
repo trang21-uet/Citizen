@@ -26,7 +26,7 @@ const Modal = ({ id, label, type, children, to }) => {
             {type === "alert" && (
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-secondary mx-auto"
                 data-bs-dismiss="modal"
                 onClick={() => {
                   to
@@ -83,6 +83,7 @@ const Modal = ({ id, label, type, children, to }) => {
                 <button
                   type="submit"
                   form={id + "-form"}
+                  data-bs-dismiss="modal"
                   className="btn btn-success"
                   id={id + "-btn"}
                 >
@@ -111,6 +112,7 @@ const Modal = ({ id, label, type, children, to }) => {
                   disabled
                   type="submit"
                   form={id + "-form"}
+                  data-bs-dismiss="modal"
                   className="btn btn-success"
                   id={id + "-btn"}
                 >

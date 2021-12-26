@@ -6,6 +6,7 @@ import InputGroup from "../shared/InputGroup";
 import Modal from "../shared/Modal";
 import { Radio } from "../signup/PersonForm";
 import Error from "../shared/Error";
+import { toggleModal } from "../shared/handler";
 
 const Citizen = () => {
   const { id } = useParams();
@@ -83,25 +84,6 @@ const CitizenInfo = ({ data }) => {
       );
   }
 
-  const deletePerson = async (target) => {
-    await fetch("http://localhost:8000/api/delete/" + target.ID, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + auth.info().access_token,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        alert(error);
-        console.log(error);
-      });
-  };
-
   return (
     <div className="container my-5 p-3 rounded border">
       <h2 className="mb-5 gi">Thông tin chi tiết</h2>
@@ -110,21 +92,24 @@ const CitizenInfo = ({ data }) => {
         <ModifyForm fields={fields} oldData={data} target={selectedField} />
       </Modal>
       <Modal
-        label="Xoá thông tin người dân?"
         type="alert"
-        to="/statistic"
-        id="delete-modal"
-      >
-        Xoá thông tin thành công!
+        label="Cập nhật thông tin thành công"
+        id="modify-alert"
+      ></Modal>
+      <Modal type="confirm" label="Xoá thông tin người dân" id="delete-modal">
+        <DeleteForm target={data} />
       </Modal>
+      <Modal
+        type="alert"
+        label="Xoá thông tin thành công"
+        to="/statistic"
+        id="delete-alert"
+      ></Modal>
       <div className="text-center">
         <button
           className="btn btn-danger"
           data-bs-toggle="modal"
           data-bs-target="#delete-modal"
-          onClick={() => {
-            deletePerson(data);
-          }}
         >
           Xoá tất cả thông tin
         </button>
@@ -135,6 +120,10 @@ const CitizenInfo = ({ data }) => {
 
 const ModifyForm = ({ fields, oldData, target }) => {
   const auth = useAuth();
+  useEffect(() => {
+    target === "gioiTinh" &&
+      document.getElementById("modify-modal-btn").removeAttribute("disabled");
+  }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
     fields.ho = "Họ";
@@ -164,7 +153,7 @@ const ModifyForm = ({ fields, oldData, target }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        alert(data.message);
+        toggleModal("modify-alert", true);
       })
       .catch((error) => {
         alert(error);
@@ -205,6 +194,36 @@ const ModifyForm = ({ fields, oldData, target }) => {
         </div>
       )}
       {target === "gioiTinh" && <Radio id="gioiTinh" />}
+    </form>
+  );
+};
+
+const DeleteForm = ({ target }) => {
+  const auth = useAuth();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await fetch("http://localhost:8000/api/delete/" + target.ID, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + auth.info().access_token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        toggleModal("delete-alert", true);
+      })
+      .catch((error) => {
+        alert(error);
+        console.log(error);
+      });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} id="delete-modal-form">
+      Bạn có chắc chắn muốn xoá tất cả thông tin?
     </form>
   );
 };
