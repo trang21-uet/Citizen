@@ -76,11 +76,10 @@ const Analysis = ({ data }) => {
 };
 
 const PopulationChart = ({ data, children }) => {
-  const [info, setInfo] = useState();
   const auth = useAuth();
 
   let counter = [];
-  let result = [];
+  let result = [["Địa phương", "Số dân"]];
   Object.keys(children).forEach((id) => {
     counter = [];
     counter = data.map((person) => {
@@ -95,11 +94,7 @@ const PopulationChart = ({ data, children }) => {
     });
     result.push([children[id], counter.filter((x) => x === 1).length]);
   });
-
-  useEffect(() => {
-    console.log(result);
-    setInfo(result);
-  }, []);
+  console.log(result);
 
   return (
     <Chart
@@ -108,7 +103,7 @@ const PopulationChart = ({ data, children }) => {
       height={"500px"}
       chartType="PieChart"
       loader={<div>Đang tải biểu đồ</div>}
-      data={info}
+      data={result}
       options={{
         title: "Biểu đồ dân số của từng vùng",
       }}
