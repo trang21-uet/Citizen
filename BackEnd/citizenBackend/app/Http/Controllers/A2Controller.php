@@ -91,7 +91,7 @@ class A2Controller extends Controller
             ], 404);
         }
 
-        $users = a3::join('b1', 'a3.maHuyen', '=', 'b1.A3')
+        $users = a3::leftJoin('b1', 'a3.maHuyen', '=', 'b1.A3')
                     ->where('a3.A2', Auth::user()->tenTK)
                     ->select('a3.*', 'trangthai')
                     ->distinct()
