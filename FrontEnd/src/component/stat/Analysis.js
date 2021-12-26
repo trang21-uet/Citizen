@@ -97,9 +97,8 @@ const PopulationChart = ({ data, children }) => {
   console.log(result);
 
   return (
-    <div class=" top-50 start-50">
+    <div className="top-50 start-50">
       <Chart
-        class="mx-auto"
         width={"900px"}
         height={"500px"}
         text-align="center"
@@ -168,7 +167,7 @@ const AgeChart = ({ data }) => {
 
   return (
     <Chart
-      class="mx-auto"
+      className="top-50 start-50 mx-auto"
       width={"900px"}
       height={"500px"}
       chartType="PieChart"
