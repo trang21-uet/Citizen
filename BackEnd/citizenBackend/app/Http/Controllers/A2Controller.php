@@ -101,24 +101,21 @@ class A2Controller extends Controller
 
         $count = $users->count();
 
-        for ($i = 0; $i < $count - 1; $i++ ) {
-            //Kiem tra xem co 2 ban ghi trung tenTK nhung khac trang thai khong
-            if($users[$i]->maHuyen == $users[$i + 1]->maHuyen) {
-                if($users[$i]->trangThai == 1) {
-                    $temp[] = $users[$i + 1];
-                } else {
-                    $temp[] = $users[$i];
-                }
+        for ($i = 0; $i < $count; $i++ ) {
+
+            if(count($temp) == 0) {
+                $temp[] = $users[$i];
             } else {
-                if(count($temp) == 0) {
-                    $temp[] = $users[$i];
-                } else if($users[$i]->maHuyen != $temp[count($temp) - 1]->maHuyen) {
-                    $temp[] = $users[$i];
-                }
-                if(!in_array($users[$i + 1], $temp)) {
-                    $temp[] = $users[$i + 1];
+                if ($temp[count($temp) - 1]->maHuyen == $users[$i]->maHuyen) {
+                    if ($users[$i]->trangThai == 0) {
+                        array_pop($temp);
+                        array_push($temp, $users[$i]);
+                    }
+                } else {
+                    array_push($temp, $users[$i]);
                 }
             }
+
         }
 
         return $temp;

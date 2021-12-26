@@ -100,22 +100,18 @@ class A1Controller extends Controller
 
         $count = $users->count();
 
-        for ($i = 0; $i < $count - 1; $i++ ) {
-            //Kiem tra xem co 2 ban ghi trung tenTK nhung khac trang thai khong
-            if($users[$i]->maTinh == $users[$i + 1]->maTinh) {
-                if($users[$i]->trangThai == 1) {
-                    $temp[] = $users[$i + 1];
-                } else {
-                    $temp[] = $users[$i];
-                }
+        for ($i = 0; $i < $count; $i++ ) {
+
+            if(count($temp) == 0) {
+                $temp[] = $users[$i];
             } else {
-                if(count($temp) == 0) {
-                    $temp[] = $users[$i];
-                } else if($users[$i]->maTinh != $temp[count($temp) - 1]->maTinh) {
-                    $temp[] = $users[$i];
-                }
-                if(!in_array($users[$i + 1], $temp)) {
-                    $temp[] = $users[$i + 1];
+                if ($temp[count($temp) - 1]->maTinh == $users[$i]->maTinh) {
+                    if ($users[$i]->trangThai == 0) {
+                        array_pop($temp);
+                        array_push($temp, $users[$i]);
+                    }
+                } else {
+                    array_push($temp, $users[$i]);
                 }
             }
         }
