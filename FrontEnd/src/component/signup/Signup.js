@@ -6,7 +6,9 @@ import SignupForm from "./SignupForm";
 const Signup = () => {
   const auth = useAuth();
   const [error, setError] = useState("");
-  const [permission, setPermission] = useState(false);
+  const [permission, setPermission] = useState(
+    ["B1", "B2"].includes(auth.info().type)
+  );
   const children = {
     A1: "A2",
     A2: "A3",

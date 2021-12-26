@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { checkInputs, toggleBtn } from "./handler";
 
 const InputGroup = (props) => {
@@ -29,11 +29,32 @@ const InputGroup = (props) => {
         placeholder={props.placeholder}
         value={value}
         onChange={handleChange}
-        onBlur={props.onBlur}
         autoComplete="off"
       />
     </div>
   );
 };
 
+const RadioGroup = ({ id, name, value, checked, label, onChange }) => {
+  useEffect(() => {
+    checked && document.getElementById(id).setAttribute("checked", "");
+  });
+  return (
+    <div className="form-check form-check-inline pt-2">
+      <input
+        className="form-check-input"
+        type="radio"
+        id={id}
+        name={name}
+        value={value}
+        onChange={onChange ? onChange : () => {}}
+      />
+      <label htmlFor={id} className="form-check-label">
+        {label}
+      </label>
+    </div>
+  );
+};
+
 export default InputGroup;
+export { RadioGroup };

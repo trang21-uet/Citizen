@@ -1,8 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Modal = ({ id, label, type, children, to }) => {
+const Modal = ({ id, label, type, children, to, onClose }) => {
   const navigate = useNavigate();
+
+  const clearInput = () => {
+    Array.from(document.querySelectorAll("form input")).forEach((element) => {
+      element.value = "";
+    });
+  };
   return (
     <div className="modal fade" id={id}>
       <div className="modal-dialog">
@@ -14,11 +20,7 @@ const Modal = ({ id, label, type, children, to }) => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
-              onClick={() => {
-                document.querySelectorAll("form input").forEach((element) => {
-                  element.value = "";
-                });
-              }}
+              onClick={clearInput}
             ></button>
           </div>
           {children ? <div className="modal-body">{children}</div> : <></>}
@@ -29,13 +31,7 @@ const Modal = ({ id, label, type, children, to }) => {
                 className="btn btn-secondary mx-auto"
                 data-bs-dismiss="modal"
                 onClick={() => {
-                  to
-                    ? navigate(to, { replace: true })
-                    : document
-                        .querySelectorAll("form input")
-                        .forEach((element) => {
-                          element.value = "";
-                        });
+                  to ? navigate(to, { replace: true }) : clearInput();
                 }}
               >
                 Đóng
@@ -48,13 +44,7 @@ const Modal = ({ id, label, type, children, to }) => {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  onClick={() => {
-                    document
-                      .querySelectorAll("form input")
-                      .forEach((element) => {
-                        element.value = "";
-                      });
-                  }}
+                  onClick={onClose}
                 >
                   Tiếp tục
                 </button>
@@ -98,13 +88,7 @@ const Modal = ({ id, label, type, children, to }) => {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  onClick={() => {
-                    document
-                      .querySelectorAll("form input")
-                      .forEach((element) => {
-                        element.value = "";
-                      });
-                  }}
+                  onClick={clearInput}
                 >
                   Huỷ bỏ
                 </button>

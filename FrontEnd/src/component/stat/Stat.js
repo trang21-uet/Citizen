@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
+import Analysis from "./Analysis";
 import Error from "../shared/Error";
 
 const Stat = () => {
@@ -58,6 +59,7 @@ const Stat = () => {
       <p className="text-muted my-4">
         (Bấm vào hàng của bảng để xem thông tin chi tiết).
       </p>
+      <Analysis data={data} />
     </div>
   ) : (
     <Error status="nothing" />

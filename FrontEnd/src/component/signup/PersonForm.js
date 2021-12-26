@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import { toggleModal } from "../shared/handler";
-import InputGroup from "../shared/InputGroup";
+import InputGroup, { RadioGroup } from "../shared/InputGroup";
 import Error from "../shared/Error";
 
 const PersonForm = (props) => {
@@ -182,31 +182,14 @@ const Radio = (props) => {
   return (
     <div className={props.className + " col-sm"}>
       <label className="d-block form-label fs-5">Giới tính</label>
-      <div className="form-check form-check-inline pt-2">
-        <input
-          className="form-check-input"
-          type="radio"
-          name="gioiTinh"
-          id="male"
-          value="Nam"
-          defaultChecked
-        />
-        <label htmlFor="male" className="form-check-label">
-          Nam
-        </label>
-      </div>
-      <div className="form-check form-check-inline pt-2 mb-4">
-        <input
-          className="form-check-input"
-          type="radio"
-          name="gioiTinh"
-          id="female"
-          value="Nữ"
-        />
-        <label htmlFor="female" className="form-check-label">
-          Nữ
-        </label>
-      </div>
+      <RadioGroup
+        name="gioiTinh"
+        id="male"
+        value="Nam"
+        checked={true}
+        label="Nam"
+      />
+      <RadioGroup name="gioiTinh" id="female" value="Nữ" label="Nữ" />
     </div>
   );
 };
