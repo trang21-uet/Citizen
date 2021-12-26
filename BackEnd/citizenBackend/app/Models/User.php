@@ -11,13 +11,18 @@ class user extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
+    //Table mà model kết nối với
     protected $table = 'user';
+
+    //Khóa chính
     protected $primaryKey = 'tenTK';
     public $incrementing = false;
     protected $keyType = 'string';
+
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
 
+    //Những field mà user được phép chỉnh sửa
     protected $fillable = [
         'tenTK',
         'MK',
@@ -27,6 +32,7 @@ class user extends Authenticatable implements JWTSubject
         'manager',
     ];
 
+    //Không cho người dùng nhận được những field này
     protected $hidden = [
         'MK',
         'created_at',

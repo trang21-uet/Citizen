@@ -8,14 +8,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\a3;
 
-class a2 extends Authenticatable implements JWTSubject
+class a2 extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    //Table mà model kết nối với
     protected $table = 'a2';
+
+    //Khóa chính
     protected $primaryKey = 'maTinh';
     public $incrementing = false;
     protected $keyType = 'string';
+
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s';
 
@@ -23,6 +27,7 @@ class a2 extends Authenticatable implements JWTSubject
         
     ];
     
+    //Những field mà user được phép chỉnh sửa
     protected $fillable = [
         'tenTinh',
         'maTinh',
@@ -33,6 +38,7 @@ class a2 extends Authenticatable implements JWTSubject
         'updated_at',
     ];
 
+    //Không cho người dùng nhận được những field này
     protected $hidden = [
         'MK',
         'created_at',
@@ -47,25 +53,4 @@ class a2 extends Authenticatable implements JWTSubject
         return $this->hasMany(a3::class, 'A2', 'tenTK');
     }
 
-    public function getAuthPassword() {
-        return $this->MK;
-    }
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier() {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims() {
-        return [];
-    }
 }

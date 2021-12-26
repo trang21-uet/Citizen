@@ -9,6 +9,7 @@ Route::group([
     'middleware' => ['jwt.verify'],
 ],function($router) {
     
+    //Định tuyến cho các tài khoản A2
     Route::get('/quanly',[A2Controller::class, 'danhSachAcc']);
     Route::post('/quyen',[A2Controller::class, 'setQuyen']);
     Route::get('/trangthai', [A2Controller::class, 'trangthai']);

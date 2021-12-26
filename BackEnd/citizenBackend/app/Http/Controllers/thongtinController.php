@@ -17,11 +17,9 @@ class thongtinController extends Controller
 
     private $regex = '/^([a-zA-Z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂÉếưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s])+$/';
 
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+    /** 
+     * yêu cầu phải được xác thực mới có thể truy cập
+    */
     public function __construct() {
         $this->middleware('jwt.verify');
     }
@@ -30,13 +28,19 @@ class thongtinController extends Controller
     Tra lai danh sach thong tin quanly
     */
     public function showAll(Request $request) {
-                
+              
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */  
         if (!in_array($request->user()->role, ['A1', 'A2', 'A3', 'B1', 'B2'])) {
             return response()->json([
                 'error' => 'You don\'t have permission',
             ], 404);
         }
 
+        /**
+         * Lấy dữ liệu theo từng role
+         */
         if ($request->user()->role == 'A1') {
             $list = a2::join('a3', 'a2.maTinh', '=', 'a3.A2')
                 ->join('b1', 'a3.maHuyen', '=', 'b1.A3')
@@ -79,6 +83,9 @@ class thongtinController extends Controller
 
         $users;
 
+        /**
+         * Lấy dữ liệu theo từng role
+         */
         if ($request->user()->role == 'A1') {
             $users = a2::join('a3', 'a2.maTinh', '=', 'a3.A2')
                     ->join('b1', 'a3.maHuyen', '=', 'b1.A3')
@@ -104,6 +111,9 @@ class thongtinController extends Controller
             }
         }
 
+        /**
+         * Kiểm tra xem thông tin lấy được do laravel có được quản lý bởi đon vị gọi hay không
+         */
         foreach ($users as $user) {
             if($thongtin->B1 == $user->maXa) {
                 return $thongtin;
@@ -118,12 +128,18 @@ class thongtinController extends Controller
     */
     public function insert(Request $request) {
 
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if(!$this->checkQuyen($request)) {
             return response()->json([
                 'error' => 'You don\'t have permission'
             ], 401);
         }
 
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'cccd' => 'string|regex:' . $this->regex,
             'ho' => 'required|string|regex:' . $this->regex,
@@ -142,6 +158,9 @@ class thongtinController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
+        /**
+         * Thêm dữ liệu người dùng tùy theo role
+         */
         if($request->user()->role == 'B1') {
             $user = thongtin::create(array_merge($validator->validated(), ['B1' => Auth::user()->tenTK]));
         } else if($request->user()->role == 'B2') {
@@ -161,6 +180,9 @@ class thongtinController extends Controller
     */
     public function update(Request $request, thongtin $thongtin) {
 
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if(!$this->checkQuyen($request)) {
             return response()->json([
                 'error' => 'You don\'t have permission'
@@ -171,6 +193,9 @@ class thongtinController extends Controller
             return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
         }
 
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'cccd' => 'string|regex:' . $this->regex,
             'ho' => 'required|string|regex:' . $this->regex,
@@ -189,6 +214,9 @@ class thongtinController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
+        /**
+         * Cập nhật thông tin người dân
+         */
         $thongtin->update($validator->validated());
 
         return response()->json([
@@ -200,12 +228,19 @@ class thongtinController extends Controller
     Xoa mot ban ghi khoi co so du lieu
     */
     public function delete(Request $request, thongtin $thongtin) {
+
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if(!$this->checkQuyen($request)) {
             return response()->json([
                 'error' => 'You don\'t have permission'
             ], 401);
         }
 
+        /**
+         * Kiểm tra xem thông tin có thuộc quản lý của người dùng không
+         */
         if($thongtin != $this->showOne($request, $thongtin)) {
             return response()->json(['error'=>'Danh sach khong thuoc don vi cua ban'], 404);
         }
@@ -221,6 +256,9 @@ class thongtinController extends Controller
     */
     private function checkQuyen(Request $request) {
         
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if (!in_array($request->user()->role, ['B1', 'B2'])) {
             return false;
         }
@@ -233,6 +271,9 @@ class thongtinController extends Controller
             $user = b2::where('maThon',Auth::user()->tenTK)->first();
         }
         
+        /**
+         * So sánh xem người dùng có được quyền thao tác database không
+         */
         $startPermission = new \DateTime($user->startPermission);
         $endPermission = new \DateTime($user->endPermission);
         $now = new \DateTime(date('Y-m-d H:i:s'));
@@ -247,6 +288,10 @@ class thongtinController extends Controller
      * Trả lại trạng thái có được phép chỉnh sửa hay không
      */
     public function trangThaiQuyen(Request $request) {
+
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if (!in_array($request->user()->role, ['B1', 'B2'])) {
             return response()->json([
                 'error' => 'You don\'t have permission'
@@ -261,6 +306,9 @@ class thongtinController extends Controller
             $user = b2::where('maThon',Auth::user()->tenTK)->first();
         }
 
+        /**
+         * So sánh xem người dùng có được quyền thao tác database không
+         */
         $startPermission = new \DateTime($user->startPermission);
         $endPermission = new \DateTime($user->endPermission);
         $now = new \DateTime(date('Y-m-d H:i:s'));

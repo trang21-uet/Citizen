@@ -13,23 +13,30 @@ use App\Models\thongtin;
 
 class B1Controller extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+    /** 
+     * yêu cầu phải được xác thực mới có thể truy cập
+    */
     public function __construct() {
         $this->middleware('jwt.verify');
     }
 
+    /**
+     * Cập nhật quyền thao tác cho cấp dưới
+     */
     public function setQuyen(Request $request) {
         
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'B1') {
             return response()->json([
                 'error' => 'You don\'t have permission',
             ], 401);
         }
 
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'startPermission' => 'required|date_format:Y-m-d H:i:s',
             'endPermission' => 'required|date_format:Y-m-d H:i:s',
@@ -55,6 +62,9 @@ class B1Controller extends Controller
             ], 404);
         }
 
+        /**
+         * Đặt quyền cho người dùng
+         */
         $user->update([
             'startPermission' => $validator->validated()['startPermission'],
             'endPermission' => $validator->validated()['endPermission'],
@@ -65,9 +75,14 @@ class B1Controller extends Controller
         ], 201);
     }
 
-
+    /**
+     * Trả lại danh sách tài khoản quản lý
+     */
     public function danhSachAcc(Request $request) {
-                
+        
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'B1') {
             return response()->json([
                 'error' => 'You don\'t have permission',
@@ -82,12 +97,18 @@ class B1Controller extends Controller
     */
     public function hoanthanh(Request $request) {      
 
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'B1') {
             return response()->json([
                 'error' => 'You don\'t have permission',
             ], 401);
         }
 
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'trangThai' => ['required', Rule::in(0, 1)],
         ]);
@@ -96,6 +117,10 @@ class B1Controller extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
 
+        
+        /**
+         * Cập nhật trạng thái user
+         */
         $user = b1::where('maXa',Auth::user()->tenTK)->first();
 
         $user->update($validator->validated());

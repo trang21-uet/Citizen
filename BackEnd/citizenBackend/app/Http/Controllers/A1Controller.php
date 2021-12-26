@@ -12,11 +12,9 @@ use App\Models\thongtin;
 
 class A1Controller extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+    /** 
+     * yêu cầu phải được xác thực mới có thể truy cập
+    */
     public function __construct() {
         $this->middleware('jwt.verify');
     }
@@ -26,12 +24,18 @@ class A1Controller extends Controller
      */
     public function setQuyen(Request $request) {
 
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'A1') {
             return response()->json([
                 'error' => 'You don\'t have permission',
             ], 404);
         }
 
+        /**
+         * Xử lý dữ liệu người dùng gửi lên
+         */
         $validator = Validator::make($request->all(), [
             'startPermission' => 'required|date_format:Y-m-d H:i:s',
             'endPermission' => 'required|date_format:Y-m-d H:i:s',
@@ -56,6 +60,9 @@ class A1Controller extends Controller
             ], 404);
         }
 
+        /**
+         * Đặt quyền cho người dùng
+         */
         $user->update([
             'startPermission' => $validator->validated()['startPermission'],
             'endPermission' => $validator->validated()['endPermission'],
@@ -66,9 +73,14 @@ class A1Controller extends Controller
         ], 201);
     }
 
-    //Trả lại danh sách tài khoản quản lý
+    /**
+     * Trả lại danh sách tài khoản quản lý
+     */
     public function danhSachAcc(Request $request) {
 
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'A1') {
             return response()->json([
                 'error' => 'You don\'t have permission',
@@ -82,13 +94,19 @@ class A1Controller extends Controller
     Trả lại danh sách trạng thái tiến độ hoàn thành công việc
     */
     public function trangthai(Request $request) {
-                      
+        
+        /**
+         * Xác thực phải có role phù hợp mới có thể thao tác
+         */
         if ($request->user()->role != 'A1') {
             return response()->json([
                 'error' => 'You don\'t have permission',
             ], 404);
         }
 
+        /**
+         * Lấy dữ liệu trạng thái của các đơn vị
+         */
         $users = a2::leftJoin('a3', 'a2.maTinh', '=', 'a3.A2')
                     ->leftJoin('b1', 'a3.maHuyen', '=', 'b1.A3')
                     ->where('a2.A1', Auth::user()->tenTK)
@@ -100,8 +118,10 @@ class A1Controller extends Controller
 
         $count = $users->count();
 
+        /** 
+         * Kiểm tra xem có trùng lặp tài khoản không
+        */
         for ($i = 0; $i < $count; $i++ ) {
-
             if(count($temp) == 0) {
                 $temp[] = $users[$i];
             } else {
