@@ -4,9 +4,9 @@ Citizen là ứng dụng web được phát triển nhằm phục vụ công tá
 
 ---
 Danh sách thành viên nhóm
-1. Nguyễn Hải Sơn - 19020424
-2. Triệu Minh Tiến - 1902169
-3. Nguyễn Xuân Trang - 19020464
+1. Nguyễn Hải Sơn - 19020424 - Phụ trách Backend + database
+2. Triệu Minh Tiến - 1902169 - Phụ trách Frontend
+3. Nguyễn Xuân Trang - 19020464 - Phụ trách báo cáo + kiểm thử
 
 
 Mô tả nghiệp vụ
