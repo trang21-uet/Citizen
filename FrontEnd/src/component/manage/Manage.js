@@ -16,7 +16,7 @@ const Manage = () => {
     tenXa: "Tên xã",
     tenThon: "Tên thôn",
     quyen: "Quyền khai báo",
-    trangthai: "Trạng thái nhập liệu",
+    trangThai: "Trạng thái nhập liệu",
   };
   const auth = useAuth();
   const [data, setData] = useState([]);
@@ -64,7 +64,7 @@ const Manage = () => {
               let end = new Date(element.endPermission);
               let now = new Date();
               element.quyen = end > now ? "Có" : "Không";
-              element.trangthai = element.trangthai
+              element.trangThai = element.trangThai == 1
                 ? "Hoàn thành"
                 : "Chưa hoàn thành";
             });
