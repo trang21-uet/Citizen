@@ -107,6 +107,9 @@ const Analysis = ({ data }) => {
         label="Độ tuổi"
         onChange={handleChange}
       />
+
+
+      {/* độ tuổi */}
       <Chart
         class="mx-auto"
         width={'900px'}
