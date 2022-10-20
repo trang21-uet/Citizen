@@ -52,21 +52,23 @@ const Analysis = ({ data }) => {
   return (
     <div className="border-top py-3">
       <h2 className="gi">Phân tích dữ liệu</h2>
-      <strong className="me-3">Phân tích theo:</strong>
-      <RadioGroup
-        name="field"
-        id="address"
-        value="place"
-        label="Nơi khai báo"
-        onChange={handleChange}
-      />
-      <RadioGroup
-        name="field"
-        id="level"
-        value="trinhDoVanHoa"
-        label="Độ tuổi"
-        onChange={handleChange}
-      />
+      <div className="my-3">
+        <strong className="me-3">Phân tích theo:</strong>
+        <RadioGroup
+          name="field"
+          id="address"
+          value="place"
+          label="Nơi khai báo"
+          onChange={handleChange}
+        />
+        <RadioGroup
+          name="field"
+          id="level"
+          value="trinhDoVanHoa"
+          label="Độ tuổi"
+          onChange={handleChange}
+        />
+      </div>
       {content}
     </div>
   );
@@ -94,12 +96,10 @@ const PopulationChart = ({ data, children }) => {
   });
 
   return (
-    <div className=" top-50 start-50">
+    <div className="d-flex flex-column justify-content-center border border-2 rounded">
       <Chart
-        className="mx-auto"
-        width={"900px"}
+        width={"100%"}
         height={"500px"}
-        text-align="center"
         chartType="BarChart"
         loader={<div>Đang tải biểu đồ</div>}
         data={result}
@@ -110,7 +110,6 @@ const PopulationChart = ({ data, children }) => {
           vAxis: {
             title: "Địa phương",
           },
-          title: "Biểu đồ dân số của từng vùng",
           animation: {
             startup: true,
             easing: "inAndOut",
@@ -119,6 +118,7 @@ const PopulationChart = ({ data, children }) => {
         }}
         rootProps={{ "data-testid": "1" }}
       />
+      <p className="mx-auto gi my-3">Biểu đồ số dân từng vùng</p>
     </div>
   );
 };
@@ -164,23 +164,22 @@ const AgeChart = ({ data }) => {
   };
 
   return (
-    <Chart
-      className="mx-auto"
-      width={"900px"}
-      height={"500px"}
-      chartType="PieChart"
-      loader={<div>Đang tải biểu đồ</div>}
-      data={[
-        ["Độ tuổi", "Age"],
-        ["0 - 14", treCon(data)],
-        ["15 - 59", nguoiLaoDong(data)],
-        ["> 60", nguoiGia(data)],
-      ]}
-      options={{
-        title: "Biểu đồ về độ tuổi của người dân",
-      }}
-      rootProps={{ "data-testid": "1" }}
-    />
+    <div className="d-flex flex-column justify-content-center border border-2 rounded">
+      <Chart
+        width={"100%"}
+        height={"500px"}
+        chartType="PieChart"
+        loader={<div>Đang tải biểu đồ</div>}
+        data={[
+          ["Độ tuổi", "Age"],
+          ["0 - 14", treCon(data)],
+          ["15 - 59", nguoiLaoDong(data)],
+          ["> 60", nguoiGia(data)],
+        ]}
+        rootProps={{ "data-testid": "1" }}
+      />
+      <p className="gi my-3 mx-auto">Biểu đồ độ tuổi của người dân</p>
+    </div>
   );
 };
 

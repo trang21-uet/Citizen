@@ -78,7 +78,7 @@ const Signup = () => {
         prsTab.classList.remove("active", "show");
       }
     }
-  }, []);
+  }, [permission]);
 
   return error ? (
     <Error status={error} />
